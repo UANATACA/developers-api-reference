@@ -1,0 +1,339 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: UANATACA SIGNBOX API DOCUMENTATION
+  x-logo:
+      url: https://raw.githubusercontent.com/UANATACA/SIGNBOX-REPO/main/img/signbox-logo.png
+      altText: Signbox logo
+  description:
+    $ref: ./signbox_gui.md
+
+host: signbox.developers.uanataca.com
+schemes: 
+  - https
+
+x-tagGroups:
+  - name: API Reference
+    tags:
+      - Signature
+      - Troubleshooting
+
+tags:
+- name: "Signature"
+  description: 'Endpoints to sign documents'
+  
+- name: "Troubleshooting"
+  description: 'Endpoints to check the status of a signature request'
+
+paths:
+  /api/echo:
+    get: 
+      summary: ECHO
+      tags:
+        - Signature
+      operationId: echo
+      description: Replies back what it receives to check the service availability.
+      produces:
+        - text/plain
+      parameters:
+        - in: query
+          name: message
+          description: The message to be replied back
+          type: string 
+          required: true
+      responses:
+        200:
+          description: Successful response
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: "The message set as a query parameter"
+          examples:
+            text/plain:
+              "HelloWorld"
+      
+  #############
+  /api/sign:
+    post:
+      operationId: sign
+      summary: SIGN
+      tags:
+        - Signature
+      description: Signs a local or a remote hosted file.
+      produces:
+        - text/plain
+      consumes:
+        - multipart/form-data
+      parameters:
+        - in: formData
+          name: file_in
+          type: file
+          description: "Local path of the file to be signed.\n
+                        - **File type in base64 is not accepted**\n
+                        - If this parameter is specified, **leave `url_in` blank**"
+          required: true
+        - in: formData
+          name: url_in
+          type: string
+          description: "Url where to get the document to be signed.\n
+                        - If this parameter is specified, **leave `file_in` blank**"     
+          required: true
+        - in: formData
+          name: url_out
+          type: string
+          description: "Url where to send signed file. See description and sample code in <a href='#section/Configuration/Webhooks'>Webhooks configuration</a>"
+          required: true
+        - in: formData
+          name: urlback
+          type: string
+          description: "Url where to send signing process log. See description and sample code in <a href='#section/Configuration/Webhooks'>Webhooks configuration</a>"
+          required: true
+        - in: formData
+          name: env
+          type: string
+          enum: [prod, sandbox]
+          description: Reference environment for sandbox or production
+          required: true
+        - in: formData
+          name: format
+          type: string
+          enum: [pades, xades, cades]
+          default: pades
+          description: "Types of supported signature profiles: \n
+                        - **pades** for PDF files \n
+                        - **xades** for XML files \n
+                        - **cades** for other files"
+        - in: formData
+          name: username
+          type: string
+          description: Digital identity username
+          required: true
+        - in: formData
+          name: password
+          type: string
+          description: Digital identity password
+          required: true
+        - in: formData
+          name: pin
+          type: string
+          description: Digital identity PIN
+          required: true
+        - in: formData
+          name: level
+          type: string
+          default: BES
+          description: "Specify the level of the signature. Must consider that LTVLITE is a LTV signature lighter and efficient in comparison with the standard LTV level.\nThe allowed values are: \n
+                        - `BES`, `T`, `LTV`, `LTVLITE` for pades\n
+                        - `BES`, `T`, `EPES`, `XL` for xades\n
+                        - `BES`, `T`, `EPES` for cades"
+        - in: formData
+          name: identifier
+          type: string
+          enum: [DS0, DS1]
+          description: "Location of the token. If the certificate used is a renewed certificate use DS1"
+        - in: formData
+          name: tsa_bookmark
+          type: string
+          enum: [uanataca]
+          description: Timestamp service alias name. This field is required for signatures with levels T, LTV or XL
+        - in: formData
+          name: billing_username
+          type: string
+          description: Billing account username          
+          required: true
+        - in: formData
+          name: billing_password
+          type: string
+          description: Billing account password
+          required: true
+        - in: formData
+          name: reason
+          type: string
+          description: Reason about the signature
+        - in: formData
+          name: location
+          type: string
+          description: Geographic location about the signature
+        - in: formData
+          name: npage
+          type: string
+          default: 0
+          description:  "Page number where the image signature is placed. The first page starts in 0\n
+                        - It is required an `img_bookmark` alias"
+        - in: formData
+          name: otp
+          type: string
+          description: "The OTP code previously sent to the user.\n
+                        **This parameter is only required and available for specific digital identities**"
+        - in: formData
+          name: metadata
+          type: string
+          description: "Optional metadata information associated to the signed document"
+        - in: formData
+          name: metadata_oid
+          type: string
+          description: "OID identifier associated to the metadata"
+        - in: formData
+          name: metadata_enveloped
+          type: string
+          description: "Set to 0 if metadata is in DER format, or 1 (default) for ASN1 Octet String enveloping"            
+        - in: formData
+          name: img_bookmark
+          type: string
+          description: "Signature image alias name corresponding to a **previously stored image in the Optimizer**<br>
+                        It is required to previous create an image template. See <HTML><a href='#section/Configuration/Signature-Image-Configuration'>Image Configuration</a></HTML>\n
+                        - If `img_bookmark` is specified, `img` , `img_size` and `position` cannot, since these parameters are included in Optimizer alias.ini file"
+        - in: formData
+          name: img
+          type: string
+          description: "Base64 preconverted image string"
+        - in: formData
+          name: img_size
+          type: string
+          description: "The **original** image size in pixels. (Example: 200,140)\n
+                        **Any mismatch will cause wrong adjustments of the image or it would simply not appear.**"
+        - in: formData
+          name: position
+          type: string
+          description: "The image rectangle bottom-left & top-right corner coordinates in pixels corresponding to 72DPI resolution. **For an A4 document page, X-Y values ranges from 0-595 and 0-842 pixels respectively.** (Example: 300,100,500,150)"
+        - in: formData
+          name: paragraph_format
+          type: string
+          description: "Identifying text with the signer's associated data. See <HTML><a href='https://signbox-uanataca-docs.redoc.ly/#paragraph'>description</a></HTML>"
+      responses:
+        200:
+          description: The sign request was executed
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                description: "The signature job id"
+          examples:
+            text/plain:
+              "id=14.1"
+          
+#############
+  /api/job/{id}:
+    get: 
+      operationId: job
+      summary: JOB
+      tags:
+        - Troubleshooting
+      description: "Gets the state of a signature request by its job id.</br>
+                    <html><blockquote style='background-color:#faf3ac; border-color:#DFDFDF; color:#3b3b3b;'><b>⚠This method is only used for testing purpose. In a production environment is required to use `urlback` service.</b></blockquote></html>"
+      produces:
+        - text/plain
+      parameters:
+      - in: path
+        name: id
+        type: string 
+        description: "The job id got in a **sign** response"
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          schema:
+            type: object
+            properties:
+              state:
+                type: string
+                enum: [done, failed, pending]
+                description: "The signature condition status"
+              type:
+                type: string
+                description: "The process action type"
+                default: sign
+              detail:
+                type: string
+                description: "The description for a failed process"
+          examples:
+            text/plain:
+              "state=done&type=sign"  
+        502:
+          description: "Bad Gateway. Incorrect job `id`"
+    
+#############
+  /api/result/{id}:
+    get: 
+      operationId: result
+      summary: RESULT
+      tags:
+        - Troubleshooting
+      description: "Returns the signed file of a signature request by its job id.</br>
+                    <html><blockquote style='background-color:#faf3ac; border-color:#DFDFDF; color:#3b3b3b;'><b>⚠This method is only used for testing purpose. In a production environment is required to use `url_out` service</b></br>
+                    The signed file is only available if `url_out` is not specified in <b>sign</b> call</blockquote></html>"
+      produces:
+        - application/pdf
+      parameters:
+      - in: path
+        name: id
+        type: string 
+        description: "The job id got in a **sign** response"        
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          examples:
+            text/plain:
+                " %PDF-1.7\n
+                  %����\n
+                  1 0 obj\n
+                  <</Type/Catalog/Pages 2 0 R/Lang(es-ES) /StructTreeRoot 10 0 R/MarkInfo<</Marked true>>/Metadata 26 0 R/ViewerPreferences 27 0 R>>\n
+                  endobj\n\n
+
+                  2 0 obj\n
+                  <</Type/Pages/Count 1/Kids[ 3 0 R] >>\n
+                  endobj\n\n
+
+                  3 0 obj\n
+                  <</Type/Page/Parent 2 0 R/Resources<</Font<</F1 5 0 R>>/ExtGState<</GS7 7 0 R/GS8 8 0 R>>/ProcSet[/PDF/Text/ImageB/ImageC/ImageI] >>/MediaBox[ 0 0 595.32 841.92] /Contents 4 0 R/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>/Tabs/S/StructParents 0>>\n
+                  endobj\n
+                  (...)\n
+                "
+        502:
+          description: "Bad Gateway. Incorrect job `id` or failed signature."
+      
+#############
+  /api/generate_otp:
+    post: 
+      summary: OTP
+      operationId: generate_otp
+      tags:
+        - Signature
+      description: "Generates an otp for the specified digital identity.</br>
+                    <html><blockquote style='background-color:#faf3ac; border-color:#DFDFDF; color:#3b3b3b;'><b>⚠This method is only required and available for specific digital identities</b></blockquote></html>"
+      produces:
+        - text/plain
+      consumes:
+        - multipart/form-data
+      parameters:
+      - in: formData
+        name: username
+        type: string
+        description: Digital identity username
+        required: true
+      - in: formData
+        name: password
+        description: Digital identity password
+        type: string
+        required: true
+      - in: formData
+        name: uses
+        description: Amount of uses for the generated otp
+        type: number
+      - in: formData
+        name: env
+        description: Reference environment for sandbox or production
+        type: string
+        enum: [prod, sandbox]     
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          examples:
+            text/plain:
+              "generated"
+      

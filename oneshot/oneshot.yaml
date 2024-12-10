@@ -1,0 +1,1055 @@
+openapi: 3.1.0
+security: []
+info:
+  title: FastAPI
+  version: 0.1.0
+servers:
+  - url: /oneshot
+tags:
+- name: Settings
+  description: 'Endpoints to manage the service settings'
+- name: Metadata
+  description: 'Endpoints to manage metadata objects'
+- name: Tokens
+  description: 'Endpoints to manage the tokens'
+- name: Requests
+  description: 'Endpoints to manage the signature requests'
+- name: Documents
+  description: 'Endpoints to manage the documents'
+- name: Images
+  description: 'Endpoints to manage the images'
+- name: Video ID
+  description: 'Endpoints to manage the Video ID'
+paths:
+  /api/v1/hello:
+    get:
+      tags: 
+        - Settings
+      summary: Call Hello
+      operationId: call_hello_api_v1_hello_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/v1/version:
+    get:
+      tags: 
+        - Settings
+      summary: Call Get Version
+      operationId: call_get_version_api_v1_version_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/v1/token:
+    post:
+      tags: 
+        -  Tokens
+      summary: Call Create Token
+      operationId: call_create_token_api_v1_token_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateToken'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/token/{token_uid}:
+    get:
+      tags: 
+        -  Tokens
+      summary: Call Get Token
+      operationId: call_get_token_api_v1_token__token_uid__get
+      parameters:
+        - name: token_uid
+          in: path
+          required: true
+          schema:
+            title: Token Uid
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags: 
+        -  Tokens
+      summary: Call Delete Token
+      operationId: call_delete_token_api_v1_token__token_uid__delete
+      parameters:
+        - name: token_uid
+          in: path
+          required: true
+          schema:
+            title: Token Uid
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/tokens:
+    get:
+      tags: 
+        -  Tokens
+      summary: Call List Tokens
+      operationId: call_list_tokens_api_v1_tokens_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/v1/image:
+    post:
+      tags: 
+        -  Images
+      summary: Call Upload Image
+      operationId: call_upload_image_api_v1_image_post
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_call_upload_image_api_v1_image_post'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/image/{image_uid}:
+    get:
+      tags: 
+        -  Images
+      summary: Call Get Image
+      operationId: call_get_image_api_v1_image__image_uid__get
+      parameters:
+        - name: image_uid
+          in: path
+          required: true
+          schema:
+            title: Image Uid
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags: 
+        -  Images
+      summary: Call Delete Image
+      operationId: call_delete_image_api_v1_image__image_uid__delete
+      parameters:
+        - name: image_uid
+          in: path
+          required: true
+          schema:
+            title: Image Uid
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/images:
+    get:
+      tags: 
+        -  Images
+      summary: Call List Images
+      operationId: call_list_images_api_v1_images_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+    delete:
+      summary: Call Delete Images
+      operationId: call_delete_images_api_v1_images_delete
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/v1/create:
+    post:
+      tags: 
+        -  Requests
+      summary: Call Create
+      operationId: call_create_api_v1_create_post
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_call_create_api_v1_create_post'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/request/{request_pk}:
+    get:
+      tags: 
+        -  Requests
+      summary: Call Get Request
+      operationId: call_get_request_api_v1_request__request_pk__get
+      parameters:
+        - name: request_pk
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: The ID of the Request to get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags: 
+        -  Requests
+      summary: Call Delete Request
+      operationId: call_delete_request_api_v1_request__request_pk__delete
+      parameters:
+        - name: request_pk
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: The ID of the Request to delete
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags: 
+        -  Requests
+      summary: Call Update Request
+      operationId: call_update_request_api_v1_request__request_pk__put
+      parameters:
+        - name: request_pk
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: The ID of the Request to update
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/document/{request_pk}:
+    post:
+      tags: 
+        -  Documents
+      summary: Call Upload Document
+      description: Upload a document and associate it to a Request
+      operationId: call_upload_document_api_v1_document__request_pk__post
+      parameters:
+        - name: request_pk
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: The ID of the Request to which associated the document
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/document/{request_pk}/{document_uid}:
+    get:
+      tags: 
+        -  Documents
+      summary: Call Get Document
+      description: Retrieve a document associated to specific Request
+      operationId: call_get_document_api_v1_document__request_pk___document_uid__get
+      parameters:
+        - name: request_pk
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: The ID of the Request to which the document is associated
+        - name: document_uid
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Document Uid
+        - name: document_type
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - type: string
+              - type: 'null'
+            default: original
+            title: Document Type
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags: 
+        -  Documents
+      summary: Call Delete Document
+      description: Delete a document associated to a specific Request
+      operationId: call_delete_document_api_v1_document__request_pk___document_uid__delete
+      parameters:
+        - name: request_pk
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: The ID of the Request to which the document is associated
+        - name: document_uid
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Document Uid
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/documents/{request_pk}:
+    get:
+      tags: 
+        -  Documents
+      summary: Call List Documents
+      description: List of documents associated to a specific Request
+      operationId: call_list_documents_api_v1_documents__request_pk__get
+      parameters:
+        - name: request_pk
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: The ID of the Request
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/contract/{request_pk}:
+    get:
+      tags: 
+        -  Requests
+      summary: Call Get Request Contract
+      description: Get Request contract
+      operationId: call_get_request_contract_api_v1_contract__request_pk__get
+      parameters:
+        - name: request_pk
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: The ID of the Request
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/otp/{request_pk}:
+    post:
+      tags: 
+        -  Requests
+      summary: Call Generate Otp
+      operationId: call_generate_otp_api_v1_otp__request_pk__post
+      parameters:
+        - name: request_pk
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: The ID of the Request to which generate the otp
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/sign/{request_pk}:
+    post:
+      tags: 
+        -  Requests
+      summary: Call Sign
+      description: Sign documents assigned to specific Request
+      operationId: call_sign_api_v1_sign__request_pk__post
+      parameters:
+        - name: request_pk
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: The ID of the Request to which sign documents
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignatureRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+          description: Unprocessable Entity
+  /api/v1/videoid:
+    post:
+      tags: 
+        -  Video ID
+      summary: Call Create Videoid
+      description: Create a VideoID
+      operationId: call_create_videoid_api_v1_videoid_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+  /api/v1/videoid/{videoid_pk}/validate:
+    post:
+      tags: 
+        -  Video ID
+      summary: Call Validate Videoid
+      description: Validate a VideoID
+      operationId: call_validate_videoid_api_v1_videoid__videoid_pk__validate_post
+      parameters:
+        - name: videoid_pk
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: ID of the VideoID to validate
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+          description: Unprocessable Entity
+  /api/v1/videoid/{videoid_pk}/refuse:
+    post:
+      tags: 
+        -  Video ID
+      summary: Call Refuse Videoid
+      description: Refuse a VideoID
+      operationId: call_refuse_videoid_api_v1_videoid__videoid_pk__refuse_post
+      parameters:
+        - name: videoid_pk
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: ID of the VideoID to refuse
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+          description: Unprocessable Entity
+  /api/v1/videoid/{videoid_pk}/evidences:
+    post:
+      tags: 
+        -  Video ID
+      summary: Call Upload Videoid Evidences
+      description: Upload evidences for a VideoID
+      operationId: call_upload_videoid_evidences_api_v1_videoid__videoid_pk__evidences_post
+      parameters:
+        - name: videoid_pk
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: ID of the VideoID to which upload evidences
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+          description: Unprocessable Entity
+  /api/v1/videoid/{videoid_pk}/video:
+    post:
+      tags: 
+        -  Video ID
+      summary: Call Upload Videoid Video
+      description: Upload video for a VideoID
+      operationId: call_upload_videoid_video_api_v1_videoid__videoid_pk__video_post
+      parameters:
+        - name: videoid_pk
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: ID of the VideoID to which upload a video
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+          description: Unprocessable Entity
+    get:
+      tags: 
+        -  Video ID
+      summary: Call Download Videoid Video
+      description: Download VideoID video
+      operationId: call_download_videoid_video_api_v1_videoid__videoid_pk__video_get
+      parameters:
+        - name: videoid_pk
+          in: path
+          required: true
+          schema:
+            type: integer
+            title: ID of the VideoID of the video to download
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+          description: Unprocessable Entity
+components:
+  schemas:
+    Body_call_create_api_v1_create_post:
+      required: 
+        - billing_password
+        - billing_username
+        - email
+        - env
+        - given_name
+        - mobile_phone_number
+        - password
+        - pin
+        - profile
+        - registration_authority
+        - serial_number
+        - surname_1
+        - token
+        - username
+        - id_document_type
+        - id_document_country
+      type: object
+      properties:
+        given_name:
+          type: string
+          description: The user's given name
+        surname_1:
+          type: string
+          description: The user's first surname
+        surname_2:
+          type: string
+          description: The user's second surname
+        id_document_type:
+          type: string
+          description: |
+            Document types allowed for the user identification:
+              * **IDC** - Identification based on national identity card number. **Default when this field is not specified.**
+              * **PAS** - Identification based on passport number
+              * **PNO** - Identification based on national personal number (national civic registration number)
+              * **TIN** - Tax Identification Number according to the European Commission
+              * **CI** - Tax Identification Number according to the European Commission
+              * **CE** - Tax Identification Number according to the European Commission
+        id_document_country:
+          type: string
+          description: The user's id document country two-letters code (ISO
+            3166-1 alpha-2). **Default "ES" if field is not included.**
+        serial_number:
+          type: string
+          description: User's id document serial number
+        email:
+          type: string
+          description: The user's email
+        mobile_phone_number:
+          type: string
+          description: The user's mobile phone number including the international
+            prefix
+        registration_authority:
+          type: string
+          description: 'The Registration Authority id number.</br> <blockquote
+            style=''background-color: #faf3ac; border-color: #5a5a5a; color:
+            #3b3b3b;''><b>⚠ Required only if not set at settings.ini file.
+            Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
+            Settings</a> call.</b></blockquote>'
+        profile:
+          type: string
+          description: ' Digital certificate profiles allowed:</br> * **PFnubeQAFCiudadano**
+            - Uanataca''s eIDAS qualified digital certificate used for qualified
+            signature in the European Union </br> * **PFnubeNC** - Uanataca''s
+            normalized digital certificate used for advanced signature </br>
+            <blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;
+            color: #3b3b3b;''><b>⚠ Required only if not set at settings.ini
+            file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
+            Settings</a> call.</b></blockquote>'
+        token:
+          type: string
+          description: 'The Registration Authority Officer (RAO)''s token
+            unique id containing RAO''s digital identity credentials. </br>
+            <blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;
+            color: #3b3b3b;''><b>⚠ Not required when RAO''s credentials (username,
+            password, pin) are included as fields in this call.</b></blockquote>'
+        username:
+          type: string
+          description: 'The RAO''s digital identity username. </br> <blockquote
+            style=''background-color: #faf3ac; border-color: #5a5a5a; color:
+            #3b3b3b;''><b>⚠ Not required when included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
+        password:
+          type: string
+          description: 'The RAO''s digital identity password. </br> <blockquote
+            style=''background-color: #faf3ac; border-color: #5a5a5a; color:
+            #3b3b3b;''><b>⚠ Not required when included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
+        pin:
+          type: string
+          description: 'The RAO''s digital identity PIN.</br> <blockquote
+            style=''background-color: #faf3ac; border-color: #5a5a5a; color:
+            #3b3b3b;''><b>⚠ Not required when included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
+        document_front:
+          description: Front side image of the user's identification document (JPEG or PNG).
+          type: file
+          format: binary
+        document_rear:
+          description: Rear side image of the user's identification document (JPEG or PNG)
+          type: file
+          format: binary
+        document_owner:
+          description: A selfie image of the user holding the identifying document below his/her chin (JPEG or PNG)
+          type: file
+          format: binary
+        extra_document:
+          description: An extra document to upload.
+          type: file
+          format: binary
+        env:
+          type: string
+          description: 'The API work environment. </br> <blockquote style=''background-color:
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Required
+            only if not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
+            Settings</a> call.</b></blockquote>'
+          enum:
+          - sandbox
+          - prod
+        billing_username:
+          type: string
+          description: 'The client billing username. </br> <blockquote style=''background-color:
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Required
+            only if not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
+            Settings</a> call.</b></blockquote>'
+        billing_password:
+          type: string
+          format: base64
+          description: 'The client billing password in Base64 format. </br>
+            <blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;
+            color: #3b3b3b;''><b>⚠ Required only if not set at settings.ini
+            file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
+            Settings</a> call.</b></blockquote>'
+        useasync:
+          type: boolean
+          description: This parameter enables One-Shot asynchronous workflow. When set to true, the `callback` parameter can be set by specifying a Webhook URL.
+        callback:
+          type: string
+          description: Webhook URL where the information of the asynchronous flow is going to be sent. 
+        communication_language:
+          type: string
+          description: Two letter code language for communications(ISO3166-1 alpha-2).
+          enum: 
+            - ES
+            - PL
+            - EN
+        residence:
+          type: string
+          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>⚠ Required only in certain profiles</b></blockquote>'
+        residence_city:
+          type: string
+          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>⚠ Required only in certain profiles</b></blockquote>'
+        residence_postal_code:
+          type: string
+          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>⚠ Required only in certain profiles</b></blockquote>'
+        residence_address:
+          type: string
+          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>⚠ Required only in certain profiles</b></blockquote>'
+        special_conditions:
+          type: string
+          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>⚠ Required only in certain profiles</b></blockquote>'
+        required: true
+    Body_call_upload_image_api_v1_image_post:
+      properties:
+        image:
+          type: string
+          format: binary
+          title: Image
+      type: object
+      required:
+        - image
+      title: Body_call_upload_image_api_v1_image_post
+    CounterSignatureParams:
+      properties:
+        appearance:
+          $ref: '#/components/schemas/SignatureAppearance'
+        username:
+          type: string
+          title: Username
+        password:
+          type: string
+          title: Password
+        pin:
+          type: string
+          title: Pin
+        subfilter:
+          type: string
+          enum:
+            - adbe.pkcs7.detached
+            - ETSI.CAdES.detached
+          title: Subfilter
+      type: object
+      required:
+        - username
+        - password
+        - pin
+      title: CounterSignatureParams
+    CreateToken:
+      properties:
+        username:
+          type: string
+          title: Username
+        password:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Password
+        pin:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Pin
+        env:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Env
+      type: object
+      required:
+        - username
+      title: CreateToken
+    DocumentSignatureOptions:
+      properties:
+        appearance:
+          $ref: '#/components/schemas/SignatureAppearance'
+        usecountersignature:
+          type: boolean
+          title: Usecountersignature
+        disable_ltv:
+          type: boolean
+          title: Disable Ltv
+        use_tsa:
+          type: boolean
+          title: Use Tsa
+        metadata:
+          type: string
+          title: Metadata
+        level:
+          type: string
+          title: Level
+        subfilter:
+          type: string
+          enum:
+            - adbe.pkcs7.detached
+            - ETSI.CAdES.detached
+          title: Subfilter
+      type: object
+      title: DocumentSignatureOptions
+    FieldError:
+      properties:
+        input:
+          items: {}
+          type: array
+          title: Input
+        msg:
+          type: string
+          title: Msg
+      type: object
+      required:
+        - input
+        - msg
+      title: FieldError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    SignatureAppearance:
+      properties:
+        horizontal:
+          type: boolean
+          title: Horizontal
+        text:
+          items: {}
+          type: array
+          title: Text
+        date:
+          type: string
+          title: Date
+        timezone:
+          type: string
+          title: Timezone
+        position:
+          type: string
+          title: Position
+        page:
+          type: integer
+          title: Page
+        image:
+          type: string
+          title: Image
+        text_size:
+          type: integer
+          title: Text Size
+        text_align:
+          type: string
+          title: Text Align
+      type: object
+      title: SignatureAppearance
+    SignatureParams:
+      properties:
+        appearance:
+          $ref: '#/components/schemas/SignatureAppearance'
+        disable_ltv:
+          type: boolean
+          title: Disable Ltv
+        use_tsa:
+          type: boolean
+          title: Use Tsa
+        metadata:
+          type: string
+          title: Metadata
+        level:
+          type: string
+          title: Level
+        subfilter:
+          type: string
+          enum:
+            - adbe.pkcs7.detached
+            - ETSI.CAdES.detached
+          title: Subfilter
+      type: object
+      title: SignatureParams
+    SignatureRequest:
+      properties:
+        secret:
+          type: string
+          title: Secret
+        ext_unlock_value:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Ext Unlock Value
+        ext_unlock_type:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Ext Unlock Type
+        signature:
+          anyOf:
+            - $ref: '#/components/schemas/SignatureParams'
+            - type: 'null'
+        countersignature:
+          anyOf:
+            - $ref: '#/components/schemas/CounterSignatureParams'
+            - type: 'null'
+        signature_by_doc:
+          anyOf:
+            - additionalProperties:
+                $ref: '#/components/schemas/DocumentSignatureOptions'
+              type: object
+            - type: 'null'
+          title: Signature By Doc
+      type: object
+      required:
+        - secret
+      title: SignatureRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+        - loc
+        - msg
+        - type
+      title: ValidationError
