@@ -2,8 +2,6 @@ openapi: 3.1.0
 security: []
 info:
   title: UANATACA ONE-SHOT SIGNATURE API DOCUMENTATION
-  description: 
-    $ref: ./esaw_oneshot.md
   version: v1
 
 tags:

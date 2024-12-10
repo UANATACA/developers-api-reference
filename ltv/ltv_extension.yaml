@@ -2,8 +2,6 @@ openapi: 3.0.1
 security: []
 info:
   title: UANATACA LTV EXTENSION API DOCUMENTATION
-  description: 
-    $ref: ./ltv_extension_gui.md
   version: v1
   x-logo:
     url: https://raw.githubusercontent.com/UANATACA/LTV-REPO/main/img/LTV_Extension_En.png
@@ -15,7 +13,9 @@ x-tagGroups:
       - Extension
 tags: 
   - name: Addition
+    description: 'Endpoints to add revocation information to the signature'
   - name: Extension 
+    description: 'Endpoints to extend document signatures'
 paths: 
   /addltv:
     post: 
@@ -28,14 +28,14 @@ paths:
         content: 
           multipart/form-data:
             schema: 
-              $ref: "#/components/schemas/Request body"
+              $ref: "#/components/schemas/RequestBody"
       responses: 
         200:
           description: Succesful Response
           content:
             application/pdf:
               schema: 
-                type: binary
+                type: string
               example: 
                 " %PDF-1.7\n
                   %����\n
@@ -82,7 +82,7 @@ paths:
           content: 
             application/json:
               schema: 
-                $ref: "#/components/schemas/422 Response"
+                $ref: "#/components/schemas/422_Response"
               examples:
                 Single error:
                   value: 
@@ -139,14 +139,14 @@ paths:
         content: 
           multipart/form-data:
             schema: 
-              $ref: "#/components/schemas/Request body"
+              $ref: "#/components/schemas/RequestBody"
       responses: 
         200:
           description: Succesful Response
           content:
             application/pdf:
               schema: 
-                type: binary
+                type: string
               example: 
                 " %PDF-1.7\n
                   %����\n
@@ -193,7 +193,7 @@ paths:
           content: 
             application/json:
               schema: 
-                $ref: "#/components/schemas/422 Response"
+                $ref: "#/components/schemas/422_Response"
               examples:
                 Single error:
                   value: 
@@ -241,7 +241,7 @@ paths:
                   }
 components: 
   schemas: 
-    422 Response:
+    422_Response:
       type: object
       properties: 
         detail:
@@ -259,11 +259,11 @@ components:
                 type: string
               "type":
                 type: string
-    Request body:
+    RequestBody:
       type: object
       properties: 
         document:
-          type: binary
+          type: object
           description: Document to extend its signatures
         tsa_url:
           type: string
