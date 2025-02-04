@@ -25,10 +25,14 @@ tags:
   
 paths:
   /api/v1/requests:
-    get:  
+    get:
+      tags: 
+        -  "Requests"
       $ref: './llamadas/request/list-request.yaml'                  
       
     post:
+      tags: 
+        -  "Requests"
       $ref: './llamadas/request/create-request.yaml'
       
 
