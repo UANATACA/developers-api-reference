@@ -9,7 +9,7 @@ requestBody:
   content:
     application/json:
       schema:
-        $ref: '../../ra_openapi.yaml#/components/schemas/REVScrObject'
+        $ref: '../../ra.yaml#/components/schemas/REVScrObject'
   required: false
 responses:
   "200":

@@ -8,7 +8,7 @@ requestBody:
   content:
     application/json:
       schema:
-        $ref: '../../ra_openapi.yaml#/components/schemas/UpdateRAOObject'
+        $ref: '../../ra.yaml#/components/schemas/UpdateRAOObject'
   required: false
 responses:
   "200":

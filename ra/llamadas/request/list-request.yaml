@@ -1,7 +1,7 @@
 security: []
 tags:
 - Requests
-summary: LIST REQUESTS
+summary: LIST REQUEST
 operationId: listRequest
 description: Retrieves the list of requests stored. Path parameters are only
   necessary if an explicit filter is wanted.

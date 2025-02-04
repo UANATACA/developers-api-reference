@@ -17,7 +17,7 @@ requestBody:
   content:
     application/json:
       schema:
-        $ref: '../../ra_openapi.yaml#/components/schemas/TBSObject'
+        $ref: '../../ra.yaml#/components/schemas/TBSObject'
   required: false
 responses:
   "200":

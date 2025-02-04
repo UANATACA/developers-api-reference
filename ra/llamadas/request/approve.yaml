@@ -16,7 +16,7 @@ requestBody:
   content:
     application/json:
       schema:
-        $ref: '../../ra_openapi.yaml#/components/schemas/PlApproveReqObject'
+        $ref: '../../ra.yaml#/components/schemas/PlApproveReqObject'
   required: false
 responses:
   '200':

@@ -8,7 +8,7 @@ requestBody:
   content:
     '*/*':
       schema:
-        $ref: '../../ra_openapi.yaml#/components/schemas/IUScrObject'
+        $ref: '../../ra.yaml#/components/schemas/IUScrObject'
   required: true
 responses:
   "200":

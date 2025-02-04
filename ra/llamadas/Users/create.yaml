@@ -8,7 +8,7 @@ requestBody:
   content:
     application/json:
       schema:
-        $ref: '../../ra_openapi.yaml#/components/schemas/CreateUserObject'
+        $ref: '../../ra.yaml#/components/schemas/CreateUserObject'
   required: false
 responses:
   "200":

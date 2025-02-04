@@ -8,7 +8,7 @@ requestBody:
   content:
     application/json:
       schema:
-        $ref: '../../ra_openapi.yaml#/components/schemas/IsRenScrObject'
+        $ref: '../../ra.yaml#/components/schemas/IsRenScrObject'
   required: false
 responses:
   "200":

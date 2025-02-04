@@ -15,7 +15,7 @@ requestBody:
   content:
     application/json:
       schema:
-        $ref: '../../ra_openapi.yaml#/components/schemas/ResetPinObject'
+        $ref: '../../ra.yaml#/components/schemas/ResetPinObject'
   required: false
 responses:
   "200":

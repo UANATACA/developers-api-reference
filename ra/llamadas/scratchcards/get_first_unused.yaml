@@ -8,7 +8,7 @@ requestBody:
   content:
     application/json:
       schema:
-        $ref: '../../ra_openapi.yaml#/components/schemas/FUScrObject'
+        $ref: '../../ra.yaml#/components/schemas/FUScrObject'
   required: false
 responses:
   "200":

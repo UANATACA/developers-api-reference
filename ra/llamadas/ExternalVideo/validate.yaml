@@ -15,7 +15,7 @@ requestBody:
   content:
     application/json:
       schema:
-        $ref: '../../ra_openapi.yaml#/components/schemas/ValidateReqObject_VID'
+        $ref: '../../ra.yaml#/components/schemas/ValidateReqObject_VID'
   required: false
 responses:
   "200":

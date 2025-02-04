@@ -15,7 +15,7 @@ requestBody:
   content:
     application/json:
       schema:
-        $ref: '../../ra_openapi.yaml#/components/schemas/UpdateUserObject'
+        $ref: '../../ra.yaml#/components/schemas/UpdateUserObject'
   required: false
 responses:
   "200":

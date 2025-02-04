@@ -28,11 +28,13 @@ paths:
     get:
       tags: 
         -  "Requests"
+      summary: LIST REQUEST
       $ref: './llamadas/request/list-request.yaml'                  
       
     post:
       tags: 
         -  "Requests"
+      summary: CREATE REQUEST
       $ref: './llamadas/request/create-request.yaml'
       
 
@@ -40,11 +42,13 @@ paths:
     get:
       tags: 
         -  "Requests"
+      summary: GET REQUEST 
       $ref: './llamadas/request/get-request.yaml'
       
     put:
       tags: 
         -  "Requests"
+      summary: UPDATE REQUEST
       $ref: './llamadas/request/update-request.yaml'
      
 
@@ -52,6 +56,7 @@ paths:
     delete:
       tags: 
         -  "Requests"
+      summary: CANCEL REQUEST
       $ref: './llamadas/request/cancel-request.yaml'
 
       
@@ -59,6 +64,7 @@ paths:
     get:
       tags: 
         -  "Requests"
+      summary: VALIDATE REQUEST
       $ref: './llamadas/request/validate-request.yaml'
 
       
@@ -66,6 +72,7 @@ paths:
     post:
       tags: 
         -  "Requests"
+      summary: GENERATE RAO DECLARATION
       $ref: './llamadas/request/generate_rao.yaml'
 
      
@@ -80,6 +87,7 @@ paths:
     post:
       tags: 
         -  "Requests"
+      summary: GENERATE CONTRACT
       $ref: './llamadas/request/upload_document.yaml'
 
      
@@ -87,6 +95,7 @@ paths:
     post:
       tags: 
         -  "Requests"
+      summary: DELETE DOCUMENT
       $ref: './llamadas/request/delete_document.yaml'
 
      
@@ -94,6 +103,7 @@ paths:
     post:
       tags: 
         -  "Requests"
+      summary: GET A DOCUMENT
       $ref: './llamadas/request/get_document.yaml'
 
       
@@ -101,6 +111,7 @@ paths:
     get:
       tags: 
         -  "Requests"
+      summary: GET ALL DOCUMENTS
       $ref: './llamadas/request/get_documents.yaml'
 
 
@@ -108,6 +119,7 @@ paths:
     post:
       tags: 
         -  "Requests"
+      summary: APPROVE REQUEST
       $ref: './llamadas/request/approve.yaml'
 
      
@@ -115,6 +127,7 @@ paths:
     post:
       tags: 
         -  "Requests"
+      summary: GET PRE-AUTHENTICATION LINK
       $ref: './llamadas/request/pre_authentication.yaml'
 
      
@@ -122,6 +135,7 @@ paths:
     post:
       tags: 
         -  "Requests"
+      summary: IS RENEWABLE
       $ref: './llamadas/request/is_renewal.yaml'
 
 
@@ -129,6 +143,7 @@ paths:
     post:
       tags: 
         -  "Requests"
+      summary: ENABLE RENEWAL
       $ref: './llamadas/request/enable_renewal.yaml'
 
      
@@ -136,6 +151,7 @@ paths:
     post:
       tags: 
         -  "Requests"
+      summary: DISABLE RENEWAL
       $ref: './llamadas/request/disable_renewal.yaml'
 
      
@@ -143,6 +159,7 @@ paths:
     get:
       tags: 
         -  "Requests"
+      summary: GET RENEWAL STATUS
       $ref: './llamadas/request/renewal_status.yaml'
 
 
@@ -150,6 +167,7 @@ paths:
     post:
       tags: 
         -  "Requests"
+      summary: CHECK CONTACT DATA
       $ref: './llamadas/request/check_contract.yaml'
 
 
@@ -157,6 +175,7 @@ paths:
     post:
       tags: 
         -  "Requests"
+      summary: OTP FOR RESET/UNLOCK PIN
       $ref: './llamadas/request/generate_otp.yaml'
 
      
@@ -164,6 +183,7 @@ paths:
     post:
       tags: 
         -  "Requests"
+      summary: RESET/UNLOCK PIN
       $ref: './llamadas/request/unlock_pin.yaml'
 
 
@@ -173,6 +193,7 @@ paths:
     get:
       tags: 
         -  "Scratchcards"
+      summary: LIST SCRATCHCARDS
       $ref: './llamadas/scratchcards/list_scratchcards.yaml'
      
 
@@ -180,6 +201,7 @@ paths:
     get:
       tags: 
         -  "Scratchcards"
+      summary: GET SCRATCHCARD
       $ref: './llamadas/scratchcards/get_scratchcards.yaml'
 
       
@@ -187,6 +209,7 @@ paths:
     get:
       tags: 
         -  "Scratchcards"
+      summary: GET FIRST UNUSED SCRATCHCARD
       $ref: './llamadas/scratchcards/get_first_unused.yaml'
 
 
@@ -194,6 +217,7 @@ paths:
     post:
       tags: 
         -  "Scratchcards"
+      summary: IS USED SCRATCHCARD
       $ref: './llamadas/scratchcards/isued.yaml'
 
      
@@ -201,6 +225,7 @@ paths:
     post:
       tags: 
         -  "Scratchcards"
+      summary: REVOKE SCRATCHCARD
       $ref: './llamadas/scratchcards/revoke.yaml'
 
 
@@ -208,6 +233,7 @@ paths:
     post:
       tags: 
         -  "Scratchcards"
+      summary: WHOAMI
       $ref: './llamadas/scratchcards/whoami.yaml'
 
       
@@ -215,6 +241,7 @@ paths:
     post:
       tags: 
         - "Scratchcards"
+      summary: MOVE SCRATCHCARDS
       $ref: './llamadas/scratchcards/move.yaml'
 
 
@@ -223,11 +250,13 @@ paths:
     get:
       tags: 
         -  "Registration Authority"
+      summary: LIST RAs
       $ref: './llamadas/RA/list.yaml'
 
     post:
       tags: 
         -  "Registration Authority"
+      summary: CREATE RA
       $ref: './llamadas/RA/create.yaml'
 
     
@@ -235,11 +264,13 @@ paths:
     get:
       tags: 
         -  "Registration Authority"
+      summary: GET RA
       $ref: './llamadas/RA/get.yaml'
     
     put:
       tags: 
         -  "Registration Authority"
+      summary: UPDATE RA
       $ref: './llamadas/RA/put.yaml'
 
     
@@ -248,11 +279,13 @@ paths:
     get:
       tags: 
         -  "Registration Authority Officer"
+      summary: LIST RAOs
       $ref: './llamadas/RAO/list.yaml'
 
     post:
       tags: 
         -  "Registration Authority Officer"
+      summary: CREATE RAO
       $ref: './llamadas/RAO/create.yaml'
 
      
@@ -260,11 +293,13 @@ paths:
     get:
       tags: 
         -  "Registration Authority Officer"
+      summary: GET RAO
       $ref: './llamadas/RAO/get.yaml'
 
     put:
       tags: 
         -  "Registration Authority Officer"
+      summary: UPDATE RAO
       $ref: './llamadas/RAO/update.yaml'
 
 
@@ -273,11 +308,13 @@ paths:
     get:
       tags: 
         -  "Users"
+      summary: LIST USERS
       $ref: './llamadas/Users/list.yaml'
 
     post:
       tags: 
         -  "Users"
+      summary: CREATE USER
       $ref: './llamadas/Users/create.yaml'
 
 
@@ -285,11 +322,13 @@ paths:
     get:
       tags: 
         -  "Users"
+      summary: GET USER
       $ref: './llamadas/Users/get.yaml'
 
     put:
       tags: 
         -  "Users"
+      summary: UPDATE USER
       $ref: './llamadas/Users/update.yaml'
 
 
@@ -299,6 +338,7 @@ paths:
     post:
       tags: 
         -  "eIDAS VideoID"
+      summary: UPLOAD DOCUMENT
       $ref: './llamadas/eIDASVideo/upload.yaml'
 
 
@@ -308,6 +348,7 @@ paths:
     post:
       tags: 
         -  "External VideoID"
+      summary: VALIDATE VIDEO ID REQUEST
       $ref: './llamadas/ExternalVideo/validate.yaml'
 
      
@@ -315,6 +356,7 @@ paths:
     post:
       tags: 
         -  "External VideoID"
+      summary: REFUSE REQUEST
       $ref: './llamadas/ExternalVideo/refuse.yaml'
 
      
@@ -322,6 +364,7 @@ paths:
     put:
       tags: 
         -  "External VideoID"
+      summary: UPLOAD DATA EVIDENCE
       $ref: './llamadas/ExternalVideo/upload.yaml'
 
      
@@ -329,6 +372,7 @@ paths:
     post:
       tags: 
         -  "External VideoID"
+      summary: UPLOAD VIDEO
       $ref: './llamadas/ExternalVideo/upload_video.yaml'
 
     
@@ -336,6 +380,7 @@ paths:
     get:
       tags: 
         -  "External VideoID"
+      summary: DOWNLOAD VIDEO
       $ref: './llamadas/ExternalVideo/download.yaml'
 
       

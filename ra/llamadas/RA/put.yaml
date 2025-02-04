@@ -15,7 +15,7 @@ requestBody:
   content:
     '*/*':
       schema:
-        $ref: '../../ra_openapi.yaml#/components/schemas/UpdateRAObject'
+        $ref: '../../ra.yaml#/components/schemas/UpdateRAObject'
   required: false
 responses:
   "200":

@@ -12,7 +12,7 @@ requestBody:
   content:
     application/json:
       schema:
-        $ref: '../../ra_openapi.yaml#/components/schemas/CreateReqObject'
+        $ref: '../../ra.yaml#/components/schemas/CreateReqObject'
   required: false
 responses:
   '201':
