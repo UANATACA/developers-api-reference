@@ -1,0 +1,60 @@
+security: []
+tags:
+- Requests
+summary: GET PRE-AUTHENTICATION LINK
+operationId: preAuthentication
+description: Get the pre-authenticated link to start the online certificate
+  generation process for a specific request.
+parameters:
+- name: id
+  in: path
+  description: The unique identifier of the Request
+  required: true
+  schema:
+    type: string
+responses:
+  "200":
+    description: Successful Response
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            preauthenticatedlink:
+              type: string
+              description: The pre-authentication link associated to the approved
+                request
+        example:
+          preauthenticatedlink: https://api.uanataca.com/lcmpl/enrollment/auth/8edddd76680a4ecc978bb95b4fb39029
+  "403":
+    description: Permission denied
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            detail:
+              type: string
+              description: The response status code
+        example:
+          detail: You do not have permission to perform this action.
+  "404":
+    description: Invalid request id
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: string
+              description: The response status code
+            id:
+              type: string
+              description: The response status id
+            error:
+              type: string
+              description: The response status message
+        example:
+          code: "400"
+          id: de450daacf24014e
+          error: No Request matches the given query.

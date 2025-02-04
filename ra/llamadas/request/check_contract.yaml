@@ -1,0 +1,65 @@
+security: []
+tags:
+- Requests
+operationId: check_contract
+summary: CHECK CONTACT DATA
+description: Checks if the given contact data is already in use.
+requestBody:
+  content:
+    '*/*':
+      schema:
+        type: object
+        properties:
+          registration_authority:
+            type: number
+            description: Registration authority number where the contact data
+              it's going to be consulted.
+          serial_number:
+            type: string
+            description: Serial number to check
+          email:
+            type: string
+            description: Email address to check
+          mobile_phone_number:
+            type: string
+            description: Mobile phone number to check
+  required: false
+responses:
+  "200":
+    description: Successful Response
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            reason:
+              type: string
+              description: Response reason
+            result:
+              type: string
+              description: Response result
+            registration_authority:
+              type: number
+              description: Registration authority checked
+      Succesful Response:
+        example:
+          result: ok
+          registration_authority: 1
+      mobile_phone_number response:
+        example:
+          reason: Too many different documents associated to the same phone
+            number
+          result: ko
+          registration_authority: 1
+      email response:
+        example:
+          reason: Too many different documents associated to the same email
+            address
+          result: ko
+          registration_authority: 1
+      contact data response:
+        example:
+          reason: Too many different documents associated to the same email
+            and phone
+          result: ko
+          registration_authority: 1

@@ -1,0 +1,23 @@
+security: []
+tags:
+- External VideoID
+summary: UPLOAD DATA EVIDENCE
+operationId: uploadData
+description: Upload Request associated data
+parameters:
+- name: video_pk
+  in: path
+  description: The video request pk
+  required: true
+  schema:
+    type: string
+requestBody:
+  content:
+    application/json:
+      schema:
+        $ref: '../../ra_openapi.yaml#/components/schemas/UploadData_VID'
+  required: false
+responses:
+  "200":
+    description: Successful Response
+    content: {}

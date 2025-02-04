@@ -1,0 +1,50 @@
+security: []
+tags:
+- Requests
+summary: OTP FOR RESET/UNLOCK PIN
+operationId: genereate_otp
+description: Sends an OTP code via SMS for PIN reset or unlock.
+parameters:
+- name: id
+  in: path
+  description: The unique identifier of the Request
+  required: true
+  schema:
+    type: string
+responses:
+  "200":
+    description: Successful Response
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              description: Successful status message
+            message:
+              type: number
+              description: Successful status description
+        example:
+          status: success
+          message: OTP sent via SMS
+  "500":
+    description: Invalid request id
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: string
+              description: The response status code
+            id:
+              type: string
+              description: The response status id
+            error:
+              type: string
+              description: The response status message
+        example:
+          code: "500"
+          id: 8a1289c3606148ce
+          error: Request matching query does not exist.

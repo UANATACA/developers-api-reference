@@ -1,0 +1,65 @@
+security: []
+tags:
+- Requests
+summary: VALIDATE REQUEST
+operationId: validateRequest
+description: Validate the request fields.
+parameters:
+- name: id
+  in: path
+  description: The unique identifier of the Request
+  required: true
+  schema:
+    type: string
+responses:
+  "200":
+    description: Successful Response
+    content:
+      application/json:
+        schema:
+          type: object
+          description: A JSON object with the request missing parameters (if
+            any)
+        example:
+          serial_number: "missing"
+          mobile_phone_number: "missing"
+  "404":
+    description: Invalid request id
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: string
+              description: The response status code
+            id:
+              type: string
+              description: The response status id
+            error:
+              type: string
+              description: The response status message
+        example:
+          code: "400"
+          id: de450daacf24014e
+          error: No Request matches the given query.
+  "412":
+    description: Already approved request id
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: string
+              description: The response status code
+            id:
+              type: string
+              description: The response status id
+            error:
+              type: string
+              description: The response status message
+        example:
+          code: "412"
+          id: e443f8e716ee4cfa
+          error: Invalid request status

@@ -1,0 +1,46 @@
+security: []
+tags:
+- Requests
+summary: DISABLE RENEWAL
+operationId: disableRquest
+description: Deactivates the renewal option for a certificate
+parameters:
+- name: id
+  in: path
+  description: The response status message
+  required: true
+  schema:
+    type: string
+responses:
+  "200":
+    description: Successful Response
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              description: The response status message (renewal disabled)
+        example:
+          status: Renewal disabled for request
+  "404":
+    description: Invalid parameters
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: number
+              description: The response status code
+            id:
+              type: string
+              description: The response status id
+            error:
+              type: string
+              description: The response status message
+        example:
+          code: 400
+          id: f03579946f89a49e
+          error: No Request matches the given query.

@@ -1,0 +1,51 @@
+security: []
+tags:
+- Scratchcards
+summary: IS USED SCRATCHCARD
+operationId: isused
+description: Get the status of a known scratchcard.
+requestBody:
+  content:
+    '*/*':
+      schema:
+        $ref: '../../ra_openapi.yaml#/components/schemas/IUScrObject'
+  required: true
+responses:
+  "200":
+    description: Successful Response
+    content:
+      text/plain:
+        example: "true"
+  "400":
+    description: Bad Request
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            detail:
+              type: string
+              description: JSON syntax error
+        example:
+          detail: "JSON parse error - Expecting property name enclosed in double\
+            \ quotes: line 3 column 1 (char 22)"
+  "500":
+    description: Invalid scratchcard id
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: string
+              description: The response status code
+            id:
+              type: string
+              description: The response status id
+            error:
+              type: string
+              description: The response status message
+        example:
+          code: "500"
+          id: 168cfa712331f994
+          error: ScratchCard matching query does not exist.

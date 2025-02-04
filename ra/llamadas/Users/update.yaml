@@ -1,0 +1,77 @@
+security: []
+tags:
+- Users
+summary: UPDATE USER
+operationId: updateUser
+description: Update a new user.
+parameters:
+- name: id
+  in: path
+  description: The User's unique identifier
+  required: true
+  schema:
+    type: string
+requestBody:
+  content:
+    application/json:
+      schema:
+        $ref: '../../ra_openapi.yaml#/components/schemas/UpdateUserObject'
+  required: false
+responses:
+  "200":
+    description: Successful Response
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            pk:
+              type: number
+              description: The user id
+            permission_profile:
+              type: string
+              description: The user permission profile id
+            registration_authority:
+              type: string
+              description: The user associated registration authority id
+            request:
+              type: string
+              description: The user associated request id
+        example:
+          pk: 221
+          permission_profile: 18
+          registration_authority: 1
+          request: 150
+  "400":
+    description: Bad Request
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            detail:
+              type: string
+              description: JSON parse error message
+        example:
+          detail: "JSON parse error - Expecting ',' delimiter: line 3 column\
+            \ 31 (char 69)"
+  "500":
+    description: Invalid or missing parameters | Permission denied
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: string
+              description: The response status code
+            id:
+              type: string
+              description: The response status id
+            error:
+              type: string
+              description: The response status message
+        example:
+          code: "500"
+          id: a278e41eebf8c505
+          error: You do not have permission to perform this action.

@@ -1,0 +1,17 @@
+security: []
+tags:
+- External VideoID
+summary: DOWNLOAD VIDEO
+operationId: downloadVideo
+description: Download mp4-format binary video file associated to a Request
+parameters:
+- name: video_identifier
+  in: path
+  description: The Request unique identifier
+  required: true
+  schema:
+    type: string
+responses:
+  "200":
+    description: Successful Response
+    content: {}

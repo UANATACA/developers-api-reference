@@ -1,0 +1,77 @@
+security: []
+tags:
+- Requests
+summary: GET A DOCUMENT
+operationId: getDocument
+description: Retrieves a request's associated document in Base64 format.
+parameters:
+- name: id
+  in: path
+  description: The unique identifier of the Request
+  required: true
+  schema:
+    type: string
+requestBody:
+  content:
+    multipart/form-data:
+      schema:
+        required:
+        - rao_id
+        - type
+        type: object
+        properties:
+          type:
+            type: string
+            description: The type of the document to be retrieved
+            enum:
+            - document_front
+            - document_rear
+            - document_owner
+            - extra_document
+            - contract
+            - signed_contract
+          rao_id:
+            type: string
+            description: The rao id number. **This field is required only if
+              request status is CREATED or VIDEOREVIEW**
+  required: true
+responses:
+  "200":
+    description: Successful Response
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            pk:
+              type: string
+              description: The request id
+            document:
+              type: string
+              description: The document content in Base64 format
+            type:
+              type: string
+              description: The document type
+        example:
+          document: iVBORw0KGgoAAAANSUhEUgAAAPwAAAChCAYAAAGUvOLYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAABU9xJREFUeNqMlmuMXGUZx3/nfmZ257bX7m53t91uKbS1Ak0kIFIwIZHUSP0kBmLiJSIWXa3SBE1TkaZaU2liQFObED9QE0M(...)
+          type: contract
+  "404":
+    description: Invalid request id
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: string
+              description: The response status code
+            id:
+              type: string
+              description: The response status id
+            error:
+              type: string
+              description: The response status message
+        example:
+          code: "400"
+          id: c6972c3efdc6db8e
+          error: No Request matches the given query.

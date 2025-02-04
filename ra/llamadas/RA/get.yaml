@@ -1,0 +1,91 @@
+security: []
+tags:
+  - Registration Authority
+summary: GET RA
+operationId: getRA
+description: Gets data from a specific RA.
+parameters:
+  - name: id
+    in: path
+    description: The id of the registration authority
+    required: true
+    schema:
+      type: string
+responses:
+  "200":
+    description: Successful Response
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            pk:
+              type: string
+              description: The requested RA unique id
+            name:
+              type: string
+              description: The RA name
+            parent:
+              type: string
+              description: The parent RA unique id
+              nullable: true
+            operators:
+              type: array
+              items:
+                type: object
+                properties:
+                  pk:
+                    type: string
+                    description: The operator's unique id
+                  permission_profile:
+                    type: integer
+                    description: The permission profile for the operator
+                  registration_authority:
+                    type: integer
+                    description: The registration authority id to which the operator belongs
+                  request:
+                    type: integer
+                    description: The request id associated with the operator
+                required:
+                  - pk
+                  - permission_profile
+                  - registration_authority
+                  - request
+                description: A JSON array of objects with the set operators for the requested RA
+        example:
+          pk: "121"
+          name: "RA Name"
+          parent: null
+          operators:
+            - pk: "21"
+              permission_profile: 10
+              registration_authority: 2
+              request: 120
+            - pk: "29"
+              permission_profile: 18
+              registration_authority: 2
+              request: 132
+            - pk: "9"
+              permission_profile: 4
+              registration_authority: 2
+              request: 255
+  "500":
+    description: Invalid RA
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: string
+              description: The response status code
+            id:
+              type: string
+              description: The response status id
+            error:
+              type: string
+              description: The response status message
+        example:
+          code: "500"
+          id: "61f0ac735c8a40bd"
+          error: "You do not have permission to perform this action."

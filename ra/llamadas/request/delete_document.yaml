@@ -1,0 +1,70 @@
+security: []
+tags:
+- Requests
+summary: DELETE DOCUMENT
+operationId: deleteDocument
+description: Delete an identification document previously uploaded.
+parameters:
+- name: id
+  in: path
+  description: The unique identifier of the Request
+  required: true
+  schema:
+    type: string
+requestBody:
+  content:
+    multipart/form-data:
+      schema:
+        required:
+        - docpk
+        type: object
+        properties:
+          docpk:
+            type: string
+            description: The database primary key of the document to be deleted
+  required: true
+responses:
+  "200":
+    description: Successful Response
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              description: The successful response status message
+        example:
+          status: Document deleted successfully
+  "404":
+    description: Invalid document id
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              description: The response error message
+        example:
+          error: No documents found with id 616026
+  "500":
+    description: Missing parameter `docpk`
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: string
+              description: The response status code
+            id:
+              type: string
+              description: The response status id
+            error:
+              type: string
+              description: The response status message
+        example:
+          code: "500"
+          id: 7cb82a609ad8e270
+          error: "invalid literal for int() with base 10: ''"

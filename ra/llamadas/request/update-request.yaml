@@ -1,0 +1,189 @@
+security: []
+tags:
+- Requests
+summary: UPDATE REQUEST
+operationId: updateRequest
+description: Updates information about a request.
+parameters:
+- name: id
+  in: path
+  description: The unique identifier of the Request
+  required: true
+  schema:
+    type: string
+requestBody:
+  content:
+    application/json:
+      schema:
+        $ref: '../../ra_openapi.yaml#/components/schemas/UpdateReqObject'
+  required: false
+responses:
+  "200":
+    description: Successful Response
+    content:
+      application/json:
+        schema:
+          type: object
+          description: A JSON object with full information about the updated
+            request
+        example:
+          pk: 25139
+          given_name: Name
+          surname_1: Surname1
+          surname_2: New_Surname2
+          sex: null
+          id_document_type: TIN
+          id_document_country: IT
+          serial_number: A1111111E
+          country_name: ES
+          citizenship: null
+          residence: null
+          organization_email: null
+          email: New_mail@domain
+          title: null
+          organization_name: null
+          organizational_unit_1: null
+          organizational_unit_2: null
+          organization_identifier: null
+          responsible_name: null
+          responsible_first_surname: null
+          responsible_second_surname: null
+          responsible_email: null
+          responsible_serial: null
+          responsible_position: null
+          subscriber_responsible_serial: null
+          administrative_unit: null
+          empowerment: null
+          representation: null
+          circumstances: null
+          limit: null
+          registration: null
+          process_application: null
+          entity_owner: null
+          entity_owner_serial_number: null
+          description: null
+          certificate_set: []
+          profile: PFnubeAFCiudadano
+          scratchcard: "5053349"
+          status: CREATED
+          registering_user:
+            pk: 53
+            permission_profile: 13
+            registration_authority: 116
+            request: 144
+          approving_user: null
+          producing_user: null
+          registration_authority: 68
+          secure_element: 2
+          validity_time: "730"
+          smartcard_sn: null
+          citizen_tax_number: null
+          birth_date: null
+          birth_country: null
+          birth_city: null
+          birth_province: null
+          birth_state: null
+          birth_district: null
+          birth_canton: null
+          id_document_description: null
+          id_document_issuer: null
+          organization_rol: null
+          professional_id_number: null
+          mobile_phone_number: "+34600112233"
+          fix_phone_number: null
+          residence_address: null
+          residence_city: null
+          residence_province: null
+          residence_postal_code: null
+          residence_state: null
+          residence_district: null
+          residence_canton: null
+          organization_tax_number: null
+          organization_address: null
+          organization_city: null
+          organization_province: null
+          organization_country: null
+          organization_postal_code: null
+          organization_state: null
+          organization_url: null
+          responsible_legal_level: null
+          subscriber: null
+          responsible_legal_documents: null
+          special_conditions: null
+          responsible_registry_data: null
+          approving_rao: null
+          producing_rao: null
+          id_document_number: null
+  "400":
+    description: Bad Request
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            detail:
+              type: string
+              description: JSON syntax error
+        example:
+          detail: "JSON parse error - Expecting ',' delimiter: line 3 column\
+            \ 2 (char 30)"
+  "404":
+    description: Request id not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: string
+              description: The response status code
+            id:
+              type: string
+              description: The response status id
+            error:
+              type: string
+              description: The response status message
+        example:
+          code: "400"
+          id: d79de76df1307cba
+          error: No Request matches the given query.
+  "412":
+    description: Already approved request
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: string
+              description: The response status code
+            id:
+              type: string
+              description: The response status id
+            error:
+              type: string
+              description: The response status message
+        example:
+          code: "412"
+          id: e59481276ddcc529
+          error: Invalid request status
+  "500":
+    description: Invalid or missing parameters | Permission denied
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: string
+              description: The response status code
+            id:
+              type: string
+              description: The response status id
+            error:
+              type: string
+              description: The response status message
+        example:
+          code: "500"
+          id: a400c26a689ae9b4
+          error: You do not have permission to perform this action.

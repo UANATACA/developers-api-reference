@@ -1,0 +1,62 @@
+security: []
+tags:
+- Requests
+summary: GET ALL DOCUMENTS
+operationId: getDocuments
+description: Retrieves all uploaded documents associated to a request.
+parameters:
+- name: id
+  in: path
+  description: The unique identifier of the Request
+  required: true
+  schema:
+    type: string
+responses:
+  "200":
+    description: Successful Response
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            pk:
+              type: string
+              description: The document database id
+            document:
+              type: string
+              description: The document content in Base64 format
+            type:
+              type: string
+              description: The document type
+
+          example:
+          - pk: 48312
+            document: iVBORw0KGgoAAAANSUhEUgAAAPwAAAChCAYAAAGUvOLYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAABU9xJREFUeNqMlmuMXGUZx3/nfmZ257bX7m53t91uKbS1Ak0kIFIwIZHUSP0kBmLiJSIWXa3SBE1TkaZaU2liQFObED9QE0M(...)
+            type: document_front
+          - pk: 48320
+            document: 7m53t91uKbS1Ak0kIFIwIZHUSP0kBmLiJiVBORw0KGgoAAAANSUhEUgAAAPwTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAABU9xJREFUeNqAAAChCAYAAAGUvOLYAAAAGXRFWHRMlmuMXGUZx3/nfmZ257bXSIWXa3SBE1TkaZaU2liQFObED9QE0M(...)
+            type: document_rear
+          - pk: 48321
+            document: ANSUhEUgAAAPwTb2Z0d27m53t91uREFUeNqAAACwIZHUSP0kBmLiJiVBORw0KGgoAAAFyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAABU9xJhCAYAAAGU7bXSIWXa3SBE1TkaZaU2DDKxk89fogpvOLYAAAAGXRFWHRMlmuMXGUZx3/nfmZ25liQFObED9QE0M(...)
+            type: signed_contract
+
+  "404":
+    description: Invalid request id
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: string
+              description: The response status code
+            id:
+              type: string
+              description: The response status id
+            error:
+              type: string
+              description: The response status message
+        example:
+          code: "400"
+          id: c6972c3efdc6db8e
+          error: No Request matches the given query.

@@ -1,0 +1,34 @@
+security: []
+tags:
+- Requests
+summary: GET RENEWAL STATUS
+operationId: renewalRequest
+description: Displays information about renewal status of a request
+parameters:
+- name: id
+  in: path
+  description: The response status message
+  required: true
+  schema:
+    type: string
+responses:
+  "200":
+    description: Successful Response
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            request_is_renewable:
+              type: boolean
+              description: Shows if the request is eligible for renewal
+            renewal_enabled:
+              type: boolean
+              description: Shows if the request has renewal enabled
+            reason:
+              type: string
+              description: Detailed reason of the current status
+        example:
+          request_is_renewable: false
+          renewal_enabled: false
+          reason: Not yet enabled

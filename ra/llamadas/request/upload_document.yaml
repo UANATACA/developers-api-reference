@@ -1,0 +1,113 @@
+security: []
+tags:
+- Requests
+summary: UPLOAD DOCUMENT
+operationId: uploadDocument
+description: Upload the required documentation for certificate issuance.
+parameters:
+- name: id
+  in: path
+  description: The unique identifier of the Request
+  required: true
+  schema:
+    type: string
+requestBody:
+  content:
+    multipart/form-data:
+      schema:
+        required:
+        - document
+        - type
+        type: object
+        properties:
+          document:
+            type: string
+            description: The file to be uploaded
+          type:
+            type: string
+            description: The type of the document to be uploaded
+            enum:
+            - document_front
+            - document_rear
+            - document_owner
+            - extra_document
+  required: true
+responses:
+  "201":
+    description: Successful Response
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            pk:
+              type: number
+              description: The document database id
+            type:
+              type: number
+              description: The uploaded document type
+        example:
+          pk: 48312
+          type: document_front  
+  "404":
+    description: Invalid request id
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: string
+              description: The response status code
+            id:
+              type: string
+              description: The response status id
+            error:
+              type: string
+              description: The response status message
+        example:
+          code: "400"
+          id: c6972c3efdc6db8e
+          error: No Request matches the given query.
+  "412":
+    description: Precondition Failed
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: string
+              description: The response status code
+            id:
+              type: string
+              description: The response status id
+            error:
+              type: string
+              description: The response status message
+      Missing or blank parameters:
+        example:
+          code: "418"
+          id: 29b7b6d28fa97f1d
+          error: Invalid paramiters
+  "500":
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: string
+              description: The response status code
+            id:
+              type: string
+              description: The response status id
+            error:
+              type: string
+              description: The response status message
+      Wrong file content-type:
+        example:
+          code: "500"
+          id: 80b7dca326bf3cdd
+          error: Invalid content_type

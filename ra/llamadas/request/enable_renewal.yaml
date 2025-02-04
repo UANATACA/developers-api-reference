@@ -1,0 +1,78 @@
+security: []
+tags:
+- Requests
+summary: ENABLE RENEWAL
+operationId: enableRequest
+description: Activates the renewal option for a certificate
+parameters:
+- name: id
+  in: path
+  description: The response status message
+  required: true
+  schema:
+    type: string
+responses:
+  "200":
+    description: Successful Response
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              description: The response status message (renewal enabled)
+        example:
+          status: Renewal enabled for request
+  "404":
+    description: Not Found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: number
+              description: The response status code
+            id:
+              type: string
+              description: The response status id
+            error:
+              type: string
+              description: The response status message
+      Non-existent request number:
+        example:
+          code: "400"
+          id: f03579946f89a49e
+          error: No Request matches the given query.
+      Invalid request number:
+        example:
+          code: "400"
+          id: 65c411b9c308443e
+          error: ""
+  "412":
+    description: Precondition Failed
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: number
+              description: The response status code
+            id:
+              type: string
+              description: The response status id
+            error:
+              type: string
+              description: The response status message
+      Request not available for enable renewal:
+        example:
+          code: "412"
+          id: 0a15d574c826c870
+          error: Request not eligible for renewal
+      Request not issued or certificate not valid:
+        example:
+          code: "412"
+          id: 67a1a1dae3d7a95d
+          error: Invalid request status
