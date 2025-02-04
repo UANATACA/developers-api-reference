@@ -38,94 +38,132 @@ paths:
 
   /api/v1/requests/{id}:
     get:
+      tags: 
+        -  "Requests"
       $ref: './llamadas/request/get-request.yaml'
       
     put:
+      tags: 
+        -  "Requests"
       $ref: './llamadas/request/update-request.yaml'
      
 
   /api/v1/requests/{id}/cancel:
     delete:
+      tags: 
+        -  "Requests"
       $ref: './llamadas/request/cancel-request.yaml'
 
       
   /api/v1/requests/{id}/validate:
     get:
+      tags: 
+        -  "Requests"
       $ref: './llamadas/request/validate-request.yaml'
 
       
   /api/v1/requests/{id}/generates_tbs_receipt:
     post:
+      tags: 
+        -  "Requests"
       $ref: './llamadas/request/generate_rao.yaml'
 
      
   /api/v1/requests/{id}/generate_document:
     post:
+      tags: 
+        -  "Requests"
       $ref: './llamadas/request/generate_contract.yaml'
 
     
   /api/v1/requests/{id}/pl_upload_document:
     post:
+      tags: 
+        -  "Requests"
       $ref: './llamadas/request/upload_document.yaml'
 
      
   /api/v1/requests/{id}/pl_delete_document:
     post:
+      tags: 
+        -  "Requests"
       $ref: './llamadas/request/delete_document.yaml'
 
      
   /api/v1/requests/{id}/pl_get_document:
     post:
+      tags: 
+        -  "Requests"
       $ref: './llamadas/request/get_document.yaml'
 
       
   /api/v1/requests/{id}/pl_get_documents:
     get:
+      tags: 
+        -  "Requests"
       $ref: './llamadas/request/get_documents.yaml'
 
 
   /api/v1/requests/{id}/pl_approve:
     post:
+      tags: 
+        -  "Requests"
       $ref: './llamadas/request/approve.yaml'
 
      
   /api/v1/requests/{id}/preauthlink:
     post:
+      tags: 
+        -  "Requests"
       $ref: './llamadas/request/pre_authentication.yaml'
 
      
   /api/v1/requests/is_renewable:
     post:
+      tags: 
+        -  "Requests"
       $ref: './llamadas/request/is_renewal.yaml'
 
 
   /api/v1/requests/{id}/enable_renewal:
     post:
+      tags: 
+        -  "Requests"
       $ref: './llamadas/request/enable_renewal.yaml'
 
      
   /api/v1/requests/{id}/disable_renewal:
     post:
+      tags: 
+        -  "Requests"
       $ref: './llamadas/request/disable_renewal.yaml'
 
      
   /api/v1/requests/{id}/renewal_status/:
     get:
+      tags: 
+        -  "Requests"
       $ref: './llamadas/request/renewal_status.yaml'
 
 
   /api/v1/requests/check_contact_data_limits/:
     post:
+      tags: 
+        -  "Requests"
       $ref: './llamadas/request/check_contract.yaml'
 
 
   /api/v1/requests/{id}/generate_otp_for_unlock:
     post:
+      tags: 
+        -  "Requests"
       $ref: './llamadas/request/generate_otp.yaml'
 
      
   /api/v1/requests/{id}/unlock_pin:
     post:
+      tags: 
+        -  "Requests"
       $ref: './llamadas/request/unlock_pin.yaml'
 
 
@@ -133,118 +171,171 @@ paths:
 
   /api/v1/scratchcards:
     get:
+      tags: 
+        -  "Scratchcards"
       $ref: './llamadas/scratchcards/list_scratchcards.yaml'
      
 
   /api/v1/scratchcards/{id}:
     get:
+      tags: 
+        -  "Scratchcards"
       $ref: './llamadas/scratchcards/get_scratchcards.yaml'
 
       
   /api/v1/scratchcards/get_first_unused:
     get:
+      tags: 
+        -  "Scratchcards"
       $ref: './llamadas/scratchcards/get_first_unused.yaml'
 
 
   /api/v1/scratchcards/isused:
     post:
+      tags: 
+        -  "Scratchcards"
       $ref: './llamadas/scratchcards/isued.yaml'
 
      
   /api/v1/scratchcards/revoke:
     post:
+      tags: 
+        -  "Scratchcards"
       $ref: './llamadas/scratchcards/revoke.yaml'
 
 
   /api/v1/scratchcards/whoami:
     post:
+      tags: 
+        -  "Scratchcards"
       $ref: './llamadas/scratchcards/whoami.yaml'
 
       
   /api/v1/scratchcards/move:
     post:
+      tags: 
+        - "Scratchcards"
       $ref: './llamadas/scratchcards/move.yaml'
 
 
      
   /api/v1/registrationauthorities:
     get:
+      tags: 
+        -  "Registration Authority"
       $ref: './llamadas/RA/list.yaml'
 
     post:
+      tags: 
+        -  "Registration Authority"
       $ref: './llamadas/RA/create.yaml'
 
     
   /api/v1/registrationauthorities/{id}:
     get:
+      tags: 
+        -  "Registration Authority"
       $ref: './llamadas/RA/get.yaml'
     
     put:
+      tags: 
+        -  "Registration Authority"
       $ref: './llamadas/RA/put.yaml'
 
     
+
   /api/v1/rao:
     get:
+      tags: 
+        -  "Registration Authority Officer"
       $ref: './llamadas/RAO/list.yaml'
 
     post:
+      tags: 
+        -  "Registration Authority Officer"
       $ref: './llamadas/RAO/create.yaml'
 
      
   /api/v1/rao/{id}:
     get:
+      tags: 
+        -  "Registration Authority Officer"
       $ref: './llamadas/RAO/get.yaml'
 
     put:
+      tags: 
+        -  "Registration Authority Officer"
       $ref: './llamadas/RAO/update.yaml'
 
 
       
   /api/v1/users:
     get:
+      tags: 
+        -  "Users"
       $ref: './llamadas/Users/list.yaml'
 
     post:
+      tags: 
+        -  "Users"
       $ref: './llamadas/Users/create.yaml'
 
 
   /api/v1/users/{id}:
     get:
+      tags: 
+        -  "Users"
       $ref: './llamadas/Users/get.yaml'
 
-    put:      
+    put:
+      tags: 
+        -  "Users"
       $ref: './llamadas/Users/update.yaml'
 
 
-     
+
+      
   /api/v1/requests/{id_request}/upload_videoid_evidence:
     post:
+      tags: 
+        -  "eIDAS VideoID"
       $ref: './llamadas/eIDASVideo/upload.yaml'
 
 
       
+
   /api/v1/requests/{id_request}/validate_videoid:
     post:
+      tags: 
+        -  "External VideoID"
       $ref: './llamadas/ExternalVideo/validate.yaml'
 
      
   /api/v1/requests/{id_request}/refuse_videoid:
     post:
+      tags: 
+        -  "External VideoID"
       $ref: './llamadas/ExternalVideo/refuse.yaml'
 
      
   /api/v1/videoid/{video_pk}:
     put:
+      tags: 
+        -  "External VideoID"
       $ref: './llamadas/ExternalVideo/upload.yaml'
 
      
   /v1/upload/video/{video_identifier}:
     post:
+      tags: 
+        -  "External VideoID"
       $ref: './llamadas/ExternalVideo/upload_video.yaml'
 
     
   /api/v1/download/video/{video_identifier}:
     get:
+      tags: 
+        -  "External VideoID"
       $ref: './llamadas/ExternalVideo/download.yaml'
 
       
