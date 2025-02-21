@@ -26,362 +26,1065 @@ tags:
 paths:
   /api/v1/requests:
     get:
-      tags: 
-        -  "Requests"
+      tags:
+        - "Requests"
+      security: []
       summary: LIST REQUEST
-      $ref: './llamadas/request/list-request.yaml'                  
-      
+      operationId: listRequest
+      description: Retrieves the list of requests stored. Path parameters are only necessary if an explicit filter is wanted.
+      parameters:
+        - $ref: './llamadas/request/list-request/parameters.yaml#/0'
+        - $ref: './llamadas/request/list-request/parameters.yaml#/1'
+        - $ref: './llamadas/request/list-request/parameters.yaml#/2'
+        - $ref: './llamadas/request/list-request/parameters.yaml#/3'
+        - $ref: './llamadas/request/list-request/parameters.yaml#/4'
+        - $ref: './llamadas/request/list-request/parameters.yaml#/5'
+        - $ref: './llamadas/request/list-request/parameters.yaml#/6'
+        - $ref: './llamadas/request/list-request/parameters.yaml#/7'
+      responses:
+        200:
+          $ref: './llamadas/request/list-request/list-response.yaml'
+
     post:
-      tags: 
-        -  "Requests"
+      security: []
+      tags:
+      - Requests
       summary: CREATE REQUEST
-      $ref: './llamadas/request/create-request.yaml'
+      operationId: createRequest
+      description: Creates a new request for digital certificate issuance.</br> <html><blockquote
+        style='background-color:#faf3ac; border-color:#DFDFDF; color:#3b3b3b;'><b>?
+        Each certificate profile has its own set of fields. Please check the list
+        of fields in the <a href='#section/Certificate-Profiles'>Certificate Profiles</a>
+        section.</b></blockquote></html>
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateReqObject'
+        required: false
+      responses:
+        '201':
+          $ref: './llamadas/request/create-responses.yaml#/201'
+        '400':
+          $ref: './llamadas/request/create-responses.yaml#/400'
+        '500':
+          $ref: './llamadas/request/create-responses.yaml#/500'
+      
       
 
   /api/v1/requests/{id}:
     get:
-      tags: 
-        -  "Requests"
+      security: []
+      tags:
+      - Requests
+      operationId: getRequest
       summary: GET REQUEST 
-      $ref: './llamadas/request/get-request.yaml'
-      
+      description: Returns full information about a request.
+      parameters:
+      - name: id
+        in: path
+        description: The unique identifier of the request
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: './llamadas/request/get-request_responses.yaml#/200'
+        '404':
+          $ref: './llamadas/request/get-request_responses.yaml#/404'
+            
     put:
-      tags: 
-        -  "Requests"
+      security: []
+      tags:
+      - Requests
       summary: UPDATE REQUEST
-      $ref: './llamadas/request/update-request.yaml'
-     
+      operationId: updateRequest
+      description: Updates information about a request.
+      parameters:
+      - name: id
+        in: path
+        description: The unique identifier of the Request
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateReqObject'
+        required: false
+      responses:
+        '200':
+          $ref: './llamadas/request/update-request_responses.yaml#/200'
+        '400':
+          $ref: './llamadas/request/update-request_responses.yaml#/400'
+        '404':
+          $ref: './llamadas/request/update-request_responses.yaml#/404'
+        '412':
+          $ref: './llamadas/request/update-request_responses.yaml#/412'        
+        '500':
+          $ref: './llamadas/request/update-request_responses.yaml#/500'
+
 
   /api/v1/requests/{id}/cancel:
     delete:
-      tags: 
-        -  "Requests"
+      security: []
+      tags:
+      - Requests
       summary: CANCEL REQUEST
-      $ref: './llamadas/request/cancel-request.yaml'
+      operationId: deleteRequest
+      description: Change the request status to CANCELLED. Requests can be cancelled
+        only if the digital certificate is not issued yet.
+      parameters:
+      - name: id
+        in: path
+        description: The unique identifier of the Request
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: './llamadas/request/cancel-request_responses.yaml#/200'
+        '404':
+            $ref: './llamadas/request/cancel-request_responses.yaml#/404'
+        '412':
+            $ref: './llamadas/request/cancel-request_responses.yaml#/412'        
 
-      
+    
   /api/v1/requests/{id}/validate:
     get:
-      tags: 
-        -  "Requests"
+      security: []
+      tags:
+      - Requests
       summary: VALIDATE REQUEST
-      $ref: './llamadas/request/validate-request.yaml'
+      operationId: validateRequest
+      description: Validate the request fields.
+      parameters:
+      - name: id
+        in: path
+        description: The unique identifier of the Request
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: './llamadas/request/validate-request_responses.yaml#/200'
+        '404':
+            $ref: './llamadas/request/validate-request_responses.yaml#/404'
+        '412':
+            $ref: './llamadas/request/validate-request_responses.yaml#/412'    
 
       
   /api/v1/requests/{id}/generates_tbs_receipt:
     post:
-      tags: 
-        -  "Requests"
+      security: []
+      tags:
+      - Requests
       summary: GENERATE RAO DECLARATION
-      $ref: './llamadas/request/generate_rao.yaml'
+      operationId: postRequest 
+      description: "Generates a declaration related to a request that must be signed\
+        \ by a RAO.<br> The receipt is signed in the <HTML><a href='#tag/Requests/paths/~1api~1v1~1requests~1{id}~1pl_approve/post'>Approve\
+        \ Request</a></HTML> call."
+      parameters:
+      - name: id
+        in: path
+        description: The unique identifier of the Request
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TBSObject'
+        required: false
+      responses:
+        '200':
+          $ref: './llamadas/request/generate_rao.yaml#/200'
+        '400':
+            $ref: './llamadas/request/generate_rao.yaml#/400'
+        '404':
+            $ref: './llamadas/request/generate_rao.yaml#/404'   
 
      
   /api/v1/requests/{id}/generate_document:
     post:
-      tags: 
-        -  "Requests"
-      $ref: './llamadas/request/generate_contract.yaml'
-
+      security: []
+      tags:
+      - Requests
+      summary: GENERATE CONTRACT
+      operationId: generateRquest
+      description: "Generates a contract associated to a request that must be signed\
+        \ by a RAO.<br> The contract is signed in the <HTML><a href='#tag/Requests/paths/~1api~1v1~1requests~1{id}~1pl_approve/post'>approve\
+        \ request</a></HTML> call."
+      parameters:
+      - name: id
+        in: path
+        description: The unique identifier of the Request
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContractObject'
+        required: false
+      responses:
+        '200':
+          $ref: './llamadas/request/generate_rao.yaml#/200'
+        '400':
+            $ref: './llamadas/request/generate_rao.yaml#/400'
+        '404':
+            $ref: './llamadas/request/generate_rao.yaml#/404'   
     
+
   /api/v1/requests/{id}/pl_upload_document:
     post:
-      tags: 
-        -  "Requests"
-      summary: GENERATE CONTRACT
-      $ref: './llamadas/request/upload_document.yaml'
-
+      security: []
+      tags:
+      - Requests
+      summary: UPLOAD DOCUMENT
+      operationId: uploadDocument
+      description: Upload the required documentation for certificate issuance.
+      parameters:
+        - $ref: './llamadas/request/upload_document.yaml#/parameters/0'
+      requestBody:
+        $ref: './llamadas/request/upload_document.yaml#/requestBody'
+      responses:
+        '201':
+          $ref: './llamadas/request/upload_document.yaml#/responses/201'
+        '412':
+          $ref: './llamadas/request/upload_document.yaml#/responses/412'
+        '500':
+          $ref: './llamadas/request/upload_document.yaml#/responses/500'
      
+
   /api/v1/requests/{id}/pl_delete_document:
     post:
-      tags: 
-        -  "Requests"
+      security: []
+      tags:
+      - Requests
       summary: DELETE DOCUMENT
-      $ref: './llamadas/request/delete_document.yaml'
+      operationId: deleteDocument
+      description: Delete an identification document previously uploaded.
+      parameters:
+        - $ref: './llamadas/request/delete_document.yaml#/parameters/0'
+      requestBody:
+        $ref: './llamadas/request/delete_document.yaml#/requestBody'
+      responses:
+        '200':
+          $ref: './llamadas/request/delete_document.yaml#/responses/200'
+        '404':
+          $ref: './llamadas/request/delete_document.yaml#/responses/404'
+        '500':
+          $ref: './llamadas/request/delete_document.yaml#/responses/500'
 
      
   /api/v1/requests/{id}/pl_get_document:
     post:
-      tags: 
-        -  "Requests"
+      security: []
+      tags:
+      - Requests
       summary: GET A DOCUMENT
-      $ref: './llamadas/request/get_document.yaml'
-
+      operationId: getDocument
+      description: Retrieves a request's associated document in Base64 format.
+      parameters:
+        - $ref: './llamadas/request/get_document.yaml#/parameters/0'
+      requestBody:
+        $ref: './llamadas/request/get_document.yaml#/requestBody'
+      responses:
+        '200':
+          $ref: './llamadas/request/get_document.yaml#/responses/200'
+        '404':
+          $ref: './llamadas/request/get_document.yaml#/responses/404'
       
+
   /api/v1/requests/{id}/pl_get_documents:
     get:
-      tags: 
-        -  "Requests"
+      security: []
+      tags:
+      - Requests
       summary: GET ALL DOCUMENTS
-      $ref: './llamadas/request/get_documents.yaml'
+      operationId: getDocuments
+      description: Retrieves all uploaded documents associated to a request.
+      parameters:
+        - $ref: './llamadas/request/get_documents.yaml#/parameters/0'
+      responses:
+        '200':
+          $ref: './llamadas/request/get_documents.yaml#/responses/200'
+        '404':
+          $ref: './llamadas/request/get_documents.yaml#/responses/404'
 
 
   /api/v1/requests/{id}/pl_approve:
     post:
-      tags: 
-        -  "Requests"
+      security: []
+      tags:
+      - Requests
       summary: APPROVE REQUEST
-      $ref: './llamadas/request/approve.yaml'
+      operationId: approveRequest
+      description: Approval of a request by a RAO. At this moment the RAO will sign
+        the receipt and the contract.
+      parameters:
+        - $ref: './llamadas/request/approve.yaml#/parameters/0'
+      requestBody:
+        $ref: './llamadas/request/approve.yaml#/requestBody'
+      responses:
+        '200':
+          $ref: './llamadas/request/approve.yaml#/responses/200'
+        '400':
+          $ref: './llamadas/request/approve.yaml#/responses/400'
+        '404':
+          $ref: './llamadas/request/approve.yaml#/responses/404'
+        '412':
+          $ref: './llamadas/request/approve.yaml#/responses/412'
+        '500':
+          $ref: './llamadas/request/approve.yaml#/responses/500'
 
      
   /api/v1/requests/{id}/preauthlink:
     post:
-      tags: 
-        -  "Requests"
+      security: []
+      tags:
+      - Requests
       summary: GET PRE-AUTHENTICATION LINK
-      $ref: './llamadas/request/pre_authentication.yaml'
+      operationId: preAuthentication
+      description: Get the pre-authenticated link to start the online certificate
+        generation process for a specific request.  
+      parameters:
+        - $ref: './llamadas/request/pre_authentication.yaml#/parameters/0'
+      responses:
+        '200':
+          $ref: './llamadas/request/pre_authentication.yaml#/responses/200'
+        '403':
+          $ref: './llamadas/request/pre_authentication.yaml#/responses/403'
+        '404':
+          $ref: './llamadas/request/pre_authentication.yaml#/responses/404'
 
      
   /api/v1/requests/is_renewable:
     post:
-      tags: 
-        -  "Requests"
+      security: []
+      tags:
+      - Requests
       summary: IS RENEWABLE
-      $ref: './llamadas/request/is_renewal.yaml'
+      operationId: isRenewal
+      description: Find out about whether a request is renewable or not.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IsRenScrObject'
+        required: false
+      responses:
+        '200':
+          $ref: './llamadas/request/is_renewal.yaml#/responses/200'
+        '400':
+          $ref: './llamadas/request/is_renewal.yaml#/responses/400'
+        '412':
+          $ref: './llamadas/request/is_renewal.yaml#/responses/412'
 
 
   /api/v1/requests/{id}/enable_renewal:
     post:
-      tags: 
-        -  "Requests"
+      security: []
+      tags:
+      - Requests
       summary: ENABLE RENEWAL
-      $ref: './llamadas/request/enable_renewal.yaml'
-
+      operationId: enableRequest
+      description: Activates the renewal option for a certificate
+      parameters:
+        - $ref: './llamadas/request/enable_renewal.yaml#/parameters/0'
+      responses:
+        '200':
+          $ref: './llamadas/request/enable_renewal.yaml#/responses/200'
+        '404':
+          $ref: './llamadas/request/enable_renewal.yaml#/responses/404'
+        '412':
+          $ref: './llamadas/request/enable_renewal.yaml#/responses/412'
      
+
   /api/v1/requests/{id}/disable_renewal:
     post:
-      tags: 
-        -  "Requests"
+      security: []
+      tags:
+      - Requests
       summary: DISABLE RENEWAL
-      $ref: './llamadas/request/disable_renewal.yaml'
+      operationId: disableRquest
+      description: Deactivates the renewal option for a certificate
+      parameters:
+        - $ref: './llamadas/request/disable_renewal.yaml#/parameters/0'
+      responses:
+        '200':
+          $ref: './llamadas/request/disable_renewal.yaml#/responses/200'
+        '404':
+          $ref: './llamadas/request/disable_renewal.yaml#/responses/404'
 
      
-  /api/v1/requests/{id}/renewal_status/:
+  /api/v1/requests/{id}/renewal_status:
     get:
-      tags: 
-        -  "Requests"
+      security: []
+      tags:
+      - Requests
       summary: GET RENEWAL STATUS
-      $ref: './llamadas/request/renewal_status.yaml'
+      operationId: renewalRequest
+      description: Displays information about renewal status of a request
+      parameters:
+        - $ref: './llamadas/request/renewal_status.yaml#/parameters/0'
+      responses:
+        '200':
+          $ref: './llamadas/request/renewal_status.yaml#/responses/200'
 
 
-  /api/v1/requests/check_contact_data_limits/:
+  /api/v1/requests/check_contact_data_limits:
     post:
-      tags: 
-        -  "Requests"
+      security: []
+      tags:
+      - Requests
+      operationId: check_contract
       summary: CHECK CONTACT DATA
-      $ref: './llamadas/request/check_contract.yaml'
+      description: Checks if the given contact data is already in use.
+      requestBody:
+        $ref: './llamadas/request/check_contract.yaml#/requestBody'
+      responses:
+        '200':
+          $ref: './llamadas/request/check_contract.yaml#/responses/200'
 
 
   /api/v1/requests/{id}/generate_otp_for_unlock:
     post:
-      tags: 
-        -  "Requests"
+      security: []
+      tags:
+      - Requests
       summary: OTP FOR RESET/UNLOCK PIN
-      $ref: './llamadas/request/generate_otp.yaml'
-
+      operationId: genereate_otp
+      description: Sends an OTP code via SMS for PIN reset or unlock.
+      parameters:
+        - $ref: './llamadas/request/generate_otp.yaml#/parameters/0'
+      responses:
+        '200':
+          $ref: './llamadas/request/generate_otp.yaml#/responses/200'
+        '500':
+          $ref: './llamadas/request/generate_otp.yaml#/responses/500'
      
+
   /api/v1/requests/{id}/unlock_pin:
     post:
-      tags: 
-        -  "Requests"
+      security: []
+      tags:
+      - Requests
       summary: RESET/UNLOCK PIN
-      $ref: './llamadas/request/unlock_pin.yaml'
+      operationId: unlock_pin
+      description: Performs the PIN reset or unlock operation
+      parameters:
+      - name: id
+        in: path
+        description: The unique identifier of the Request
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPinObject'
+        required: false
+      responses:
+        '200':
+          $ref: './llamadas/request/unlock_pin.yaml#/200'
+        '500':
+          $ref: './llamadas/request/unlock_pin.yaml#/500'
+
+
+          
 
 
 
-
+     
   /api/v1/scratchcards:
     get:
-      tags: 
-        -  "Scratchcards"
+      security: []
+      tags:
+        - Scratchcards
       summary: LIST SCRATCHCARDS
-      $ref: './llamadas/scratchcards/list_scratchcards.yaml'
+      operationId: listScratchcards
+      description: Gets the list of scratchcards
+      parameters:
+        - name: registration_authority
+          in: query
+          description: Registration authority number
+          schema:
+            type: string
+        - name: sn
+          in: query
+          description: Number of scratchcard
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: './llamadas/scratchcards/list_scratchcards.yaml#/200'
+
      
 
   /api/v1/scratchcards/{id}:
     get:
-      tags: 
-        -  "Scratchcards"
+      security: []
+      tags:
+        - Scratchcards
       summary: GET SCRATCHCARD
-      $ref: './llamadas/scratchcards/get_scratchcards.yaml'
+      operationId: getScratchcard
+      description: Get details from a scratchcard.
+      parameters:
+        - name: id
+          in: path
+          description: The scratchcard unique id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: './llamadas/scratchcards/get_scratchcards.yaml#/200'
+        '404':
+          $ref: './llamadas/scratchcards/get_scratchcards.yaml#/404'
 
       
   /api/v1/scratchcards/get_first_unused:
     get:
-      tags: 
-        -  "Scratchcards"
+      security: []
+      tags:
+      - Scratchcards
       summary: GET FIRST UNUSED SCRATCHCARD
-      $ref: './llamadas/scratchcards/get_first_unused.yaml'
+      description: Get first unused scratchcard.
+      operationId: getFirstUnused
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FUScrObject'
+        required: false
+      responses:
+        '200':
+          $ref: './llamadas/scratchcards/get_first_unused.yaml#/200'
+        '400':
+          $ref: './llamadas/scratchcards/get_first_unused.yaml#/400'
 
 
   /api/v1/scratchcards/isused:
     post:
-      tags: 
-        -  "Scratchcards"
+      security: []
+      tags:
+      - Scratchcards
       summary: IS USED SCRATCHCARD
-      $ref: './llamadas/scratchcards/isued.yaml'
+      operationId: isused
+      description: Get the status of a known scratchcard.
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/IUScrObject'
+        required: true
+      responses:
+        '200':
+          $ref: './llamadas/scratchcards/isued.yaml#/200'
+        '400':
+          $ref: './llamadas/scratchcards/isued.yaml#/400'
+        '500':
+          $ref: './llamadas/scratchcards/isued.yaml#/500'
 
      
   /api/v1/scratchcards/revoke:
     post:
-      tags: 
-        -  "Scratchcards"
+      security: []
+      tags:
+      - Scratchcards
+      operationId: revokeScratchcard
       summary: REVOKE SCRATCHCARD
-      $ref: './llamadas/scratchcards/revoke.yaml'
+      description: "Revoke, suspend or activate certificates associated to the request\
+        \ that use the specified scratchcard."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/REVScrObject'
+        required: false
+      responses:
+        '200':
+          $ref: './llamadas/scratchcards/revoke.yaml#/200'
+        '400':
+          $ref: './llamadas/scratchcards/revoke.yaml#/400'
+        '412':
+          $ref: './llamadas/scratchcards/revoke.yaml#/412'
+        '500':
+          $ref: './llamadas/scratchcards/revoke.yaml#/500'
 
 
   /api/v1/scratchcards/whoami:
     post:
-      tags: 
-        -  "Scratchcards"
+      security: []
+      tags:
+      - Scratchcards
       summary: WHOAMI
-      $ref: './llamadas/scratchcards/whoami.yaml'
+      operationId: whoami
+      description: Get the request associated to the scratchcard.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WhoScrObject'
+        required: false
+      responses:
+        '200':
+          $ref: './llamadas/scratchcards/whoami.yaml#/200'
+        '400':
+          $ref: './llamadas/scratchcards/whoami.yaml#/400'
+        '412':
+          $ref: './llamadas/scratchcards/whoami.yaml#/412'
 
       
   /api/v1/scratchcards/move:
     post:
-      tags: 
-        - "Scratchcards"
+      security: []
+      tags:
+      - Scratchcards
       summary: MOVE SCRATCHCARDS
-      $ref: './llamadas/scratchcards/move.yaml'
+      operationId: move
+      description: Move scratchcards from an ra to another one.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MoveScrObject'
+        required: false
+      responses:
+        '200':
+          $ref: './llamadas/scratchcards/move.yaml#/200'
+        '403':
+          $ref: './llamadas/scratchcards/move.yaml#/403'
+        '500':
+          $ref: './llamadas/scratchcards/move.yaml#/500'
+
+
+
+
 
 
      
   /api/v1/registrationauthorities:
     get:
-      tags: 
-        -  "Registration Authority"
+      security: []
+      tags:
+       - Registration Authority
       summary: LIST RAs
-      $ref: './llamadas/RA/list.yaml'
+      operationId: listRA
+      description: Get the list of registration authorities
+      responses:
+        200:
+          $ref: './llamadas/RA/list-responses.yaml'
 
     post:
-      tags: 
-        -  "Registration Authority"
+      security: []
+      tags:
+      - Registration Authority
       summary: CREATE RA
-      $ref: './llamadas/RA/create.yaml'
-
+      operationId: create
+      description: Create a new registration authority.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/UpdateRAObject'
+        required: false
+      responses:
+        '200':
+          $ref: './llamadas/RA/create-responses.yaml#/200'
+        '400':
+          $ref: './llamadas/RA/create-responses.yaml#/400'
+        '500':
+          $ref: './llamadas/RA/create-responses.yaml#/500'
     
+
   /api/v1/registrationauthorities/{id}:
     get:
-      tags: 
-        -  "Registration Authority"
+      security: []
+      tags:
+        - Registration Authority
       summary: GET RA
-      $ref: './llamadas/RA/get.yaml'
+      operationId: getRA
+      description: Gets data from a specific RA.
+      parameters:
+        - name: id
+          in: path
+          description: The id of the registration authority
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: './llamadas/RA/get-responses.yaml#/200'
+        '500':
+          $ref: './llamadas/RA/get-responses.yaml#/500'
     
     put:
-      tags: 
-        -  "Registration Authority"
+      security: []
+      tags:
+      - Registration Authority
       summary: UPDATE RA
-      $ref: './llamadas/RA/put.yaml'
+      operationId: updateRA
+      description: Update the info about a registration authority.
+      parameters:
+      - name: id
+        in: path
+        description: The id of the registration authority
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/UpdateRAObject'
+        required: false
+      responses:
+        '200':
+          $ref: './llamadas/RA/put-responses.yaml#/200'
+        '400':
+          $ref: './llamadas/RA/put-responses.yaml#/400'
+        '500':
+          $ref: './llamadas/RA/put-responses.yaml#/500'
+
 
     
+
+
 
   /api/v1/rao:
     get:
-      tags: 
-        -  "Registration Authority Officer"
+      security: []
+      tags:
+      - Registration Authority Officer
       summary: LIST RAOs
-      $ref: './llamadas/RAO/list.yaml'
+      operationId: listRAO
+      description: "Get the list of RAOs. The result can be filtered with the following\
+        \ query parameters: given_name, surname_1, surname_2, certificate, registration_authority,\
+        \ registration_authority_master"
+      parameters:
+        - $ref: './llamadas/RAO/list-parameters.yaml#/0'
+        - $ref: './llamadas/RAO/list-parameters.yaml#/1'
+        - $ref: './llamadas/RAO/list-parameters.yaml#/2'
+      responses:
+        200:
+          $ref: './llamadas/RAO/list-responses.yaml'
 
     post:
-      tags: 
-        -  "Registration Authority Officer"
+      security: []
+      tags:
+      - Registration Authority Officer
       summary: CREATE RAO
-      $ref: './llamadas/RAO/create.yaml'
+      operationId: createRAO
+      description: Create a new registration authority officer.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRAOObject'
+        required: false
+      responses:
+        '200':
+          $ref: './llamadas/RAO/create-responses.yaml#/200'
+        '400':
+          $ref: './llamadas/RAO/create-responses.yaml#/400'
+        '500':
+          $ref: './llamadas/RAO/create-responses.yaml#/500'
 
      
   /api/v1/rao/{id}:
     get:
-      tags: 
-        -  "Registration Authority Officer"
+      security: []
+      tags:
+      - Registration Authority Officer
       summary: GET RAO
-      $ref: './llamadas/RAO/get.yaml'
+      operationId: getRAO
+      description: Get information about a RAO.
+      parameters:
+      - name: id
+        in: path
+        description: The RAO's unique identifier
+        required: true
+        schema:
+          type: string
+      responses: 
+        '200':
+          $ref: './llamadas/RAO/get-responses.yaml#/200'
+        '500':
+          $ref: './llamadas/RAO/get-responses.yaml#/500'
 
     put:
-      tags: 
-        -  "Registration Authority Officer"
+      security: []
+      tags:
+      - Registration Authority Officer
       summary: UPDATE RAO
-      $ref: './llamadas/RAO/update.yaml'
+      operationId: updateRAO
+      description: Update information about a RAO.
+      parameters:
+      - name: id
+        in: path
+        description: The RAO's unique identifier
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRAOObject'
+        required: false
+      responses:
+        '200':
+          $ref: './llamadas/RAO/update-responses.yaml#/200'
+        '400':
+          $ref: './llamadas/RAO/update-responses.yaml#/400'
+        '500':
+          $ref: './llamadas/RAO/update-responses.yaml#/500'
 
 
-      
+
+          
+
+          
   /api/v1/users:
     get:
-      tags: 
-        -  "Users"
+      security: []
+      tags:
+      - Users
       summary: LIST USERS
-      $ref: './llamadas/Users/list.yaml'
+      operationId: listUsers
+      description: Gets the list of users.
+      responses:
+        '200':
+          $ref: './llamadas/Users/list-responses.yaml'
 
     post:
-      tags: 
-        -  "Users"
+      security: []
+      tags:
+      - Users
       summary: CREATE USER
-      $ref: './llamadas/Users/create.yaml'
-
+      operationId: createUsers
+      description: Create a new user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserObject'
+        required: false
+      responses:
+        '200':
+          $ref: './llamadas/Users/create-responses.yaml#/200'
+        '400':
+          $ref: './llamadas/Users/create-responses.yaml#/400'
+        '500':
+          $ref: './llamadas/Users/create-responses.yaml#/500'
+        
 
   /api/v1/users/{id}:
     get:
-      tags: 
-        -  "Users"
+      security: []
+      tags:
+      - Users
       summary: GET USER
-      $ref: './llamadas/Users/get.yaml'
+      operationId: getUser
+      description: Get information about an user.
+      parameters:
+      - name: id
+        in: path
+        description: The User's unique identifier
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: './llamadas/Users/get-responses.yaml#/200'
+        '500':
+          $ref: './llamadas/Users/get-responses.yaml#/500'
 
     put:
-      tags: 
-        -  "Users"
+      security: []
+      tags:
+      - Users
       summary: UPDATE USER
-      $ref: './llamadas/Users/update.yaml'
+      operationId: updateUser
+      description: Update a new user.
+      parameters:
+      - name: id
+        in: path
+        description: The User's unique identifier
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserObject'
+        required: false
+      responses:
+        '200':
+          $ref: './llamadas/Users/update-responses.yaml#/200'
+        '400':
+          $ref: './llamadas/Users/update-responses.yaml#/400'
+        '500':
+          $ref: './llamadas/Users/update-responses.yaml#/500'
+      
 
 
 
       
+
   /api/v1/requests/{id_request}/upload_videoid_evidence:
     post:
-      tags: 
-        -  "eIDAS VideoID"
+      security: []
+      tags:
+      - eIDAS VideoID
+      operationId: uploadDocumentVideoID
       summary: UPLOAD DOCUMENT
-      $ref: './llamadas/eIDASVideo/upload.yaml'
-
+      description: Upload the required documentation for certificate issuance.
+      parameters:
+        - $ref: './llamadas/eIDASVideo/upload-request.yaml#/parameters/0'
+      requestBody:
+        $ref: './llamadas/eIDASVideo/upload-request.yaml#/requestBody'
+      responses:
+        '201':
+          $ref: './llamadas/eIDASVideo/upload-request.yaml#/responses/201'
 
       
+
+
+
 
   /api/v1/requests/{id_request}/validate_videoid:
     post:
-      tags: 
-        -  "External VideoID"
+      security: []
+      tags:
+      - External VideoID
       summary: VALIDATE VIDEO ID REQUEST
-      $ref: './llamadas/ExternalVideo/validate.yaml'
+      operationId: externalVideoID
+      description: Validation of a Video ID Request
+      parameters:
+      - name: id_request
+        in: path
+        description: The Request unique identifier
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidateReqObject_VID'
+        required: false
+      responses:
+        '200':
+          $ref: './llamadas/ExternalVideo/validate-responses.yaml#/200'
+        '400':
+          $ref: './llamadas/ExternalVideo/validate-responses.yaml#/400'  
+        '412':
+          $ref: './llamadas/ExternalVideo/validate-responses.yaml#/412'
+        '500':
+          $ref: './llamadas/ExternalVideo/validate-responses.yaml#/500'
 
-     
+          
   /api/v1/requests/{id_request}/refuse_videoid:
     post:
-      tags: 
-        -  "External VideoID"
+      security: []
+      tags:
+      - External VideoID
       summary: REFUSE REQUEST
-      $ref: './llamadas/ExternalVideo/refuse.yaml'
+      operationId: refuse
+      description: Refuse validation for a Video ID Request
+      parameters:
+      - name: id_request
+        in: path
+        description: The Request unique identifier
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidateReqObject_VID'
+        required: false
+      responses:
+        '200':
+          $ref: './llamadas/ExternalVideo/refuse-responses.yaml#/200'
+        '400':
+          $ref: './llamadas/ExternalVideo/refuse-responses.yaml#/400'  
+        '412':
+          $ref: './llamadas/ExternalVideo/refuse-responses.yaml#/412'
+        '500':
+          $ref: './llamadas/ExternalVideo/refuse-responses.yaml#/500'
 
      
   /api/v1/videoid/{video_pk}:
     put:
-      tags: 
-        -  "External VideoID"
+      security: []
+      tags:
+      - External VideoID
       summary: UPLOAD DATA EVIDENCE
-      $ref: './llamadas/ExternalVideo/upload.yaml'
+      operationId: uploadData
+      description: Upload Request associated data
+      parameters:
+        $ref: './llamadas/ExternalVideo/upload-parameters.yaml'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UploadData_VID'
+        required: false
+      responses:
+        "200":
+          description: Successful Response
+          content: {}
 
      
-  /v1/upload/video/{video_identifier}:
+  /api/v1/upload/video/{video_identifier}:
     post:
-      tags: 
-        -  "External VideoID"
+      security: []
+      tags:
+        - External VideoID
       summary: UPLOAD VIDEO
-      $ref: './llamadas/ExternalVideo/upload_video.yaml'
+      operationId: uploadVideo
+      description: Upload Request associated video
+      parameters:
+        - $ref: './llamadas/ExternalVideo/upload-video.yaml#/parameters/0'
+      requestBody:
+        $ref: './llamadas/ExternalVideo/upload-video.yaml#/requestBody'
+      responses:
+        '200':
+          $ref: './llamadas/ExternalVideo/upload-video.yaml#/responses/200'
+        '400':
+          $ref: './llamadas/ExternalVideo/upload-video.yaml#/responses/400'
 
     
   /api/v1/download/video/{video_identifier}:
     get:
-      tags: 
-        -  "External VideoID"
+      security: []
+      tags:
+      - External VideoID
       summary: DOWNLOAD VIDEO
-      $ref: './llamadas/ExternalVideo/download.yaml'
+      operationId: downloadVideo
+      description: Download mp4-format binary video file associated to a Request
+      parameters:
+      - name: video_identifier
+        in: path
+        description: The Request unique identifier
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful Response
+          content: {}
 
       
 components:
@@ -461,7 +1164,7 @@ components:
         webhook_url:
           type: string
           description: "The webhook associated URL. </br> <blockquote style='background-color:\
-            \ #faf3ac; border-color: #5a5a5a; color: #3b3b3b;'><b>⚠ Not required for\
+            \ #faf3ac; border-color: #5a5a5a; color: #3b3b3b;'><b>? Not required for\
             \ external authentication. See <a href='#section/Webhook-Configuration'>Webhook\
             \ Configuration</a> section</b></blockquote>"
     UpdateReqObject:
@@ -772,12 +1475,12 @@ components:
           type: string
           description: "The source RA id that will give the scratchcards </br> <blockquote\
             \ style=\"background-color: #faf3ac; border-color: #5a5a5a; color: #3b3b3b;\"\
-            ><b>⚠ If from_ra/to_ra is used, from_sn/to_sn cannot be used</b></blockquote>"
+            ><b>? If from_ra/to_ra is used, from_sn/to_sn cannot be used</b></blockquote>"
         to_ra:
           type: string
           description: "The destination RA id that will receive the scratchcards </br>\
             \ <blockquote style=\"background-color: #faf3ac; border-color: #5a5a5a;\
-            \ color: #3b3b3b;\"><b>⚠ If from_ra/to_ra is used, from_sn/to_sn cannot\
+            \ color: #3b3b3b;\"><b>? If from_ra/to_ra is used, from_sn/to_sn cannot\
             \ be used</b></blockquote>"
         amount:
           type: string
@@ -785,12 +1488,12 @@ components:
         from_sn:
           type: string
           description: "The scratchcard starting id </br> <blockquote style=\"background-color:\
-            \ #faf3ac; border-color: #5a5a5a; color: #3b3b3b;\"><b>⚠ If from_sn/to_sn\
+            \ #faf3ac; border-color: #5a5a5a; color: #3b3b3b;\"><b>? If from_sn/to_sn\
             \ is used, from_ra/to_ra cannot be used</b></blockquote>"
         to_sn:
           type: string
           description: "The scratchcard ending id </br> <blockquote style=\"background-color:\
-            \ #faf3ac; border-color: #5a5a5a; color: #3b3b3b;\"><b>⚠ If from_sn/to_sn\
+            \ #faf3ac; border-color: #5a5a5a; color: #3b3b3b;\"><b>? If from_sn/to_sn\
             \ is used, from_ra/to_ra cannot be used</b></blockquote>"
     IsRenScrObject:
       type: object
@@ -1124,7 +1827,7 @@ components:
               type: string
               description: Terms and conditions document URL
           description: "A set of acceptance parameters. </br> <blockquote style='background-color:\
-            \ #faf3ac; border-color: #5a5a5a; color: #3b3b3b;'><b>⚠ Customizable object\
+            \ #faf3ac; border-color: #5a5a5a; color: #3b3b3b;'><b>? Customizable object\
             \ for external authentication.</b></blockquote>"
         videoid_data:
           type: object
@@ -1184,7 +1887,7 @@ components:
                   description: The user's id document country two-letters code (ISO
                     3166-1 alpha-2)
               description: "Optical Character Recognition result <blockquote style='background-color:\
-                \ #faf3ac; border-color: #5a5a5a; color: #3b3b3b;'><b>⚠ Customizable\
+                \ #faf3ac; border-color: #5a5a5a; color: #3b3b3b;'><b>? Customizable\
                 \ object for external authentication.</b></blockquote>"
             security_checks:
               type: object
@@ -1212,22 +1915,11 @@ components:
                   description: The user is real check
               description: "Security checks related to document integrity <blockquote\
                 \ style='background-color: #faf3ac; border-color: #5a5a5a; color:\
-                \ #3b3b3b;'><b>⚠ Customizable object for external authentication.</b></blockquote>"
+                \ #3b3b3b;'><b>? Customizable object for external authentication.</b></blockquote>"
             similarity_level:
               type: integer
               description: "Level of similarity between document picture and face\
                 \ selfie. Ranges in [0,100]."
           description: "Data to upload for Video ID <blockquote style='background-color:\
-            \ #faf3ac; border-color: #5a5a5a; color: #3b3b3b;'><b>⚠ Customizable object\
+            \ #faf3ac; border-color: #5a5a5a; color: #3b3b3b;'><b>? Customizable object\
             \ for external authentication.</b></blockquote>"
-x-tagGroups:
-- name: API Reference
-  tags:
-  - Registration Authority
-  - Registration Authority Officer
-  - Users
-  - Scratchcards
-  - Requests
-  - eIDAS VideoID
-  - External VideoID
-x-original-swagger-version: "2.0"
