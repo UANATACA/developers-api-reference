@@ -1,10 +1,3 @@
-security: []
-tags:
-- Requests
-summary: GET PRE-AUTHENTICATION LINK
-operationId: preAuthentication
-description: Get the pre-authenticated link to start the online certificate
-  generation process for a specific request.
 parameters:
 - name: id
   in: path

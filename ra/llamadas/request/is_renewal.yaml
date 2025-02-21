@@ -1,15 +1,3 @@
-security: []
-tags:
-- Requests
-summary: IS RENEWABLE
-operationId: isRenewal
-description: Find out about whether a request is renewable or not.
-requestBody:
-  content:
-    application/json:
-      schema:
-        $ref: '../../ra.yaml#/components/schemas/IsRenScrObject'
-  required: false
 responses:
   "200":
     description: Successful Response

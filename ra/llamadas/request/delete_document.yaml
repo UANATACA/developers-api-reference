@@ -1,9 +1,3 @@
-security: []
-tags:
-- Requests
-summary: DELETE DOCUMENT
-operationId: deleteDocument
-description: Delete an identification document previously uploaded.
 parameters:
 - name: id
   in: path

@@ -1,0 +1,191 @@
+description: Successful Response
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        count:
+          type: string
+          description: The number of existing requests
+        next:
+          type: string
+          description: The list next page endpoint
+        previous:
+          type: string
+          description: The list previous page endpoint
+        results:
+          type: object
+          properties: {}
+          description: A JSON object with full information related to each
+            listed request
+    example:
+      count: 87
+      next: https://access.bit4id.org:13035/api/v1/requests/?page=2
+      previous: "null"
+      results:
+        pk: 36876
+        given_name: Name
+        surname_1: Surname1
+        surname_2: Surname2
+        sex: null
+        id_document_type: IDC
+        id_document_country: ES
+        serial_number: Y3646957E
+        country_name: ES
+        citizenship: null
+        residence: ES
+        organization_email: null
+        email: mail@domain
+        title: null
+        organization_name: null
+        organizational_unit_1: null
+        organizational_unit_2: null
+        organization_identifier: null
+        responsible_name: null
+        responsible_first_surname: null
+        responsible_second_surname: null
+        responsible_email: null
+        responsible_serial: null
+        responsible_position: null
+        subscriber_responsible_serial: null
+        administrative_unit: null
+        empowerment: null
+        representation: null
+        circumstances: null
+        limit: null
+        registration: null
+        process_application: null
+        entity_owner: null
+        entity_owner_serial_number: null
+        description: null
+        certificate_set:
+        - profile: PFSoftAF
+          status: 2
+          valid_from: 2021-03-17T11:42:00Z
+          valid_to: 2023-03-17T11:42:00Z
+          valid: REVOKED
+          revokation_reason: 0
+          serial_number: 28a70ba50632ba07
+          subject: "CN=Name Surname1 Surname2, 2.5.4.5=IDCES-Y3646957E,\
+            \ 2.5.4.42=Name, 2.5.4.4=Surname1 Surname2, C=ES"
+          data: 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
+          issuer: "2.5.4.97=VATES-A66721499, CN=UANATACA CA1 DEVEL 2016,\
+            \ OU=AC-UANATACA, O=UANATACA S.A., L=Barcelona (see current\
+            \ address at www.uanataca.com/address), C=ES"
+        profile: PFSoftAFCiudadano
+        scratchcard: "5053616"
+        status: ISSUED
+        registering_user:
+          pk: 578
+          permission_profile: 1
+          registration_authority: 303
+          request: 25935
+        approving_user:
+          pk: 578
+          permission_profile: 1
+          registration_authority: 303
+          request: 25935
+        producing_user:
+          pk: 1
+          permission_profile: 1
+          registration_authority: 1
+          request: 1
+        registration_authority: 303
+        secure_element: 0
+        validity_time: "730"
+        smartcard_sn: null
+        citizen_tax_number: ""
+        birth_date: null
+        birth_country: null
+        birth_city: ""
+        birth_province: ""
+        birth_state: ""
+        birth_district: ""
+        birth_canton: ""
+        id_document_description: ""
+        id_document_issuer: ""
+        organization_rol: null
+        professional_id_number: null
+        mobile_phone_number: "+34999999999"
+        fix_phone_number: ""
+        residence_address: ""
+        residence_city: ""
+        residence_province: ""
+        residence_postal_code: ""
+        residence_state: ""
+        residence_district: ""
+        residence_canton: ""
+        organization_tax_number: null
+        organization_address: null
+        organization_city: null
+        organization_province: null
+        organization_country: null
+        organization_postal_code: null
+        organization_state: null
+        organization_url: null
+        responsible_legal_level: null
+        subscriber: null
+        responsible_legal_documents: null
+        special_conditions: null
+        responsible_registry_data: null
+        approving_rao:
+          pk: 1400
+          given_name: RAO_Name
+          surname_1: RAO_Surname1
+          surname_2: RAO_Surname2
+          certificate:
+            profile: PFnubeNC
+            status: 0
+            valid_from: 2020-12-01T14:52:00Z
+            valid_to: 2022-12-01T14:52:00Z
+            valid: VALID
+            revokation_reason: null
+            serial_number: 28a70ba50632ba07
+            subject: "CN=RAO_Name RAO_Surname1 RAO_Surname2, 2.5.4.5=IDCES-Y3646957E,\
+              \ 2.5.4.42=RAO_Name, 2.5.4.4=RAO_Surname1 RAO_Surname2, OU=RAO_Name\
+              \ RAO_Surname1 DPR:www.uanataca.com, C=ES"
+            data: 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
+            issuer: "2.5.4.97=VATES-A66721499, CN=UANATACA CA1 DEVEL 2016,\
+              \ OU=AC-UANATACA, O=UANATACA S.A., L=Barcelona (see current\
+              \ address at www.uanataca.com/address), C=ES"
+          id_document_number: A1111111X
+          id_document_description: ""
+          id_document_issuer: ""
+          registration_authority: []
+          registration_authority_master: 327
+        producing_rao:
+          pk: 1400
+          given_name: RAO_Name
+          surname_1: RAO_Surname1
+          surname_2: RAO_Surname2
+          certificate:
+            profile: PFnubeNC
+            status: 0
+            valid_from: 2020-12-01T14:52:00Z
+            valid_to: 2022-12-01T14:52:00Z
+            valid: VALID
+            revokation_reason: null
+            serial_number: 28a70ba50632ba07
+            subject: "CN=RAO_Name RAO_Surname1 RAO_Surname2, 2.5.4.5=IDCES-Y3646957E,\
+              \ 2.5.4.42=RAO_Name, 2.5.4.4=RAO_Surname1 RAO_Surname2, OU=RAO_Name\
+              \ RAO_Surname1 DPR:www.uanataca.com, C=ES"
+            data: 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
+            issuer: "2.5.4.97=VATES-A66721499, CN=UANATACA CA1 DEVEL 2016,\
+              \ OU=AC-UANATACA, O=UANATACA S.A., L=Barcelona (see current\
+              \ address at www.uanataca.com/address), C=ES"
+          id_document_number: A1111111X
+          id_document_description: ""
+          id_document_issuer: ""
+          registration_authority: []
+          registration_authority_master: 327
+        id_document_number: ""
+        id_responsible_document_type: null
+        id_responsible_document_country: null
+        id_responsible_document_number: null
+        organizational_unit_3: null
+        paperless_mode: true
+        ext_recognition_data: ""
+        complement_number: null
+        id_responsible_document_issuer: null
+        provider_registration_number: null
+        communication_language: es

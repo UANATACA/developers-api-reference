@@ -1,84 +1,62 @@
-security: []
-tags:
-- Requests
-summary: GENERATE RAO DECLARATION
-operationId: postRequest 
-description: "Generates a declaration related to a request that must be signed\
-  \ by a RAO.<br> The receipt is signed in the <HTML><a href='#tag/Requests/paths/~1api~1v1~1requests~1{id}~1pl_approve/post'>Approve\
-  \ Request</a></HTML> call."
-parameters:
-- name: id
-  in: path
-  description: The unique identifier of the Request
-  required: true
-  schema:
-    type: string
-requestBody:
+"200":
+  description: Successful Response
   content:
     application/json:
       schema:
-        $ref: '../../ra.yaml#/components/schemas/TBSObject'
-  required: false
-responses:
-  "200":
-    description: Successful Response
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            serial_number:
-              type: string
-              description: The receipt serial number
-            receipt:
-              type: string
-              description: The receipt content
-        example:
-          serial_number: 3ef3696d2939241d
-          receipt: "El operador RAO_Name RAO_Surname1 con número de identificació\
-            n 12345678P\r\nactuando en calidad de operador autorizado de registro\
-            \ del prestador de servicios\r\nde confianza UANATACA, S.A. con\
-            \ NIF A66721499, (UANATACA en lo sucesivo)\r\n\r\nDECLARA\r\n\r\n\
-            Que previa verificación de acuerdo a la Declaración de Prácticas\
-            \ de UANATACA\r\npublicadas en www.uanataca.com, la información\
-            \ detallada a continuación es\r\ncorrecta y será incluida (donde\
-            \ aplicable) en la solicitud de certificados\r\ncualificados:\r\n\
-            \r\n- Datos de Identificación de la solicitud de certificados: 36893\r\
-            \n- Nombre y Apellidos del Firmante: Name Surname1 Surname2\r\n\
-            - DNI/NIE/PASAPORTE del Firmante: 11111111B\r\n- Dirección de correo\
-            \ electrónico del Firmante: mail@domain.com\r\n\r\n\r\n18/03/2021\r\
-            \n\r\n\r\n\r\n--------------------------------------------------------------------\r\
-            \nFdo. User Admin\r\nOperador autorizado de registro"
-  "400":
-    description: Bad Request
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            detail:
-              type: string
-              description: JSON syntax error description
-        example:
-          detail: "JSON parse error - Expecting ',' delimiter: line 3 column\
-            \ 2 (char 30)"
-  "404":
-    description: Invalid request id
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            code:
-              type: string
-              description: The response status code
-            id:
-              type: string
-              description: The response status id
-            error:
-              type: string
-              description: The response status message
-        example:
-          code: "400"
-          id: b78952287417c96f
-          error: No Request matches the given query.
+        type: object
+        properties:
+          serial_number:
+            type: string
+            description: The receipt serial number
+          receipt:
+            type: string
+            description: The receipt content
+      example:
+        serial_number: 3ef3696d2939241d
+        receipt: "El operador RAO_Name RAO_Surname1 con número de identificació\
+          n 12345678P\r\nactuando en calidad de operador autorizado de registro\
+          \ del prestador de servicios\r\nde confianza UANATACA, S.A. con\
+          \ NIF A66721499, (UANATACA en lo sucesivo)\r\n\r\nDECLARA\r\n\r\n\
+          Que previa verificación de acuerdo a la Declaración de Prácticas\
+          \ de UANATACA\r\npublicadas en www.uanataca.com, la información\
+          \ detallada a continuación es\r\ncorrecta y será incluida (donde\
+          \ aplicable) en la solicitud de certificados\r\ncualificados:\r\n\
+          \r\n- Datos de Identificación de la solicitud de certificados: 36893\r\
+          \n- Nombre y Apellidos del Firmante: Name Surname1 Surname2\r\n\
+          - DNI/NIE/PASAPORTE del Firmante: 11111111B\r\n- Dirección de correo\
+          \ electrónico del Firmante: mail@domain.com\r\n\r\n\r\n18/03/2021\r\
+          \n\r\n\r\n\r\n--------------------------------------------------------------------\r\
+          \nFdo. User Admin\r\nOperador autorizado de registro"
+"400":
+  description: Bad Request
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          detail:
+            type: string
+            description: JSON syntax error description
+      example:
+        detail: "JSON parse error - Expecting ',' delimiter: line 3 column\
+          \ 2 (char 30)"
+"404":
+  description: Invalid request id
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          code:
+            type: string
+            description: The response status code
+          id:
+            type: string
+            description: The response status id
+          error:
+            type: string
+            description: The response status message
+      example:
+        code: "400"
+        id: b78952287417c96f
+        error: No Request matches the given query.

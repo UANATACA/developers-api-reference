@@ -1,9 +1,3 @@
-security: []
-tags:
-- External VideoID
-summary: UPLOAD VIDEO
-operationId: uploadVideo
-description: Upload Request associated video
 parameters:
 - name: video_identifier
   in: path
@@ -11,18 +5,21 @@ parameters:
   required: true
   schema:
     type: string
+
 requestBody:
   content:
     multipart/form-data:
       schema:
         required:
-        - video
+          - video
         type: object
         properties:
           video:
             type: string
+            format: binary 
             description: The video to be uploaded
   required: true
+
 responses:
   "200":
     description: Successful Response
@@ -36,6 +33,7 @@ responses:
               description: Successful response status message
         example:
           status: 200 OK
+
   "400":
     description: Bad Request | Invalid Request id
     content:
@@ -48,7 +46,7 @@ responses:
               description: Error message title
             description:
               type: string
-              description: Error message descritpion
+              description: Error message description
         example:
           title: Upload Video Error
           description: No video file provided

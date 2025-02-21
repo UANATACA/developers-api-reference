@@ -1,30 +1,16 @@
-"200":
+'200':
   description: Successful Response
   content:
     application/json:
       schema:
         type: object
         properties:
-          document:
+          status:
             type: string
-            description: The document ready for PDF conversion
+            description: The successful cancellation status message
       example:
-        document: "%PDF-1.4\n%���� ReportLab Generated PDF document http://www.reportlab.com\n\
-          1 0 obj\n<<\n/F1 2 0 R\n>>\nendobj\n2 0 obj\n<<\n/Bas (...) "
-"400":
-  description: Bad Request
-  content:
-    application/json:
-      schema:
-        type: object
-        properties:
-          detail:
-            type: string
-            description: JSON syntax error description
-      example:
-        detail: "JSON parse error - Expecting ',' delimiter: line 3 column\
-          \ 2 (char 30)"
-"404":
+        status: Request cancelled
+'404':
   description: Invalid request id
   content:
     application/json:
@@ -42,5 +28,25 @@
             description: The response status message
       example:
         code: "400"
-        id: b78952287417c96f
+        id: cbdd2e84c0e7f107
         error: No Request matches the given query.
+'412':
+  description: Already approved/cancelled request id
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          code:
+            type: string
+            description: The response status code
+          id:
+            type: string
+            description: The response status id
+          error:
+            type: string
+            description: The response status message
+      example:
+        code: "412"
+        id: 478492eec17596d3
+        error: Invalid request status

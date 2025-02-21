@@ -1,9 +1,3 @@
-security: []
-tags:
-- Requests
-summary: GET A DOCUMENT
-operationId: getDocument
-description: Retrieves a request's associated document in Base64 format.
 parameters:
 - name: id
   in: path

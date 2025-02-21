@@ -1,9 +1,3 @@
-security: []
-tags:
-- Requests
-summary: ENABLE RENEWAL
-operationId: enableRequest
-description: Activates the renewal option for a certificate
 parameters:
 - name: id
   in: path

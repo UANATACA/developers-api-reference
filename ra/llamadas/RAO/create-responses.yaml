@@ -1,0 +1,105 @@
+"200":
+  description: Successful Response
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          pk:
+            type: number
+            description: The created RAO's unique id
+          given_name:
+            type: string
+            description: The created RAO's given name
+          surname_1:
+            type: number
+            description: The created RAO's first surname
+          surname_2:
+            type: string
+            description: The created RAO's second surname
+          certificate:
+            type: object
+            properties: {}
+            description: An object with information about the RAO's request
+              certificate
+          id_document_number:
+            type: string
+            description: The created RAO's id document number
+          id_document_description:
+            type: string
+            description: The created RAO's document description
+          id_document_issuer:
+            type: string
+            description: The created RAO's document issuer
+          registration_authority:
+            type: array
+            description: The created RAO's registration authorities where
+              he can operate
+            items:
+              type: number
+          registration_authority_master:
+            type: string
+            description: The created RAO's master registration authority id
+          id_identificator:
+            type: boolean
+      example:
+        pk: 1400
+        given_name: RAO_Name
+        surname_1: RAO_Surname1
+        surname_2: RAO_Surname2
+        certificate:
+          profile: EXTERNAL
+          status: 0
+          valid_from: 2020-01-01T16:31:00
+          valid_to: 2022-01-01T16:31:00
+          valid: UNKNOW
+          revokation_reason: null
+          serial_number: 4501b05b35da0b54
+          subject: "CN=RAO_Name RAO_Surname1 RAO_Surname2, 2.5.4.5=IDCES-12432143313213,\
+            \ 2.5.4.42=RAO_Name, 2.5.4.4=RAO_Surname1 RAO_Surname2, C=ES"
+          data: MIIHyzCCBbOgAwIBAgIIdWWgCtrot88wDQYJKoZIhvcNAQELBQAwgb0xCzAJBgNVBAYTAkVTMUQwQgYDVQQHDDtCYXJjZWxvbmEgKHNlZSBjdXJyZW50IGFkZHJlc3MgYXQgd3d3LnVhbmF0YWNhLmNvbS9hZGR...
+          issuer: "2.5.4.97=VATES-A66721499, CN=UANATACA CA1 DEVEL 2016, OU=AC-UANATACA,\
+            \ O=UANATACA S.A., L=Barcelona (see current address at www.uanataca.com/address),\
+            \ C=ES"
+        id_document_number: Y8888888E
+        id_document_description: null
+        id_document_issuer: null
+        registration_authority:
+        - 121
+        - 122
+        - 123
+        registration_authority_master: 1
+        is_identificator: false
+"400":
+  description: Bad Request
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          detail:
+            type: string
+            description: JSON syntax error
+      example:
+        detail: "JSON parse error - Expecting ',' delimiter: line 12 column\
+          \ 5 (char 361)"
+"500":
+  description: Invalid or missing parameters | Permission denied
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          code:
+            type: string
+            description: The response status code
+          id:
+            type: string
+            description: The response status id
+          error:
+            type: string
+            description: The response status message
+      example:
+        code: "500"
+        id: 572b9094bafb7cc3
+        error: You do not have permission to perform this action.

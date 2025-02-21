@@ -1,21 +1,36 @@
 "200":
-  description: Successful response
+  description: Successful Response
   content:
     application/json:
       schema:
         type: object
         properties:
-          status:
+          videoid_status:
             type: string
-            description: The response status code
-          message:
+            description: The request status (REFUSED)
+          reason:
             type: string
-            description: The response status message
+            description: The reason for refusal
+        description: A JSON object with full information about the created
+          request
       example:
-        status: success
-        message: Pin unlocked successfully
+        videoid_status: REFUSED
+        reason: testing the API
+"400":
+  description: Bad Request | Invalid Request id
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          detail:
+            type: string
+            description: JSON syntax error description
+      example:
+        detail: "JSON parse error - Expecting ',' delimiter: line 3 column\
+          \ 2 (char 30)"
 "412":
-  description: Invalid request id | parameters | invalid otp
+  description: Invalid Request status for validation
   content:
     application/json:
       schema:
@@ -32,10 +47,10 @@
             description: The response status message
       example:
         code: "412"
-        id: 64943e09cbd42ea7
-        error: Invalid Request
+        id: b49fee578381243a
+        error: Invalid request status
 "500":
-  description: JSON syntax error | Pin not locked
+  description: Invalid or missing parameters | Permission denied
   content:
     application/json:
       schema:
@@ -52,6 +67,5 @@
             description: The response status message
       example:
         code: "500"
-        id: 21484514a0d347f7
-        error: "JSON parse error - Expecting ',' delimiter: line 4 column\
-          \ 5 (char 75)"
+        id: 80a9e5709417bdc9
+        error: Invalid ScratchCard

@@ -1,0 +1,44 @@
+description: Successful Response
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        count:
+          type: number
+          description: The number of associated users
+        next:
+          type: string
+          description: The list next page endpoint
+        previous:
+          type: string
+          description: The list previous page endpoint
+        results:
+          type: array
+          items:
+            type: object
+            properties: {}
+            description: Array of JSON objects containing information about
+              users
+    example:
+      count: 7
+      next: https://api.uanataca.com/api/v1/users/?page=2
+      previous: null
+      results:
+      - pk: 221
+        permission_profile: 18
+        registration_authority: 1
+        request: 255
+      - pk: 222
+        permission_profile: 17
+        registration_authority: 1
+        request: 162
+      - pk: 245
+        permission_profile: 17
+        registration_authority: 2
+        request: 333
+      - pk: 251
+        permission_profile: 1
+        registration_authority: 2
+        request: 347
+      - '...'

@@ -1,81 +1,63 @@
-security: []
-tags:
-  - Scratchcards
-summary: LIST SCRATCHCARDS
-operationId: listScratchcards
-description: Gets the list of scratchcards
-parameters:
-  - name: registration_authority
-    in: query
-    description: Registration authority number
-    schema:
-      type: string
-  - name: sn
-    in: query
-    description: Number of scratchcard
-    schema:
-      type: string
-responses:
-  "200":
-    description: Successful Response
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            count:
-              type: string
-              description: The number of existing scratchcards
-            next:
-              type: string
-              description: The list next page endpoint
-            previous:
-              type: string
-              description: The list previous page endpoint
-            results:
-              type: array
-              items:
-                type: object
-                properties:
-                  pk:
-                    type: number
-                    description: The scratchcard database id
-                  sn:
-                    type: string
-                    description: The scratchcard serial number
-                  secrets:
-                    type: string
-                    description: The credentials associated with the scratchcard
-                  registration_authority:
-                    type: number
-                    description: The registration authority of the scratchcard
-                description: A list of JSON objects containing information about scratchcards
-        example:
-          count: "550"
-          next: "null"
-          previous: "null"
+"200":
+  description: Successful Response
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          count:
+            type: string
+            description: The number of existing scratchcards
+          next:
+            type: string
+            description: The list next page endpoint
+          previous:
+            type: string
+            description: The list previous page endpoint
           results:
-            - pk: 1021
-              sn: "1200946"
-              secrets: "{\"erc\": \"8207878566\", \"enrollment_code\": \"97Q6B,6W\", \"pin\": \"25936657\", \"puk\": \"25936657\"}"
-              registration_authority: 121
-            - pk: 1040
-              sn: "1200947"
-              secrets: "{\"erc\": \"6292998123\", \"enrollment_code\": \"_,463vt:\", \"pin\": \"08695572\", \"puk\": \"52351291\"}"
-              registration_authority: 121
-            - pk: 1045
-              sn: "1200948"
-              secrets: "{\"erc\": \"8117606937\", \"enrollment_code\": \",8cj6Ax2\", \"pin\": \"85376977\", \"puk\": \"86175206\"}"
-              registration_authority: 121
-  "400":
-    description: Bad Request
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            detail:
-              type: string
-              description: JSON syntax error
-        example:
-          detail: "JSON parse error - Expecting ',' delimiter: line 4 column 2 (char 53)"
+            type: array
+            items:
+              type: object
+              properties:
+                pk:
+                  type: number
+                  description: The scratchcard database id
+                sn:
+                  type: string
+                  description: The scratchcard serial number
+                secrets:
+                  type: string
+                  description: The credentials associated with the scratchcard
+                registration_authority:
+                  type: number
+                  description: The registration authority of the scratchcard
+              description: A list of JSON objects containing information about scratchcards
+      example:
+        count: "550"
+        next: "null"
+        previous: "null"
+        results:
+          - pk: 1021
+            sn: "1200946"
+            secrets: "{\"erc\": \"8207878566\", \"enrollment_code\": \"97Q6B,6W\", \"pin\": \"25936657\", \"puk\": \"25936657\"}"
+            registration_authority: 121
+          - pk: 1040
+            sn: "1200947"
+            secrets: "{\"erc\": \"6292998123\", \"enrollment_code\": \"_,463vt:\", \"pin\": \"08695572\", \"puk\": \"52351291\"}"
+            registration_authority: 121
+          - pk: 1045
+            sn: "1200948"
+            secrets: "{\"erc\": \"8117606937\", \"enrollment_code\": \",8cj6Ax2\", \"pin\": \"85376977\", \"puk\": \"86175206\"}"
+            registration_authority: 121
+"400":
+  description: Bad Request
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          detail:
+            type: string
+            description: JSON syntax error
+      example:
+        detail: "JSON parse error - Expecting ',' delimiter: line 4 column 2 (char 53)"

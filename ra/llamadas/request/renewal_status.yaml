@@ -1,9 +1,4 @@
 security: []
-tags:
-- Requests
-summary: GET RENEWAL STATUS
-operationId: renewalRequest
-description: Displays information about renewal status of a request
 parameters:
 - name: id
   in: path

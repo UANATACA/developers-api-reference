@@ -1,0 +1,6 @@
+- name: video_pk
+  in: path
+  description: The video request pk
+  required: true
+  schema:
+    type: string

@@ -1,9 +1,3 @@
-security: []
-tags:
-- eIDAS VideoID
-operationId: uploadDocumentVideoID
-summary: UPLOAD DOCUMENT
-description: Upload the required documentation for certificate issuance.
 parameters:
 - name: id_request
   in: path
@@ -11,6 +5,7 @@ parameters:
   required: true
   schema:
     type: string
+
 requestBody:
   content:
     multipart/form-data:
@@ -27,6 +22,7 @@ requestBody:
             type: string
             description: Label assigned to document
   required: true
+  
 responses:
   "201":
     description: Successful Response

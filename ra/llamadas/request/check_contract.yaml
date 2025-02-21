@@ -1,9 +1,3 @@
-security: []
-tags:
-- Requests
-operationId: check_contract
-summary: CHECK CONTACT DATA
-description: Checks if the given contact data is already in use.
 requestBody:
   content:
     '*/*':

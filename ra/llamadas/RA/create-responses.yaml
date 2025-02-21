@@ -1,0 +1,146 @@
+"200":
+  description: Successful Response
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          pk:
+            type: number
+            description: The created RA unique id
+          name:
+            type: string
+            description: The created RA name
+          parent:
+            type: number
+            description: The created RA's parent unique id
+          operators:
+            type: object
+            properties: {}
+            description: An object with information about operators belonging
+              the created RA (void)
+          enabled_from:
+            type: string
+            description: The date when the created RA is enabled from (the
+              format is YYYY-MM-DD)
+          enabled_until:
+            type: string
+            description: The date when the created RA will be no longer enabled
+              (the format is YYYY-MM-DD)
+          organization_tax_number:
+            type: string
+            description: The tax number of the organization
+          organization_name:
+            type: string
+            description: The organization name
+          responsible_name:
+            type: string
+            description: The created RA responsible name
+          responsible_first_surname:
+            type: string
+            description: The created RA responsible first surname
+          responsible_second_surname:
+            type: string
+            description: The created RA responsible second surname
+          responsible_serial:
+            type: string
+            description: The created RA responsible serial
+          email:
+            type: string
+            description: A valid email address
+          fix_phone_number:
+            type: string
+            description: A phone number
+          city:
+            type: string
+            description: The city where the created RA is located
+          postal_code:
+            type: string
+            description: The postal code of the city where the created RA
+              is located
+          province:
+            type: string
+            description: The province of the city where the created RA is
+              located
+          url:
+            type: string
+            description: A web url for the created RA
+          address:
+            type: string
+            description: The city address
+          state:
+            type: string
+            description: The state the city belongs to
+          country:
+            type: string
+            description: The country where the created RA is located
+          enable_external_auth:
+            type: boolean
+            description: VideoID external authentication mode enabling/disabling
+              check
+          videoid_enabled:
+            type: boolean
+            description: VideoID enabling/disabling check
+          videoid_provider:
+            type: integer
+            description: VideoID provider indicator
+      example:
+        pk: 121
+        name: RA Name
+        parent: 1
+        operators: []
+        enabled_from: 2020-07-20
+        enabled_until: 2025-07-20
+        organization_tax_number: "43242414213"
+        organization_name: Name_Org
+        responsible_name: Name_Resp
+        responsible_first_surname: Sur1_Resp
+        responsible_second_surname: Sur2_Resp
+        responsible_serial: X1111111C
+        email: mail@domain.com
+        fix_phone_number: "+34333333333"
+        mobile_phone_number: "+34555555555"
+        city: City Name
+        postal_code: "1000000"
+        province: Province_Name
+        url: http://www.organization.com
+        address: null
+        state: null
+        country: ES
+        enable_external_auth: false
+        videoid_enabled: true
+        videoid_provider: 2
+"400":
+  description: Bad Request
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          detail:
+            type: string
+            description: JSON syntax error
+      example:
+        detail: "JSON parse error - Expecting ',' delimiter: line 12 column\
+          \ 5 (char 361)"
+"500":
+  description: Invalid or missing parameters | Permission denied
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          code:
+            type: string
+            description: The response status code
+          id:
+            type: string
+            description: The response status id
+          error:
+            type: string
+            description: The response status message
+      example:
+        code: "500"
+        id: fcb7f0f60cba631b
+        error: "{'name': [u'Registration Authority with this RA Name already\
+          \ exists.']}"

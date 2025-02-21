@@ -5,12 +5,23 @@
       schema:
         type: object
         properties:
-          document:
+          pk:
+            type: number
+            description: The user id
+          permission_profile:
             type: string
-            description: The document ready for PDF conversion
+            description: The user permission profile id
+          registration_authority:
+            type: string
+            description: The user associated registration authority id
+          request:
+            type: string
+            description: The user associated request id
       example:
-        document: "%PDF-1.4\n%���� ReportLab Generated PDF document http://www.reportlab.com\n\
-          1 0 obj\n<<\n/F1 2 0 R\n>>\nendobj\n2 0 obj\n<<\n/Bas (...) "
+        pk: 221
+        permission_profile: 18
+        registration_authority: 1
+        request: 255
 "400":
   description: Bad Request
   content:
@@ -20,12 +31,12 @@
         properties:
           detail:
             type: string
-            description: JSON syntax error description
+            description: JSON parse error message
       example:
         detail: "JSON parse error - Expecting ',' delimiter: line 3 column\
-          \ 2 (char 30)"
-"404":
-  description: Invalid request id
+          \ 31 (char 69)"
+"500":
+  description: Invalid or missing parameters | Permission denied
   content:
     application/json:
       schema:
@@ -41,6 +52,6 @@
             type: string
             description: The response status message
       example:
-        code: "400"
-        id: b78952287417c96f
-        error: No Request matches the given query.
+        code: "500"
+        id: a278e41eebf8c505
+        error: You do not have permission to perform this action.

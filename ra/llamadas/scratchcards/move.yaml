@@ -1,65 +1,52 @@
-security: []
-tags:
-- Scratchcards
-summary: MOVE SCRATCHCARDS
-operationId: move
-description: Move scratchcards from an ra to another one.
-requestBody:
+"200":
+  description: Successful Response
   content:
     application/json:
       schema:
-        $ref: '../../ra.yaml#/components/schemas/MoveScrObject'
-  required: false
-responses:
-  "200":
-    description: Successful Response
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            moved:
-              type: number
-              description: The number of moved scratchcards
-            details:
-              type: string
-              description: An associated message (appears in case of any inconsistency)
-        example:
-          moved: 1000
-  "403":
-    description: Permission denied
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            moved:
-              type: number
-              description: The amount of moved scratchcards (0)
-            details:
-              type: string
-              description: An associated message (appears in case of any inconsistency)
-        example:
-          moved: 0
-          details: Permission Denied
-  "500":
-    description: Bad Request (JSON syntax error)
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            code:
-              type: string
-              description: The response status code
-            id:
-              type: string
-              description: The response status id
-            error:
-              type: string
-              description: The response status message
-        example:
-          code: "500"
-          id: 7907af27ea00b32e
-          error: "JSON parse error - Expecting ',' delimiter: line 4 column\
-            \ 2 (char 34)"
+        type: object
+        properties:
+          moved:
+            type: number
+            description: The number of moved scratchcards
+          details:
+            type: string
+            description: An associated message (appears in case of any inconsistency)
+      example:
+        moved: 1000
+"403":
+  description: Permission denied
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          moved:
+            type: number
+            description: The amount of moved scratchcards (0)
+          details:
+            type: string
+            description: An associated message (appears in case of any inconsistency)
+      example:
+        moved: 0
+        details: Permission Denied
+"500":
+  description: Bad Request (JSON syntax error)
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          code:
+            type: string
+            description: The response status code
+          id:
+            type: string
+            description: The response status id
+          error:
+            type: string
+            description: The response status message
+      example:
+        code: "500"
+        id: 7907af27ea00b32e
+        error: "JSON parse error - Expecting ',' delimiter: line 4 column\
+          \ 2 (char 34)"

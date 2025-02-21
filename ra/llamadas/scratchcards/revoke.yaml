@@ -1,124 +1,110 @@
-security: []
-tags:
-- Scratchcards
-operationId: revokeScratchcard
-summary: REVOKE SCRATCHCARD
-description: "Revoke, suspend or activate certificates associated to the request\
-  \ that use the specified scratchcard."
-requestBody:
+"200":
+  description: Successful Response
   content:
     application/json:
       schema:
-        $ref: '../../ra.yaml#/components/schemas/REVScrObject'
-  required: false
-responses:
-  "200":
-    description: Successful Response
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            data:
-              type: string
-              description: The certificate associated to the revoked scratchard
-            profile:
-              type: string
-              description: The certificate profile associated to the scratchcard
-            subject:
-              type: string
-              description: The certificate subject information
-            issuer:
-              type: string
-              description: The certificate issuer information
-            valid_from:
-              type: string
-              description: The date when the certificate was enabled from (the
-                format is YYYY-MM-DD)
-            valid_to:
-              type: string
-              description: The date when the certificate was no longer enabled
-                (the format is YYYY-MM-DD)
-            serial_number:
-              type: string
-              description: The serial number associated to the scratchcard
-            status:
-              type: string
-              description: The scratchcard status id
-            pk:
-              type: string
-              description: The request id associated to the scratchcard
-            revocation_reason:
-              type: string
-              description: The revocation reason id
-            type:
-              type: string
-              description: The revocation type
-        example:
-          data: MIIHyzCCBbOgAwIBAgIIdWWgCtrot88wDQYJKoZIhvcNAQELBQAwgb0xCzAJBgNVBAYTAkVTMUQwQgYDVQQHDDtCYXJjZWxvbmEgKHNlZSBjdXJyZW50IGFkZHJlc3MgYXQgd3d3LnVhbmF0YW...
-          profile: PFnubeAF
-          subject: "CN=Name Surname1 Surname2, 2.5.4.5=IDCIT-TSTAPI74S23C129Y,\
-            \ 2.5.4.42=Name, 2.5.4.4=Surname1 Surname2, C=ES"
-          issuer: "2.5.4.97=VATES-A66721499, CN=UANATACA CA1 DEVEL 2016, OU=AC-UANATACA,\
-            \ O=UANATACA S.A., L=Barcelona (see current address at www.uanataca.com/address),\
-            \ C=ES"
-          valid_from: 2019-01-22T16:42:00Z
-          valid_to: 2019-01-23T16:42:00Z
-          serial_number: 0b7687af3c8a833f
-          status: "2"
-          pk: "25139"
-          revocation_reason: "1"
-          type: FIRSTISSUE
-  "400":
-    description: Bad Request
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            detail:
-              type: string
-              description: JSON syntax error
-        example:
-          detail: "JSON parse error - Expecting ',' delimiter: line 3 column\
-            \ 2 (char 30)"
-  "412":
-    description: Invalid or missing parameters
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            code:
-              type: string
-              description: The response status code
-            id:
-              type: string
-              description: The response status id
-            error:
-              type: string
-              description: The response status message
-        example:
-          code: "418"
-          id: fef0a6c7023e67c6
-          error: Invalid paramiters
-  "500":
-    description: Invalid request id | Scratchcard has no associated request
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            code:
-              type: string
-              description: The response status code
-            id:
-              type: string
-              description: The response status id
-            error:
-              type: string
-              description: The response status message
-        example:
-          code: "500"
-          id: 168cfa712331f994
-          error: ScratchCard matching query does not exist.
+        type: object
+        properties:
+          data:
+            type: string
+            description: The certificate associated to the revoked scratchard
+          profile:
+            type: string
+            description: The certificate profile associated to the scratchcard
+          subject:
+            type: string
+            description: The certificate subject information
+          issuer:
+            type: string
+            description: The certificate issuer information
+          valid_from:
+            type: string
+            description: The date when the certificate was enabled from (the
+              format is YYYY-MM-DD)
+          valid_to:
+            type: string
+            description: The date when the certificate was no longer enabled
+              (the format is YYYY-MM-DD)
+          serial_number:
+            type: string
+            description: The serial number associated to the scratchcard
+          status:
+            type: string
+            description: The scratchcard status id
+          pk:
+            type: string
+            description: The request id associated to the scratchcard
+          revocation_reason:
+            type: string
+            description: The revocation reason id
+          type:
+            type: string
+            description: The revocation type
+      example:
+        data: MIIHyzCCBbOgAwIBAgIIdWWgCtrot88wDQYJKoZIhvcNAQELBQAwgb0xCzAJBgNVBAYTAkVTMUQwQgYDVQQHDDtCYXJjZWxvbmEgKHNlZSBjdXJyZW50IGFkZHJlc3MgYXQgd3d3LnVhbmF0YW...
+        profile: PFnubeAF
+        subject: "CN=Name Surname1 Surname2, 2.5.4.5=IDCIT-TSTAPI74S23C129Y,\
+          \ 2.5.4.42=Name, 2.5.4.4=Surname1 Surname2, C=ES"
+        issuer: "2.5.4.97=VATES-A66721499, CN=UANATACA CA1 DEVEL 2016, OU=AC-UANATACA,\
+          \ O=UANATACA S.A., L=Barcelona (see current address at www.uanataca.com/address),\
+          \ C=ES"
+        valid_from: 2019-01-22T16:42:00Z
+        valid_to: 2019-01-23T16:42:00Z
+        serial_number: 0b7687af3c8a833f
+        status: "2"
+        pk: "25139"
+        revocation_reason: "1"
+        type: FIRSTISSUE
+"400":
+  description: Bad Request
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          detail:
+            type: string
+            description: JSON syntax error
+      example:
+        detail: "JSON parse error - Expecting ',' delimiter: line 3 column\
+          \ 2 (char 30)"
+"412":
+  description: Invalid or missing parameters
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          code:
+            type: string
+            description: The response status code
+          id:
+            type: string
+            description: The response status id
+          error:
+            type: string
+            description: The response status message
+      example:
+        code: "418"
+        id: fef0a6c7023e67c6
+        error: Invalid paramiters
+"500":
+  description: Invalid request id | Scratchcard has no associated request
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          code:
+            type: string
+            description: The response status code
+          id:
+            type: string
+            description: The response status id
+          error:
+            type: string
+            description: The response status message
+      example:
+        code: "500"
+        id: 168cfa712331f994
+        error: ScratchCard matching query does not exist.

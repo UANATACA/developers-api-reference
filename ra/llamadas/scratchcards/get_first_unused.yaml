@@ -1,69 +1,56 @@
-security: []
-tags:
-- Scratchcards
-summary: GET FIRST UNUSED SCRATCHCARD
-description: Get first unused scratchcard.
-operationId: getFirstUnused
-requestBody:
+"200":
+  description: Successful Response
   content:
     application/json:
       schema:
-        $ref: '../../ra.yaml#/components/schemas/FUScrObject'
-  required: false
-responses:
-  "200":
-    description: Successful Response
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            pk:
-              type: number
-              description: The scratchcard database id
-            sn:
-              type: number
-              description: The scratchcard serial number
-            secrets:
-              type: object
-              properties:
-                erc:
-                  type: string
-                  description: A code specially used for revoking the associated
-                    certificate
-                enrollment_code:
-                  type: string
-                  description: The password required for logging into Uanataca
-                    services
-                pin:
-                  type: string
-                  description: The secret code used for certificate usage
-                puk:
-                  type: string
-                  description: A code required for unblocking the certificate
-            registration_authority:
-              type: number
-              description: The registration authority id the scratchcard is
-                associated
-        example:
-          pk: 1193
-          sn: 1256948
-          secrets: 
-            erc: "6292998123"
-            enrollment_code: "_,463vt:"
-            pin: "08695572"
-            puk: "52351291"
-          registration_authority: 121
-  "400":
-    description: Bad Request
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            detail:
-              type: string
-              description: JSON syntax error message
-        example:
-          detail: "JSON parse error - Expecting property name enclosed in double\
-            \ quotes: line 3 column 1 (char 14)"
+        type: object
+        properties:
+          pk:
+            type: number
+            description: The scratchcard database id
+          sn:
+            type: number
+            description: The scratchcard serial number
+          secrets:
+            type: object
+            properties:
+              erc:
+                type: string
+                description: A code specially used for revoking the associated
+                  certificate
+              enrollment_code:
+                type: string
+                description: The password required for logging into Uanataca
+                  services
+              pin:
+                type: string
+                description: The secret code used for certificate usage
+              puk:
+                type: string
+                description: A code required for unblocking the certificate
+          registration_authority:
+            type: number
+            description: The registration authority id the scratchcard is
+              associated
+      example:
+        pk: 1193
+        sn: 1256948
+        secrets: 
+          erc: "6292998123"
+          enrollment_code: "_,463vt:"
+          pin: "08695572"
+          puk: "52351291"
+        registration_authority: 121
+"400":
+  description: Bad Request
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          detail:
+            type: string
+            description: JSON syntax error message
+      example:
+        detail: "JSON parse error - Expecting property name enclosed in double\
+          \ quotes: line 3 column 1 (char 14)"

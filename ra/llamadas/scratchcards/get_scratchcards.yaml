@@ -1,75 +1,61 @@
-security: []
-tags:
-  - Scratchcards
-summary: GET SCRATCHCARD
-operationId: getScratchcard
-description: Get details from a scratchcard.
-parameters:
-  - name: id
-    in: path
-    description: The scratchcard unique id
-    required: true
-    schema:
-      type: string
-responses:
-  "200":
-    description: Successful Response
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            pk:
-              type: number
-              description: The scratchcard database id
-            sn:
-              type: number
-              description: The scratchcard serial number
-            secrets:
-              type: object
-              properties:
-                erc:
-                  type: string
-                  description: A code specially used for revoking the associated certificate
-                enrollment_code:
-                  type: string
-                  description: The password required for logging into Uanataca services
-                pin:
-                  type: string
-                  description: The secret code used for certificate usage
-                puk:
-                  type: string
-                  description: A code required for unblocking the certificate
-              description: Credentials associated to a scratchcard.
-            registration_authority:
-              type: number
-              description: The registration authority for the scratchcard
-        example:
-          pk: 1045
-          sn: 1200948
+"200":
+  description: Successful Response
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          pk:
+            type: number
+            description: The scratchcard database id
+          sn:
+            type: number
+            description: The scratchcard serial number
           secrets:
-            erc: "8117606937"
-            enrollment_code: ",8cj6Ax2"
-            pin: "85376977"
-            puk: "86175206"
-          registration_authority: 121
-  "404":
-    description: Invalid scratchcard id
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            code:
-              type: string
-              description: The response status code
-            id:
-              type: string
-              description: The response status id
-            error:
-              type: string
-              description: The response status message
-        example:
-          code: "400"
-          id: c6972c3efdc6db8e
-          error: No ScratchCard matches the given query.
+            type: object
+            properties:
+              erc:
+                type: string
+                description: A code specially used for revoking the associated certificate
+              enrollment_code:
+                type: string
+                description: The password required for logging into Uanataca services
+              pin:
+                type: string
+                description: The secret code used for certificate usage
+              puk:
+                type: string
+                description: A code required for unblocking the certificate
+            description: Credentials associated to a scratchcard.
+          registration_authority:
+            type: number
+            description: The registration authority for the scratchcard
+      example:
+        pk: 1045
+        sn: 1200948
+        secrets:
+          erc: "8117606937"
+          enrollment_code: ",8cj6Ax2"
+          pin: "85376977"
+          puk: "86175206"
+        registration_authority: 121
+"404":
+  description: Invalid scratchcard id
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          code:
+            type: string
+            description: The response status code
+          id:
+            type: string
+            description: The response status id
+          error:
+            type: string
+            description: The response status message
+      example:
+        code: "400"
+        id: c6972c3efdc6db8e
+        error: No ScratchCard matches the given query.

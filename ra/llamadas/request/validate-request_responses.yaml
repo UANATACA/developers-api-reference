@@ -1,21 +1,36 @@
 "200":
-  description: Successful response
+  description: Successful Response
+  content:
+    application/json:
+      schema:
+        type: object
+        description: A JSON object with the request missing parameters (if
+          any)
+      example:
+        serial_number: "missing"
+        mobile_phone_number: "missing"
+"404":
+  description: Invalid request id
   content:
     application/json:
       schema:
         type: object
         properties:
-          status:
+          code:
             type: string
             description: The response status code
-          message:
+          id:
+            type: string
+            description: The response status id
+          error:
             type: string
             description: The response status message
       example:
-        status: success
-        message: Pin unlocked successfully
+        code: "400"
+        id: de450daacf24014e
+        error: No Request matches the given query.
 "412":
-  description: Invalid request id | parameters | invalid otp
+  description: Already approved request id
   content:
     application/json:
       schema:
@@ -32,26 +47,5 @@
             description: The response status message
       example:
         code: "412"
-        id: 64943e09cbd42ea7
-        error: Invalid Request
-"500":
-  description: JSON syntax error | Pin not locked
-  content:
-    application/json:
-      schema:
-        type: object
-        properties:
-          code:
-            type: string
-            description: The response status code
-          id:
-            type: string
-            description: The response status id
-          error:
-            type: string
-            description: The response status message
-      example:
-        code: "500"
-        id: 21484514a0d347f7
-        error: "JSON parse error - Expecting ',' delimiter: line 4 column\
-          \ 5 (char 75)"
+        id: e443f8e716ee4cfa
+        error: Invalid request status

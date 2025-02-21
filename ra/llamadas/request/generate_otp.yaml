@@ -1,9 +1,3 @@
-security: []
-tags:
-- Requests
-summary: OTP FOR RESET/UNLOCK PIN
-operationId: genereate_otp
-description: Sends an OTP code via SMS for PIN reset or unlock.
 parameters:
 - name: id
   in: path
