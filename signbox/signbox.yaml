@@ -302,6 +302,9 @@ components:
           description: The id of the session previously opened
         env:
           type: string
+          description: "Reference environment for sandbox or production \n
+            - sandbox\n
+            - prod"
           enum:
             - sandbox
             - prod
@@ -329,6 +332,9 @@ components:
           description: The OTP code previously sent to the user
         env:
           type: string
+          description: "Reference environment for sandbox or production \n
+            - sandbox\n
+            - prod"
           enum:
             - sandbox
             - prod
@@ -352,6 +358,9 @@ components:
           description: Digital identity password
         env:
           type: string
+          description: "Reference environment for sandbox or production \n
+            - sandbox\n
+            - prod"
           enum:
             - sandbox
             - prod
@@ -368,14 +377,14 @@ components:
           type: string
           format: binary
           title: File
-          description: File to be signed
+          description: File to be signed. If this parameter is specified, **leave `url_in` blank**"
         url_in:
           type: string
           maxLength: 2083
           minLength: 1
           format: uri
           title: Url In
-          description: Url where to get the file to sign
+          description: Url where to get the file to sign. If this parameter is specified, **leave `file_in` blank**"  
         url_out:
           type: string
           maxLength: 2083
@@ -392,9 +401,10 @@ components:
           description: Url where to log process informations
         env:
           type: string
-          enum:
-            - sandbox
-            - prod
+          description: "Reference environment for sandbox or production \n
+              - **sandbox** \n
+              - **prod**"
+          enum: [prod, sandbox]
           title: Env
           default: prod
         username:
@@ -416,20 +426,17 @@ components:
           default: DS0
         format:
           type: string
-          enum:
-            - PADES
-            - CADES
-            - XADES
           title: Format
+          enum: [pades, xades, cades]
+          default: pades
           description: |-
             Types of supported signature profiles:
 
-            PADES for PDF files
+            **pades** for PDF files
 
-            XADES for XML files
+            **xades** for XML files
 
-            CADES for other files
-          default: PADES
+            **cades** for other files
         otp:
           type: string
           title: Otp
@@ -446,8 +453,13 @@ components:
             - LTV
             - LTVLITE
           title: Level
-          description: Specify the level of the signature
-          default: BASIC
+          description: "Specify the level of the signature... \n
+            - BASIC, T, LTV, LTVLITE for pades\n
+
+            - BASIC, T, EPES, XL for xades\n
+
+            - BASIC, T, EPES for cades"
+          default: BASIC  
         tsa_url:
           type: string
           maxLength: 2083
@@ -469,12 +481,11 @@ components:
         billing_username:
           type: string
           title: Billing Username
-          description: Billing username
-          default: ''
+          description: Billing account username
         billing_password:
           type: string
           title: Billing Password
-          default: ''
+          description: Billing account password
           BILLING_description: Billing password
         page:
           type: integer
@@ -528,6 +539,8 @@ components:
         - username
         - password
         - pin
+        - billing_username
+        - billing_password
       title: Body_sign_api_v1_sign_post
     Body_timestamp_api_v1_timestamp_post:
       properties:
@@ -561,7 +574,18 @@ components:
             - M7M
             - P7M
           title: Format
-          description: Supported timestamp formats
+          description: "Supported timestamp formats \n
+            - TSR \n
+            
+            - TSD \n
+            
+            - PDF \n
+            
+            - TST \n
+            
+            - M7M \n
+            
+            - P7M"
           default: TSR
         policy:
           type: string
