@@ -2,6 +2,11 @@ swagger: '2.0'
 info:
   version: '1.0'
   title: UANATACA SIGNBOX API DOCUMENTATION
+  description: |
+    For testing purposes, Uanataca provides integrators of a pre-configured test-mode SignBox Optimizer accessible at the following URL:
+      https://signbox.developers.uanataca.com
+    For more information about the sandbox environment click here
+    [UANATACA SIGNBOX API Sandbox](https://namirial.atlassian.net/wiki/spaces/BES/pages/245694518/UANATACA+SIGNBOX+API+LEGACY#Sandbox-Environment)
   x-logo:
       url: https://raw.githubusercontent.com/UANATACA/SIGNBOX-REPO/main/img/signbox-logo.png
       altText: Signbox logo
