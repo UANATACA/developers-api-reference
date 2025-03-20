@@ -5,7 +5,7 @@ info:
   x-logo:
       url: https://raw.githubusercontent.com/UANATACA/SIGNBOX-REPO/main/img/signbox-logo.png
       altText: Signbox logo
-  description: |
+  description:
     $ref: ./signbox_gui.md
 
 host: signbox.developers.uanataca.com
