@@ -6,7 +6,7 @@ info:
   description: |
     For testing purposes, Uanataca provides integrators of a pre-configured test-mode SignBox Optimizer accessible at the following URL: `https://signbox.developers.uanataca.com`
 
-    For more information about the sandbox environment click here. [UANATACA SIGNBOX API Sandbox](https://namirial.atlassian.net/wiki/spaces/BES/pages/276856895/UANATACA+SIGNBOX+API)
+    For more information about the sandbox environment click here. [UANATACA SIGNBOX API Sandbox](https://namirial.atlassian.net/wiki/spaces/BES/pages/276856895/UANATACA+SIGNBOX+API#Sandbox-Environment)
 
   x-logo:
     url: https://web.uanataca.com/common/project/svg/logo.svg
