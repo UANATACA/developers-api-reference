@@ -3,11 +3,6 @@ security: []
 info:
   title: FastAPI
   version: 0.1.0
-  description: |
-    For testing purposes, Uanataca provides integrators of a pre-configured test-mode One-Shot Optimizer accessible at the following URL: `https://one-shot.developers.uanataca.com`
-
-    For more information about the sandbox environment click here. [UANATACA ONE-SHOT API sandbox](https://namirial.atlassian.net/wiki/spaces/BES/pages/277053853/UANATACA+ONE-SHOT+API)
-
 servers:
   - url: /oneshot
 tags:
@@ -735,7 +730,7 @@ components:
           type: string
           description: 'The Registration Authority id number.</br> <blockquote
             style=''background-color: #faf3ac; border-color: #5a5a5a; color:
-            #3b3b3b;''><b>âš  Required only if not set at settings.ini file.
+            #3b3b3b;''><b>⚠ Required only if not set at settings.ini file.
             Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
             Settings</a> call.</b></blockquote>'
         profile:
@@ -745,7 +740,7 @@ components:
             signature in the European Union </br> * **PFnubeNC** - Uanataca''s
             normalized digital certificate used for advanced signature </br>
             <blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;
-            color: #3b3b3b;''><b>âš  Required only if not set at settings.ini
+            color: #3b3b3b;''><b>⚠ Required only if not set at settings.ini
             file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
             Settings</a> call.</b></blockquote>'
         token:
@@ -753,23 +748,23 @@ components:
           description: 'The Registration Authority Officer (RAO)''s token
             unique id containing RAO''s digital identity credentials. </br>
             <blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;
-            color: #3b3b3b;''><b>âš  Not required when RAO''s credentials (username,
+            color: #3b3b3b;''><b>⚠ Not required when RAO''s credentials (username,
             password, pin) are included as fields in this call.</b></blockquote>'
         username:
           type: string
           description: 'The RAO''s digital identity username. </br> <blockquote
             style=''background-color: #faf3ac; border-color: #5a5a5a; color:
-            #3b3b3b;''><b>âš  Not required when included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
+            #3b3b3b;''><b>⚠ Not required when included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
         password:
           type: string
           description: 'The RAO''s digital identity password. </br> <blockquote
             style=''background-color: #faf3ac; border-color: #5a5a5a; color:
-            #3b3b3b;''><b>âš  Not required when included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
+            #3b3b3b;''><b>⚠ Not required when included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
         pin:
           type: string
           description: 'The RAO''s digital identity PIN.</br> <blockquote
             style=''background-color: #faf3ac; border-color: #5a5a5a; color:
-            #3b3b3b;''><b>âš  Not required when included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
+            #3b3b3b;''><b>⚠ Not required when included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
         document_front:
           description: Front side image of the user's identification document (JPEG or PNG).
           type: file
@@ -789,7 +784,7 @@ components:
         env:
           type: string
           description: 'The API work environment. </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Required
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Required
             only if not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
             Settings</a> call.</b></blockquote>'
           enum:
@@ -798,7 +793,7 @@ components:
         billing_username:
           type: string
           description: 'The client billing username. </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Required
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Required
             only if not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
             Settings</a> call.</b></blockquote>'
         billing_password:
@@ -806,7 +801,7 @@ components:
           format: base64
           description: 'The client billing password in Base64 format. </br>
             <blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;
-            color: #3b3b3b;''><b>âš  Required only if not set at settings.ini
+            color: #3b3b3b;''><b>⚠ Required only if not set at settings.ini
             file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
             Settings</a> call.</b></blockquote>'
         useasync:
@@ -824,19 +819,19 @@ components:
             - EN
         residence:
           type: string
-          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>âš  Required only in certain profiles</b></blockquote>'
+          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>⚠ Required only in certain profiles</b></blockquote>'
         residence_city:
           type: string
-          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>âš  Required only in certain profiles</b></blockquote>'
+          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>⚠ Required only in certain profiles</b></blockquote>'
         residence_postal_code:
           type: string
-          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>âš  Required only in certain profiles</b></blockquote>'
+          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>⚠ Required only in certain profiles</b></blockquote>'
         residence_address:
           type: string
-          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>âš  Required only in certain profiles</b></blockquote>'
+          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>⚠ Required only in certain profiles</b></blockquote>'
         special_conditions:
           type: string
-          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>âš  Required only in certain profiles</b></blockquote>'
+          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>⚠ Required only in certain profiles</b></blockquote>'
         required: true
     Body_call_upload_image_api_v1_image_post:
       properties:
@@ -1058,4 +1053,3 @@ components:
         - msg
         - type
       title: ValidationError
-
