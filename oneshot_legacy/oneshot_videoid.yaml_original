@@ -3,11 +3,6 @@ security: []
 info:
   title: UANATACA ONE-SHOT SIGNATURE API DOCUMENTATION
   version: v1
-  description: |
-    For testing purposes, Uanataca provides integrators of a pre-configured test-mode One-Shot Optimizer accessible at the following URL: `https://one-shot.developers.uanataca.com`
-
-    For more information about the sandbox environment click here.
-    [UANATACA ONE-SHOT API Sandbox](https://namirial.atlassian.net/wiki/spaces/BES/pages/244416553/UANATACA+ONE-SHOT+API+LEGACY)
   x-logo:
     url: https://raw.githubusercontent.com/UANATACA/ONESHOT-VIDEOID-REPO/main/img/oneshot_logo.png
     altText: Oneshot logo
@@ -770,7 +765,7 @@ paths:
                   type: string
                   description: 'The Registration Authority id number.</br> <blockquote
                     style=''background-color: #faf3ac; border-color: #5a5a5a; color:
-                    #3b3b3b;''><b>âš  Required only if not set at settings.ini file.
+                    #3b3b3b;''><b>⚠ Required only if not set at settings.ini file.
                     Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
                     Settings</a> call.</b></blockquote>'
                 profile:
@@ -780,7 +775,7 @@ paths:
                     signature in the European Union </br> * **PFnubeNC** - Uanataca''s
                     normalized digital certificate used for advanced signature </br>
                     <blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;
-                    color: #3b3b3b;''><b>âš  Required only if not set at settings.ini
+                    color: #3b3b3b;''><b>⚠ Required only if not set at settings.ini
                     file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
                     Settings</a> call.</b></blockquote>'
                 token:
@@ -788,23 +783,23 @@ paths:
                   description: 'The Registration Authority Officer (RAO)''s token
                     unique id containing RAO''s digital identity credentials. </br>
                     <blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;
-                    color: #3b3b3b;''><b>âš  Not required when RAO''s credentials (username,
+                    color: #3b3b3b;''><b>⚠ Not required when RAO''s credentials (username,
                     password, pin) are included as fields in this call.</b></blockquote>'
                 username:
                   type: string
                   description: 'The RAO''s digital identity username. </br> <blockquote
                     style=''background-color: #faf3ac; border-color: #5a5a5a; color:
-                    #3b3b3b;''><b>âš  Not required when included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
+                    #3b3b3b;''><b>⚠ Not required when included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
                 password:
                   type: string
                   description: 'The RAO''s digital identity password. </br> <blockquote
                     style=''background-color: #faf3ac; border-color: #5a5a5a; color:
-                    #3b3b3b;''><b>âš  Not required when included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
+                    #3b3b3b;''><b>⚠ Not required when included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
                 pin:
                   type: string
                   description: 'The RAO''s digital identity PIN.</br> <blockquote
                     style=''background-color: #faf3ac; border-color: #5a5a5a; color:
-                    #3b3b3b;''><b>âš  Not required when included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
+                    #3b3b3b;''><b>⚠ Not required when included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
                 document_front:
                   description: Front side image of the user's identification document (JPEG or PNG).
                   type: file
@@ -824,7 +819,7 @@ paths:
                 env:
                   type: string
                   description: 'The API work environment. </br> <blockquote style=''background-color:
-                    #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Required
+                    #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Required
                     only if not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
                     Settings</a> call.</b></blockquote>'
                   enum:
@@ -833,7 +828,7 @@ paths:
                 billing_username:
                   type: string
                   description: 'The client billing username. </br> <blockquote style=''background-color:
-                    #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Required
+                    #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Required
                     only if not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
                     Settings</a> call.</b></blockquote>'
                 billing_password:
@@ -841,7 +836,7 @@ paths:
                   format: base64
                   description: 'The client billing password in Base64 format. </br>
                     <blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;
-                    color: #3b3b3b;''><b>âš  Required only if not set at settings.ini
+                    color: #3b3b3b;''><b>⚠ Required only if not set at settings.ini
                     file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
                     Settings</a> call.</b></blockquote>'
                 useasync:
@@ -859,19 +854,19 @@ paths:
                     - EN
                 residence:
                   type: string
-                  description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>âš  Required only in certain profiles</b></blockquote>'
+                  description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>⚠ Required only in certain profiles</b></blockquote>'
                 residence_city:
                   type: string
-                  description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>âš  Required only in certain profiles</b></blockquote>'
+                  description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>⚠ Required only in certain profiles</b></blockquote>'
                 residence_postal_code:
                   type: string
-                  description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>âš  Required only in certain profiles</b></blockquote>'
+                  description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>⚠ Required only in certain profiles</b></blockquote>'
                 residence_address:
                   type: string
-                  description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>âš  Required only in certain profiles</b></blockquote>'
+                  description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>⚠ Required only in certain profiles</b></blockquote>'
                 special_conditions:
                   type: string
-                  description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>âš  Required only in certain profiles</b></blockquote>'
+                  description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>⚠ Required only in certain profiles</b></blockquote>'
         required: true
       responses:
         201:
@@ -1424,7 +1419,7 @@ paths:
       operationId: generate_otp
       description: Generates a One-Time Password (OTP) code for the user. The OTP
         is sent directly to the user's mobile phone as an SMS message.</br> <html><blockquote
-        style='background-color:#faf3ac; border-color:#DFDFDF; color:#3b3b3b;'><b>âš This
+        style='background-color:#faf3ac; border-color:#DFDFDF; color:#3b3b3b;'><b>⚠This
         method is only required and available for requests using Uanataca SMS method</b></blockquote></html>
       parameters:
       - name: pk
@@ -1773,7 +1768,7 @@ paths:
               schema:
                 type: string
                 format: binary
-              example: " %PDF-1.7\n %ï¿½ï¿½ï¿½ï¿½\n 1 0 obj\n <</Type/Catalog/Pages 2 0 R/Lang(es-ES)\
+              example: " %PDF-1.7\n %����\n 1 0 obj\n <</Type/Catalog/Pages 2 0 R/Lang(es-ES)\
                 \ /StructTreeRoot 10 0 R/MarkInfo<</Marked true>>/Metadata 26 0 R/ViewerPreferences\
                 \ 27 0 R>>\n endobj\n\n\n2 0 obj\n <</Type/Pages/Count 1/Kids[ 3 0\
                 \ R] >>\n endobj\n\n\n3 0 obj\n <</Type/Page/Parent 2 0 R/Resources<</Font<</F1\
@@ -2002,7 +1997,7 @@ paths:
           description: Successful Response
           content:
             text/plain:
-              example: " %PDF-1.7\n %ï¿½ï¿½ï¿½ï¿½\n 1 0 obj\n <</Type/Catalog/Pages 2 0 R/Lang(es-ES)\
+              example: " %PDF-1.7\n %����\n 1 0 obj\n <</Type/Catalog/Pages 2 0 R/Lang(es-ES)\
                 \ /StructTreeRoot 10 0 R/MarkInfo<</Marked true>>/Metadata 26 0 R/ViewerPreferences\
                 \ 27 0 R>>\n endobj\n\n\n2 0 obj\n <</Type/Pages/Count 1/Kids[ 3 0\
                 \ R] >>\n endobj\n\n\n3 0 obj\n <</Type/Page/Parent 2 0 R/Resources<</Font<</F1\
@@ -2496,7 +2491,7 @@ components:
         env:
           type: string
           description: 'The API work environment. </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Required only if
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Required only if
             not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
             Settings</a> call.</b></blockquote>'
           enum:
@@ -2634,37 +2629,37 @@ components:
         registration_authority:
           type: string
           description: 'The Registration Authority ID number </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Required only if
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Required only if
             not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
             Settings</a> call.</b></blockquote>'
         profile:
           type: string
           description: 'The certificate profile </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Required only if
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Required only if
             not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
             Settings</a> call.</b></blockquote>'
         billing_username:
           type: string
           description: 'The client billing username. </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Required only if
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Required only if
             not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
             Settings</a> call.</b></blockquote>'
         billing_password:
           type: string
           description: 'The client billing password in Base64 format. </br> <blockquote
-            style=''background-color: #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš 
+            style=''background-color: #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠
             Required only if not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
             Settings</a> call.</b></blockquote>'
         webhook_url:
           type: string
           description: 'The webhook URL. </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Not required for
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Not required for
             external authentication. See <a href=''#section/Webhook-Configuration''>Webhook
             Configuration</a> section</b></blockquote>'
         env:
           type: string
           description: 'The API work environment. </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Required only if
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Required only if
             not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
             Settings</a> call.</b></blockquote>'
           enum:
@@ -2682,7 +2677,7 @@ components:
         scratchcard:
           type: string
           description: 'The request scratchcard id. </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  The scratchcard
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ The scratchcard
             id can be found as a field of the object <b>details</b> when executing
             <a href=''#tag/Requests/paths/~1api~1v1~1request~1{request_pk}/get''>Get
             Request</a> call.</b></blockquote>'
@@ -2745,7 +2740,7 @@ components:
               type: string
               description: Terms and conditions document URL
           description: 'A set of acceptance parameters. </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Customizable object
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Customizable object
             for external authentication.</b></blockquote>'
         videoid_data:
           type: object
@@ -2809,7 +2804,7 @@ components:
                   description: The user's id document country two-letters code (ISO
                     3166-1 alpha-2)
               description: 'Optical Character Recognition result <blockquote style=''background-color:
-                #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Customizable
+                #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Customizable
                 object for external authentication.</b></blockquote>'
             security_checks:
               type: object
@@ -2836,14 +2831,14 @@ components:
                   type: boolean
                   description: The user is real check
               description: 'Security checks related to document integrity <blockquote
-                style=''background-color: #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš 
+                style=''background-color: #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠
                 Customizable object for external authentication.</b></blockquote>'
             similarity_level:
               type: integer
               description: Level of similarity between document picture and face selfie.
                 Ranges in [0,100].
           description: 'Data to upload for Video ID <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Customizable object
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Customizable object
             for external authentication.</b></blockquote>'
     PlApproveReqObject:
       required:
@@ -2856,28 +2851,28 @@ components:
         token:
           type: string
           description: 'The token containing RAO''s credentials. </br> <blockquote
-            style=''background-color: #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš 
+            style=''background-color: #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠
             Not required when RAO''s credentials (username, password, pin) are included
             as fields in this call.</b></blockquote>'
         username:
           type: string
           description: 'The RAO''s username </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Not required when
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Not required when
             included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
         password:
           type: string
           description: 'The RAO''s password </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Not required when
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Not required when
             included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
         pin:
           type: string
           description: 'The RAO''s PIN </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Not required when
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Not required when
             included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
         rao:
           type: string
           description: 'The RAO''s id </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Not required when
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Not required when
             included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
     ValidateReqObject_VID:
       required:
@@ -2890,28 +2885,28 @@ components:
         token:
           type: string
           description: 'The token containing RAO''s credentials. </br> <blockquote
-            style=''background-color: #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš 
+            style=''background-color: #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠
             Not required when RAO''s credentials (username, password, pin) are included
             as fields in this call.</b></blockquote>'
         username:
           type: string
           description: 'The RAO''s username </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Not required when
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Not required when
             included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
         password:
           type: string
           description: 'The RAO''s password </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Not required when
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Not required when
             included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
         pin:
           type: string
           description: 'The RAO''s PIN </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Not required when
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Not required when
             included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
         rao:
           type: string
           description: 'The RAO''s id </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Not required when
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Not required when
             included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
     RefuseReqObject_VID:
       required:
@@ -2925,28 +2920,28 @@ components:
         token:
           type: string
           description: 'The token containing RAO''s credentials. </br> <blockquote
-            style=''background-color: #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš 
+            style=''background-color: #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠
             Not required when RAO''s credentials (username, password, pin) are included
             as fields in this call.</b></blockquote>'
         username:
           type: string
           description: 'The RAO''s username </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Not required when
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Not required when
             included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
         password:
           type: string
           description: 'The RAO''s password </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Not required when
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Not required when
             included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
         pin:
           type: string
           description: 'The RAO''s PIN </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Not required when
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Not required when
             included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
         rao:
           type: string
           description: 'The RAO''s id </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Not required when
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Not required when
             included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
         reason:
           type: string
@@ -2961,4 +2956,3 @@ x-tagGroups:
   - Documents
   - Images
   - Video ID
-
