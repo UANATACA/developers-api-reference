@@ -7,7 +7,7 @@ info:
     For testing purposes, Uanataca provides integrators of a pre-configured test-mode One-Shot Optimizer accessible at the following URL: `https://one-shot.developers.uanataca.com`
 
     For more information about the sandbox environment click here.
-    [UANATACA ONE-SHOT API Sandbox](https://namirial.atlassian.net/wiki/spaces/BES/pages/244416553/UANATACA+ONE-SHOT+API+LEGACY)
+    [UANATACA ONE-SHOT API Sandbox](https://namirial.atlassian.net/wiki/spaces/BES/pages/244416553/UANATACA+ONE-SHOT+API+LEGACY#Sandbox-environment)
   x-logo:
     url: https://raw.githubusercontent.com/UANATACA/ONESHOT-VIDEOID-REPO/main/img/oneshot_logo.png
     altText: Oneshot logo
