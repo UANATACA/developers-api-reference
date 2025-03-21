@@ -5,11 +5,8 @@ info:
   x-logo:
     url: https://raw.githubusercontent.com/UANATACA/SIGNBOX-REPO/main/img/signbox-logo.png
     altText: Signbox logo
-  description: |
-    For testing purposes, Uanataca provides integrators of a pre-configured test-mode SignBox Optimizer accessible at the following URL: `https://signbox.developers.uanataca.com`
-
-    For more information about the sandbox environment click here.
-    [UANATACA SIGNBOX API Sandbox](https://namirial.atlassian.net/wiki/spaces/BES/pages/245694518/UANATACA+SIGNBOX+API+LEGACY#Sandbox-Environment)
+  description:
+    $ref: './signbox_gui.md'  # Aseg�rate de que la referencia a tu archivo sea v�lida
 
 host: signbox.developers.uanataca.com
 schemes:
@@ -226,7 +223,7 @@ paths:
       tags:
         - Troubleshooting
       description: "Gets the state of a signature request by its job id.</br>
-                    <html><blockquote style='background-color:#faf3ac; border-color:#DFDFDF; color:#3b3b3b;'><b>âš This method is only used for testing purpose. In a production environment is required to use `urlback` service.</b></blockquote></html>"
+                    <html><blockquote style='background-color:#faf3ac; border-color:#DFDFDF; color:#3b3b3b;'><b>⚠This method is only used for testing purpose. In a production environment is required to use `urlback` service.</b></blockquote></html>"
       produces:
         - text/plain
       parameters:
@@ -266,7 +263,7 @@ paths:
       tags:
         - Troubleshooting
       description: "Returns the signed file of a signature request by its job id.</br>
-                    <html><blockquote style='background-color:#faf3ac; border-color:#DFDFDF; color:#3b3b3b;'><b>âš This method is only used for testing purpose. In a production environment is required to use `url_out` service</b></br>
+                    <html><blockquote style='background-color:#faf3ac; border-color:#DFDFDF; color:#3b3b3b;'><b>⚠This method is only used for testing purpose. In a production environment is required to use `url_out` service</b></br>
                     The signed file is only available if `url_out` is not specified in <b>sign</b> call</blockquote></html>"
       produces:
         - application/pdf
@@ -282,7 +279,7 @@ paths:
           examples:
             text/plain:
                 " %PDF-1.7\n
-                  %ï¿½ï¿½ï¿½ï¿½\n
+                  %����\n
                   1 0 obj\n
                   <</Type/Catalog/Pages 2 0 R/Lang(es-ES) /StructTreeRoot 10 0 R/MarkInfo<</Marked true>>/Metadata 26 0 R/ViewerPreferences 27 0 R>>\n
                   endobj\n\n
@@ -307,7 +304,7 @@ paths:
       tags:
         - Signature
       description: "Generates an otp for the specified digital identity.</br>
-                    <html><blockquote style='background-color:#faf3ac; border-color:#DFDFDF; color:#3b3b3b;'><b>âš This method is only required and available for specific digital identities</b></blockquote></html>"
+                    <html><blockquote style='background-color:#faf3ac; border-color:#DFDFDF; color:#3b3b3b;'><b>⚠This method is only required and available for specific digital identities</b></blockquote></html>"
       produces:
         - text/plain
       consumes:
@@ -340,4 +337,3 @@ paths:
             text/plain:
               "generated"
       
-
