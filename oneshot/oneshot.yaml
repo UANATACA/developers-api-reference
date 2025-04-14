@@ -6,7 +6,7 @@ info:
   description: |
     For testing purposes, Uanataca provides integrators of a pre-configured test-mode One-Shot Optimizer accessible at the following URL: `https://one-shot.developers.uanataca.com`
 
-    For more information about the sandbox environment click here. [UANATACA ONE-SHOT API sandbox](https://namirial.atlassian.net/wiki/spaces/BES/pages/277053853/UANATACA+ONE-SHOT+API#Sandbox-environment)
+    For more information about the sandbox environment click here. [UANATACA ONE-SHOT API sandbox](https://namirial.atlassian.net/wiki/spaces/BES/pages/277053853/UANATACA+ONE-SHOT+API)
 
 servers:
   - url: /oneshot
@@ -31,6 +31,7 @@ paths:
       tags: 
         - Settings
       summary: Call Hello
+      description: Checks if server is UP.
       operationId: call_hello_api_v1_hello_get
       responses:
         '200':
@@ -43,6 +44,7 @@ paths:
       tags: 
         - Settings
       summary: Call Get Version
+      description: Retrieves the current Optimizer version.
       operationId: call_get_version_api_v1_version_get
       responses:
         '200':
@@ -55,6 +57,7 @@ paths:
       tags: 
         -  Tokens
       summary: Call Create Token
+      description: Creates a new token that contains the Registration Authority Officer (RAO) credentials.
       operationId: call_create_token_api_v1_token_post
       requestBody:
         content:
@@ -79,10 +82,12 @@ paths:
       tags: 
         -  Tokens
       summary: Call Get Token
+      description: Retrieves the token associated credentials with the given unique identifier.<br> The response gets a `true` or `false` value regarding if password and PIN parameters are associated to the token.
       operationId: call_get_token_api_v1_token__token_uid__get
       parameters:
         - name: token_uid
           in: path
+          description: The token unique identifier
           required: true
           schema:
             title: Token Uid
@@ -102,10 +107,12 @@ paths:
       tags: 
         -  Tokens
       summary: Call Delete Token
+      description: Deletes the token with the specified unique identifier.
       operationId: call_delete_token_api_v1_token__token_uid__delete
       parameters:
         - name: token_uid
           in: path
+          description: The token unique identifier
           required: true
           schema:
             title: Token Uid
@@ -126,6 +133,7 @@ paths:
       tags: 
         -  Tokens
       summary: Call List Tokens
+      description: Returns a list of all tokens available and their associated data.
       operationId: call_list_tokens_api_v1_tokens_get
       responses:
         '200':
@@ -138,6 +146,7 @@ paths:
       tags: 
         -  Images
       summary: Call Upload Image
+      description: Uploads an image for using in a visual graphic signature.
       operationId: call_upload_image_api_v1_image_post
       requestBody:
         content:
@@ -162,10 +171,12 @@ paths:
       tags: 
         -  Images
       summary: Call Get Image
+      description: Retrieves a previously uploaded image.
       operationId: call_get_image_api_v1_image__image_uid__get
       parameters:
         - name: image_uid
           in: path
+          description: The image unique identifier
           required: true
           schema:
             title: Image Uid
@@ -185,10 +196,12 @@ paths:
       tags: 
         -  Images
       summary: Call Delete Image
+      description: Deletes a previously uploaded image.
       operationId: call_delete_image_api_v1_image__image_uid__delete
       parameters:
         - name: image_uid
           in: path
+          description: The image unique identifier
           required: true
           schema:
             title: Image Uid
@@ -209,6 +222,7 @@ paths:
       tags: 
         -  Images
       summary: Call List Images
+      description: Lists all uploaded images.
       operationId: call_list_images_api_v1_images_get
       responses:
         '200':
@@ -218,6 +232,7 @@ paths:
               schema: {}
     delete:
       summary: Call Delete Images
+      description: Deletes all uploaded images.
       operationId: call_delete_images_api_v1_images_delete
       responses:
         '200':
@@ -230,6 +245,7 @@ paths:
       tags: 
         -  Requests
       summary: Call Create
+      description: Creates a new digital signature request for the user identified.
       operationId: call_create_api_v1_create_post
       requestBody:
         content:
@@ -253,10 +269,13 @@ paths:
       tags: 
         -  Requests
       summary: Call Get Request
+      description: Retrieve request information with the id obtained in the **CREATE
+        REQUEST** response.
       operationId: call_get_request_api_v1_request__request_pk__get
       parameters:
         - name: request_pk
           in: path
+          description: The ID of the Request to get
           required: true
           schema:
             type: integer
@@ -277,11 +296,13 @@ paths:
       tags: 
         -  Requests
       summary: Call Delete Request
+      description: Cancels the Video ID One-Shot Signature request
       operationId: call_delete_request_api_v1_request__request_pk__delete
       parameters:
         - name: request_pk
           in: path
           required: true
+          description: The ID of the Request to delete
           schema:
             type: integer
             title: The ID of the Request to delete
@@ -301,14 +322,22 @@ paths:
       tags: 
         -  Requests
       summary: Call Update Request
+      description: Updates a Video ID signature request.
       operationId: call_update_request_api_v1_request__request_pk__put
       parameters:
         - name: request_pk
           in: path
+          description: The ID of the Request to update
           required: true
           schema:
             type: integer
             title: The ID of the Request to update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateReqObject_VID'
+
       responses:
         '200':
           description: Successful Response
@@ -331,6 +360,7 @@ paths:
       parameters:
         - name: request_pk
           in: path
+          description: The ID of the Request to which associated the document
           required: true
           schema:
             type: integer
@@ -358,6 +388,7 @@ paths:
         - name: request_pk
           in: path
           required: true
+          description: The ID of the Request to which the document is associated
           schema:
             type: integer
             title: The ID of the Request to which the document is associated
@@ -397,6 +428,7 @@ paths:
       parameters:
         - name: request_pk
           in: path
+          description: The ID of the Request to which the document is associated
           required: true
           schema:
             type: integer
@@ -404,6 +436,7 @@ paths:
         - name: document_uid
           in: path
           required: true
+          description: The document unique identifier
           schema:
             type: string
             title: Document Uid
@@ -429,6 +462,7 @@ paths:
       parameters:
         - name: request_pk
           in: path
+          description: The ID of the Request
           required: true
           schema:
             type: integer
@@ -455,6 +489,7 @@ paths:
       parameters:
         - name: request_pk
           in: path
+          description: The ID of the Request
           required: true
           schema:
             type: integer
@@ -476,10 +511,15 @@ paths:
       tags: 
         -  Requests
       summary: Call Generate Otp
+      description: Generates a One-Time Password (OTP) code for the user. The OTP
+        is sent directly to the user's mobile phone as an SMS message.</br> <html><blockquote
+        style='background-color:#faf3ac; border-color:#DFDFDF; color:#3b3b3b;'><b>This
+        method is only required and available for requests using Uanataca SMS method</b></blockquote></html>
       operationId: call_generate_otp_api_v1_otp__request_pk__post
       parameters:
         - name: request_pk
           in: path
+          description: The ID of the Request to which generate the otp
           required: true
           schema:
             type: integer
@@ -506,6 +546,7 @@ paths:
       parameters:
         - name: request_pk
           in: path
+          description: The ID of the Request to which sign documents
           required: true
           schema:
             type: integer
@@ -535,6 +576,11 @@ paths:
       summary: Call Create Videoid
       description: Create a VideoID
       operationId: call_create_videoid_api_v1_videoid_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateReqObject_VID'
       responses:
         '200':
           description: Successful Response
@@ -557,6 +603,7 @@ paths:
       parameters:
         - name: videoid_pk
           in: path
+          description: ID of the VideoID to validate
           required: true
           schema:
             type: integer
@@ -583,10 +630,17 @@ paths:
       parameters:
         - name: videoid_pk
           in: path
+          description: ID of the VideoID to refuse
           required: true
           schema:
             type: integer
             title: ID of the VideoID to refuse
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefuseReqObject_VID'
+        required: false
       responses:
         '200':
           description: Successful Response
@@ -609,10 +663,16 @@ paths:
       parameters:
         - name: videoid_pk
           in: path
+          description: ID of the VideoID to which upload evidences
           required: true
           schema:
             type: integer
             title: ID of the VideoID to which upload evidences
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UploadData_VID'
       responses:
         '200':
           description: Successful Response
@@ -635,10 +695,21 @@ paths:
       parameters:
         - name: videoid_pk
           in: path
+          description: ID of the VideoID to which upload a video
           required: true
           schema:
             type: integer
             title: ID of the VideoID to which upload a video
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - video
+              properties:
+                video:
+                  type: string
+                  description: The video to be uploaded
       responses:
         '200':
           description: Successful Response
@@ -660,6 +731,7 @@ paths:
       parameters:
         - name: videoid_pk
           in: path
+          description: ID of the VideoID of the video to download
           required: true
           schema:
             type: integer
@@ -735,9 +807,7 @@ components:
           type: string
           description: 'The Registration Authority id number.</br> <blockquote
             style=''background-color: #faf3ac; border-color: #5a5a5a; color:
-            #3b3b3b;''><b>âš  Required only if not set at settings.ini file.
-            Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
-            Settings</a> call.</b></blockquote>'
+            #3b3b3b;''><b>Required only if not set at settings.ini file.</b></blockquote>'
         profile:
           type: string
           description: ' Digital certificate profiles allowed:</br> * **PFnubeQAFCiudadano**
@@ -745,31 +815,30 @@ components:
             signature in the European Union </br> * **PFnubeNC** - Uanataca''s
             normalized digital certificate used for advanced signature </br>
             <blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;
-            color: #3b3b3b;''><b>âš  Required only if not set at settings.ini
-            file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
-            Settings</a> call.</b></blockquote>'
+            color: #3b3b3b;''><b>Required only if not set at settings.ini
+            file.</b></blockquote>'
         token:
           type: string
           description: 'The Registration Authority Officer (RAO)''s token
             unique id containing RAO''s digital identity credentials. </br>
             <blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;
-            color: #3b3b3b;''><b>âš  Not required when RAO''s credentials (username,
+            color: #3b3b3b;''><b>Not required when RAO''s credentials (username,
             password, pin) are included as fields in this call.</b></blockquote>'
         username:
           type: string
           description: 'The RAO''s digital identity username. </br> <blockquote
             style=''background-color: #faf3ac; border-color: #5a5a5a; color:
-            #3b3b3b;''><b>âš  Not required when included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
+            #3b3b3b;''><b>Not required when included in <a href=''#/Tokens/call_create_token_api_v1_token_post''>token</a>.</b></blockquote>'
         password:
           type: string
           description: 'The RAO''s digital identity password. </br> <blockquote
             style=''background-color: #faf3ac; border-color: #5a5a5a; color:
-            #3b3b3b;''><b>âš  Not required when included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
+            #3b3b3b;''><b>Not required when included in <a href=''#/Tokens/call_create_token_api_v1_token_post''>token</a>.</b></blockquote>'
         pin:
           type: string
           description: 'The RAO''s digital identity PIN.</br> <blockquote
             style=''background-color: #faf3ac; border-color: #5a5a5a; color:
-            #3b3b3b;''><b>âš  Not required when included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
+            #3b3b3b;''><b>Not required when included in <a href=''#/Tokens/call_create_token_api_v1_token_post''>token</a>.</b></blockquote>'
         document_front:
           description: Front side image of the user's identification document (JPEG or PNG).
           type: file
@@ -789,26 +858,23 @@ components:
         env:
           type: string
           description: 'The API work environment. </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Required
-            only if not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
-            Settings</a> call.</b></blockquote>'
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>Required
+            only if not set at settings.ini file.</b></blockquote>'
           enum:
           - sandbox
           - prod
         billing_username:
           type: string
           description: 'The client billing username. </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Required
-            only if not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
-            Settings</a> call.</b></blockquote>'
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>Required
+            only if not set at settings.ini file.</b></blockquote>'
         billing_password:
           type: string
           format: base64
           description: 'The client billing password in Base64 format. </br>
             <blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;
-            color: #3b3b3b;''><b>âš  Required only if not set at settings.ini
-            file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
-            Settings</a> call.</b></blockquote>'
+            color: #3b3b3b;''><b>Required only if not set at settings.ini
+            file.</b></blockquote>'
         useasync:
           type: boolean
           description: This parameter enables One-Shot asynchronous workflow. When set to true, the `callback` parameter can be set by specifying a Webhook URL.
@@ -824,25 +890,25 @@ components:
             - EN
         residence:
           type: string
-          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>âš  Required only in certain profiles</b></blockquote>'
+          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>Required only in certain profiles</b></blockquote>'
         residence_city:
           type: string
-          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>âš  Required only in certain profiles</b></blockquote>'
+          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>Required only in certain profiles</b></blockquote>'
         residence_postal_code:
           type: string
-          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>âš  Required only in certain profiles</b></blockquote>'
+          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>Required only in certain profiles</b></blockquote>'
         residence_address:
           type: string
-          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>âš  Required only in certain profiles</b></blockquote>'
+          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>Required only in certain profiles</b></blockquote>'
         special_conditions:
           type: string
-          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>âš  Required only in certain profiles</b></blockquote>'
-        required: true
+          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>Required only in certain profiles</b></blockquote>'
     Body_call_upload_image_api_v1_image_post:
       properties:
         image:
-          type: string
-          format: binary
+          type: array
+          description: The image to add in the visual graphic signature in PNG format
+          format: string
           title: Image
       type: object
       required:
@@ -855,12 +921,15 @@ components:
         username:
           type: string
           title: Username
+          description: SignCloud account username
         password:
           type: string
           title: Password
+          description: SignCloud account password
         pin:
           type: string
           title: Pin
+          description: SignCloud account pin
         subfilter:
           type: string
           enum:
@@ -878,20 +947,18 @@ components:
         username:
           type: string
           title: Username
+          description: The RAO's digital identity username
         password:
-          anyOf:
-            - type: string
-            - type: 'null'
+          type: string
+          description: The RAO's digital identity password. If not included in this call, must be included in calls that require RAO's credentials
           title: Password
         pin:
-          anyOf:
-            - type: string
-            - type: 'null'
+          type: string
+          description: The RAO's digital identity PIN. If not included in this call, must be included in calls that require RAO's credentials
           title: Pin
         env:
-          anyOf:
-            - type: string
-            - type: 'null'
+          type: string
+          description: The API work environment. (sandbox / prod) 
           title: Env
       type: object
       required:
@@ -938,6 +1005,136 @@ components:
         - input
         - msg
       title: FieldError
+
+    UploadData_VID:
+      type: object
+      properties:
+        acceptance:
+          type: object
+          properties:
+            description:
+              type: string
+              description: Terms and Conditions descriptive text
+            url-doc-privacypolicy:
+              type: string
+              description: Privacy policy document URL
+            ip:
+              type: string
+              description: The local IP adress
+            url-web-videoid:
+              type: string
+              description: Video ID platform access URL
+            user-agent:
+              type: string
+              description: A user agent (e.g. web browser)
+            date:
+              type: string
+              description: The current date
+            url-doc-termsconditions:
+              type: string
+              description: Terms and conditions document URL
+          description: 'A set of acceptance parameters. </br> <blockquote style=''background-color:
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Customizable object
+            for external authentication.</b></blockquote>'
+        videoid_data:
+          type: object
+          properties:
+            images:
+              type: object
+              properties:
+                document_front:
+                  type: string
+                  description: Base64 document front image
+                document_rear:
+                  type: string
+                  description: Base64 document rear image
+                document_photo:
+                  type: string
+                  description: Base64 document client picture (extracted from document)
+                document_owner:
+                  type: string
+                  description: Base64 client selfie
+              description: Document images
+            ocr_data:
+              required:
+                - given_name
+                - surname_1
+                - serial_number
+              type: object
+              properties:
+                given_name:
+                  type: string
+                  description: The user's given name
+                surname_1:
+                  type: string
+                  description: The user's first surname
+                surname_2:
+                  type: string
+                  description: The user's second surname
+                mobile_phone_number:
+                  type: string
+                  description: The user's mobile phone number
+                email:
+                  type: string
+                  description: The user's email
+                serial_number:
+                  type: string
+                  description: The user's document serial number
+                id_document_type:
+                  type: string
+                  description: "Document types allowed for user identification: \n\
+                    \ - **IDC** - Identification based on national identity card number\
+                    \ \n - **PAS** - Identification based on passport number \n -\
+                    \ **PNO** - Identification based on national personal number (national\
+                    \ civic registration number) \n - **TIN** - Tax Identification\
+                    \ Number according to the European Commission"
+                  enum:
+                  - IDC
+                  - PAS
+                  - PNO
+                  - TIN
+                id_document_country:
+                  type: string
+                  description: The user's id document country two-letters code (ISO
+                    3166-1 alpha-2)
+              description: 'Optical Character Recognition result <blockquote style=''background-color:
+                #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Customizable
+                object for external authentication.</b></blockquote>'
+            security_checks:
+              type: object
+              properties:
+                otp_validation:
+                  type: boolean
+                  description: OTP code validation check
+                documents_match:
+                  type: boolean
+                  description: Documents matching official registers check
+                data_integrity:
+                  type: boolean
+                  description: Document data is not corrupted check
+                document_notcopy:
+                  type: boolean
+                  description: Document is not a copy check
+                document_notexpired:
+                  type: boolean
+                  description: Document is not expired check
+                document_notunderage:
+                  type: boolean
+                  description: The user is not underage check
+                liveliness:
+                  type: boolean
+                  description: The user is real check
+              description: 'Security checks related to document integrity <blockquote
+                style=''background-color: #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠
+                Customizable object for external authentication.</b></blockquote>'
+            similarity_level:
+              type: integer
+              description: Level of similarity between document picture and face selfie.
+                Ranges in [0,100].
+          description: 'Data to upload for Video ID <blockquote style=''background-color:
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Customizable object
+            for external authentication.</b></blockquote>'
+
     HTTPValidationError:
       properties:
         detail:
@@ -956,21 +1153,31 @@ components:
           items: {}
           type: array
           title: Text
+          description: This property controls the text that is going to be introduced. Through variables you
+                        retrieve information from the signer certificate.
+                        '%(CN)', '%(SUBJECT)s', '%(DATE)s', '%(E)s' can be used. 
         date:
           type: string
           title: Date
+          description: Date formatting in dd/mm/YY-HH/MM/SS regex.
+                      An input example would be `%d/%m/%Y %H:%M:%S`
         timezone:
           type: string
           title: Timezone
+          description: Selected timezone for the graphic signature. `Europe/Barcelona`
         position:
           type: string
           title: Position
+          description: The coordinates in points (pt) for signature image position and size, starting from bottom left corner (x1,y1,x2,y2).
+                      1px = 0.75pt.
         page:
           type: integer
           title: Page
+          description: The document page where the signature will be placed. The first page starts at `0`
         image:
           type: string
           title: Image
+          description: The previously uploaded image id
         text_size:
           type: integer
           title: Text Size
@@ -1003,29 +1210,31 @@ components:
           title: Subfilter
       type: object
       title: SignatureParams
+
+
     SignatureRequest:
       properties:
         secret:
           type: string
+          description: The OTP code sent to the user.<br> For external authenticacion
+            method, a customer code is provided.
           title: Secret
         ext_unlock_value:
-          anyOf:
-            - type: string
-            - type: 'null'
+          type: string       
+          description: The id of the external authentication request. This field is
+            required for requests using external authenticacion methods.
           title: Ext Unlock Value
         ext_unlock_type:
-          anyOf:
-            - type: string
-            - type: 'null'
+          type: string
+          description: The external authentication method type. This field is required
+            for requests using external authenticacion methods.
           title: Ext Unlock Type
         signature:
-          anyOf:
-            - $ref: '#/components/schemas/SignatureParams'
-            - type: 'null'
+          type: 'null'
+          $ref: '#/components/schemas/SignatureParams'
         countersignature:
-          anyOf:
-            - $ref: '#/components/schemas/CounterSignatureParams'
-            - type: 'null'
+          $ref: '#/components/schemas/CounterSignatureParams'
+          type: 'null'
         signature_by_doc:
           anyOf:
             - additionalProperties:
@@ -1059,3 +1268,147 @@ components:
         - type
       title: ValidationError
 
+
+    CreateReqObject_VID:
+      required:
+      - billing_password
+      - billing_username
+      - email
+      - env
+      - mobile_phone_number
+      - profile
+      - registration_authority
+      type: object
+      properties:
+        mobile_phone_number:
+          type: string
+          description: The signer's mobile phone number
+        email:
+          type: string
+          description: The signer's email
+        registration_authority:
+          type: string
+          description: 'The Registration Authority ID number </br> <blockquote style=''background-color:
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Required only if
+            not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
+            Settings</a> call.</b></blockquote>'
+        profile:
+          type: string
+          description: 'The certificate profile </br> <blockquote style=''background-color:
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Required only if
+            not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
+            Settings</a> call.</b></blockquote>'
+        billing_username:
+          type: string
+          description: 'The client billing username. </br> <blockquote style=''background-color:
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Required only if
+            not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
+            Settings</a> call.</b></blockquote>'
+        billing_password:
+          type: string
+          description: 'The client billing password in Base64 format. </br> <blockquote
+            style=''background-color: #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠
+            Required only if not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
+            Settings</a> call.</b></blockquote>'
+        webhook_url:
+          type: string
+          description: 'The webhook URL. </br> <blockquote style=''background-color:
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Not required for
+            external authentication. See <a href=''#section/Webhook-Configuration''>Webhook
+            Configuration</a> section</b></blockquote>'
+        env:
+          type: string
+          description: 'The API work environment. </br> <blockquote style=''background-color:
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Required only if
+            not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
+            Settings</a> call.</b></blockquote>'
+          enum:
+          - sandbox
+          - prod
+
+    UpdateReqObject_VID:
+      required:
+      - country_name
+      - email
+      - profile
+      - registration_authority
+      - scratchcard
+      type: object
+      properties:
+        scratchcard:
+          type: string
+          description: 'The request scratchcard id. </br> <blockquote style=''background-color:
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ The scratchcard
+            id can be found as a field of the object <b>details</b> when executing
+            <a href=''#tag/Requests/paths/~1api~1v1~1request~1{request_pk}/get''>Get
+            Request</a> call.</b></blockquote>'
+        given_name:
+          type: string
+          description: The signer's given name
+        surname_1:
+          type: string
+          description: The signer's first surname
+        surname_2:
+          type: string
+          description: The signer's second surname
+        birth_date:
+          type: string
+          description: The signer's birth date
+        email:
+          type: string
+          description: The signer's email
+        mobile_phone_number:
+          type: string
+          description: The signer's mobile phone number
+        serial_number:
+          type: string
+          description: The signer's document ID number
+        registration_authority:
+          type: string
+          description: The Registration Authority id number
+        profile:
+          type: string
+          description: The certificate profile
+        country_name:
+          type: string
+          description: The user's id document country two-letters code (ISO 3166-1
+            alpha-2)
+
+    RefuseReqObject_VID:
+      required:
+      - password
+      - pin
+      - reason
+      - token
+      - username
+      type: object
+      properties:
+        token:
+          type: string
+          description: 'The token containing RAO''s credentials. </br> <blockquote
+            style=''background-color: #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠
+            Not required when RAO''s credentials (username, password, pin) are included
+            as fields in this call.</b></blockquote>'
+        username:
+          type: string
+          description: 'The RAO''s username </br> <blockquote style=''background-color:
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Not required when
+            included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
+        password:
+          type: string
+          description: 'The RAO''s password </br> <blockquote style=''background-color:
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Not required when
+            included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
+        pin:
+          type: string
+          description: 'The RAO''s PIN </br> <blockquote style=''background-color:
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Not required when
+            included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
+        rao:
+          type: string
+          description: 'The RAO''s id </br> <blockquote style=''background-color:
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Not required when
+            included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
+        reason:
+          type: string
+          description: Reason that caused Video ID refusal
