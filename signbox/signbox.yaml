@@ -715,9 +715,6 @@ components:
           title: Signature Subfilter
           description: Change the signature subfilter
           default: ETSI.CAdES.detached
-        certificate_check:
-          tpye: boolean
-          description: verification of certificate validity status 
         useasync:
           type: boolean
           title: Useasync
