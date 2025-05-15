@@ -39,9 +39,6 @@ paths:
           content:
             application/json:
               schema: {}
-              example:
-                details: "Hello from One-Shot"
-
   /api/v1/version:
     get:
       tags: 
@@ -55,10 +52,6 @@ paths:
           content:
             application/json:
               schema: {}
-              example:
-                status: "success"
-                details:
-                  version: "xxx"
   /api/v1/token:
     post:
       tags: 
@@ -78,63 +71,12 @@ paths:
           content:
             application/json:
               schema: {}
-              example:
-                status: success 
-                message: "Token created"
-                details:
-                  token_uid: "14185cd9-c6ec-30f4-9f59-a844a77bc234"
         '422':
-          description: Unprocessable Entity
+          description: Validation Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-              examples:
-                Missing parameters:
-                  summary: Missing parameters
-                  value:  
-                    status: "error" 
-                    message: "Data validation error"
-                    details: 
-                      error_code: "09e736eb3db9f1ac"
-                      error_message: "Invalid input fields"
-                      fields:
-                        xxx: "Field required"
-                Invalid JSON:
-                  summary: Invalid JSON
-                  value:
-                    status: "error"
-                    message: "Data validation error"
-                    details:
-                      error_code: "82efa64d5c532e15"
-                      error_message: "Invalid input fields"
-                      fields:
-                        xxx: "JSON decode error"
-        '412':
-            description: Precondition Failed
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/HTTPValidationError'
-                example: 
-                  status: "error"
-                  message: "Token for username xxx already exists"
-                  details: 
-                    error_code: "d0c1e1262b1c73b4"
-                    error_message: "Token for username xxx already exists"
-        '403':
-            description: Forbidden
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/HTTPValidationError'
-                example:
-                  status: "error"
-                  message: "Invalid RAO credentials"
-                  details:
-                    error_code: "1dbf554b582f5caf"
-                    error_message: "Invalid RAO credentials"
-
   /api/v1/token/{token_uid}:
     get:
       tags: 
@@ -155,21 +97,12 @@ paths:
           content:
             application/json:
               schema: {}
-              example:
-                status: "success"
-                details:
-                  username: "2626807"
-                  password: "true"
-                  pin: "true"
-                  rao_id: "1182"
-                  env: "xxx"
-        '405':
-          description: Method Not allowed
+        '422':
+          description: Validation Error
           content:
             application/json:
-              schema: {}
-              example:
-                details: "Method Not Alllowed"
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
     delete:
       tags: 
         -  Tokens
@@ -189,28 +122,12 @@ paths:
           content:
             application/json:
               schema: {}
-              example:
-                status: "success"
-                message: "Token 0112c943-87a3-4fdf-b12g-d95233e973b5 deleted successfully"
-        '405':
-          description: Method Not allowed
+        '422':
+          description: Validation Error
           content:
             application/json:
-              schema: {}
-              example:
-                details: "Method Not Alllowed"
-        '404':
-          description: "Not Found"
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: "error"
-                message: "Token False not found"
-                detail:
-                  error_code: "68116cf0cdc38f1c"
-                  error_message: "Token False not found"
-
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
   /api/v1/tokens:
     get:
       tags: 
@@ -224,15 +141,6 @@ paths:
           content:
             application/json:
               schema: {}
-              example:
-                status: "success"
-                detail: 
-                  6d1cae4d55be4cdf9cac50ee36f73406:
-                    username: "9001800"
-                    password: true
-                    pin: true
-                    rao_id: "1182"
-                    env: "xxx"
   /api/v1/image:
     post:
       tags: 
@@ -252,27 +160,12 @@ paths:
           content:
             application/json:
               schema: {}
-              example:
-                status: "success" 
-                message: "Image uploaded with uid '463156ce-d566-44d2-94e9-184d89632b98'"
-                details:
-                  image_uid: "463156ce-d566-44d2-94e9-184d89632b98"
-        
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-              example:
-                status: "error"
-                message: "Data validation error"
-                detail: 
-                  error_code: "41117e5a6fe99a22"
-                  error_message: "Invalid input fields"
-                  fields:
-                    image: "Field required"
-
   /api/v1/image/{image_uid}:
     get:
       tags: 
@@ -291,33 +184,14 @@ paths:
         '200':
           description: Successful Response
           content:
-            image/png:
+            application/json:
               schema: {}
-              example: The retrieved image in png format
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-        '405':
-          description: Method Not allowed
-          content:
-            application/json: 
-              schema: {} 
-              example: 
-                details: "Method Not Alllowed"
-        '404':
-          description: "Not Found"
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: "error"
-                message: "Image xxx not found on disk"
-                detail:
-                  error_code: "f95a1897e69e95d3"
-                  error_message: "Image xxx not found on disk"
     delete:
       tags: 
         -  Images
@@ -337,33 +211,12 @@ paths:
           content:
             application/json:
               schema: {}
-              example:
-                status: success
-                message: "Image c4cb5944-463156ce-d566-44d2-94e9-184d89632b98 deleted"
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-        '405':
-          description: Method Not allowed
-          content:
-            application/json: 
-              schema: {} 
-              example: 
-                details: "Method Not Alllowed"
-        '404':
-          description: "Not Found"
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: "error"
-                message: "Image xxx not found on disk"
-                detail:
-                  error_code: "992f6c95e257d711"
-                  error_message: "Image xxx not found on disk"
   /api/v1/images:
     get:
       tags: 
@@ -377,24 +230,6 @@ paths:
           content:
             application/json:
               schema: {}
-              example:
-                status: success 
-                detials: 
-                  aef3f74c-0f39-408f-8f54-657bd71d6d3a:
-                    content_type: "image/png"
-                    filename: "xxx.png"
-                    digest: "ea9c05a7228cd8106a0bcedd8ce7952dee24455e6ebd1354a9a9d99023cbc5ed"
-                  93868edb-561d-4439-a56d-79f2a8c32087:
-                    content_type: "image/jpeg"
-                    filename: "xxx.jpg"
-                    digest: "eff1343e1353940a23a199bb0ecda8f4bfbccc01f940c782326622851cb42c62"
-        '405':
-          description: Method Not allowed
-          content:
-            application/json: 
-              schema: {} 
-              example: 
-                details: "Method Not Alllowed"
     delete:
       summary: Call Delete Images
       description: Deletes all uploaded images.
@@ -405,17 +240,6 @@ paths:
           content:
             application/json:
               schema: {}
-              example:  
-                status: "success"
-                message: "All Images deleted"
-        '405':
-          description: Method Not allowed
-          content:
-            application/json: 
-              schema: {} 
-              example: 
-                details: "Method Not Alllowed"
-
   /api/v1/create:
     post:
       tags: 
@@ -429,69 +253,17 @@ paths:
             schema:
               $ref: '#/components/schemas/Body_call_create_api_v1_create_post'
       responses:
-        '200':
+        '201':
           description: Successful Response
           content:
             application/json:
               schema: {}
-              example:
-                status: "success"
-                message: "Request created with pk 123456"
-                details:
-                  status: "CREATED"
-                  asyncmode: xxx
-                  pk: "123456"  
         '422':
+          description: Validation Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-              examples:
-                Required parameter:
-                  summary: Field required
-                  value:
-                    status: "error"
-                    message: "Data validation error"
-                    detail:
-                      error_code: decd5282139a23a7
-                      error_message: "Invalid input fields"
-                      fields:
-                        xxx: "Field required"
-                Missing parameter:
-                  summary: Empty field
-                  value:
-                    status: "error"
-                    message: Data validation error
-                    detail:
-                      error_code: aecd5182139a23a9
-                      error_message: Invalid input fields
-                      fields:
-                        xxx: Empty field
-        '412':
-          content: 
-            application/json:
-              schema: {}
-              example:
-                status: "error"
-                message: "Error occured while creation request"
-                detail: 
-                  error_code: "247f7d86c7383d49"
-                  error_message: 
-                    email: [
-                      "Enter a valid email address."
-                      ]
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema: {}
-              example: 
-                status: "error"
-                message: "Invalid billing credentials"
-                detail:
-                  error_code: "1cb421b11f48637b"
-                  error_message: "Invalid billing credentials"
-
   /api/v1/request/{request_pk}:
     get:
       tags: 
@@ -514,88 +286,12 @@ paths:
           content:
             application/json:
               schema: {}
-              example: 
-                secrets: 
-                  puk: "70040984"
-                  enrollment_code: "bGxB86WR"
-                  pin: "58148177"
-                  erc: "8239245862"
-                request:
-                  pk: 822543
-                  given_name: "Nombre"
-                  second_name: null 
-                  surname_1: "Apellido1"
-                  surname_2: null
-                  sex: null
-                  id_document_type: IDC
-                  id_document_country: ES 
-                  serial_number: "0000000T"
-                  country_name: ES 
-                  citizenship: null 
-                  residence: null
-                  organization_email: null
-                  email: name@domain.com
-                  titile: null
-                  organization_name: null
-                  organizational_unit_1: null
-                  organizational_unit_2: null
-                  organization_identifier: null
-                  responsible_name: null 
-                  responsible_second_name: null 
-                  responsible_first_surname: null
-                  responsible_second_surname: null
-                  responsible_email: null
-                  responsible_serial: null
-                  responsible_position: null
-                  subscriber_responsible_serial: null
-                  administrative_unit: null
-                  empowerment: null
-                  representation: null
-                  circumstances: null
-                  limit: null
-                  registration: null
-                  process_application: null
-                  entity_owner: null
-                  entity_owner_serial_number: null 
-                  description: null 
-                  certificate_set: []
-                  profile: "PFnubeAFCiudadano"
-                  scratchcard: "3389580"
-                  status: ENROLLREADY
-                  registering_user: 
-                    pk: 1168
-                    permission_profile: 1
-                    registration_authority: 3
-                    request: 233342
-                  approving_user:
-                    pk: 1168
-                    permission_profile: 1
-                    registration_authority: 3
-                    request: 233342
-                  producing_user: null
-                  registration_authority: 3
-                  secure_element: 2
-                  validity_time: "24h"
-                  smartcard_sn: null
-                  citizen_tax_number: null
-                  birth_date: null
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: "error"
-                message: "Request xxx not found"
-                detail:
-                  error_code: "d1475ee205936d1f"
-                  error_message: "Request xxx not found"
     delete:
       tags: 
         -  Requests
@@ -616,20 +312,12 @@ paths:
           content:
             application/json:
               schema: {}
-              example: 
-                status: "success"
-                message: "Request 822880 deleted"
-        '404':
-          description: Not Found
+        '422':
+          description: Validation Error
           content:
             application/json:
-              schema: {}
-              example:
-                status: "error"
-                message: "Request xxx not found"
-                detail:
-                  error_code: "621b1ca26033983d"
-                  error_message: "Request xxx not found"
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
     put:
       tags: 
         -  Requests
@@ -656,6 +344,12 @@ paths:
           content:
             application/json:
               schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
   /api/v1/document/{request_pk}:
     post:
       tags: 
@@ -677,29 +371,12 @@ paths:
           content:
             application/json:
               schema: {}
-              example: 
-                status: "success"
-                detail: 
-                  name: file
-                  uid: "604b889f-6b3a-4af7-a24a-b5e610e7f7c1"
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: "error"
-                message: "Request xxx not found on disk"
-                detail:
-                  error_code: "cd8f9ff25091a35e"
-                  error_message: "Request xxx not found on disk"
-
   /api/v1/document/{request_pk}/{document_uid}:
     get:
       tags: 
@@ -736,31 +413,12 @@ paths:
           content:
             application/json:
               schema: {}
-              example: The retrieved image
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-        '405':
-          description: Method Not Allowed  
-          content:
-            application/json:
-              schema: {}
-              example:
-                detail: "Method Not Allowed"
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: error
-                message: Document xxx not found on disk
-                detail:
-                  error_code: bc056a47e2d5f44f
-                  error_message: Document 604b889f-6b3a-4af7-a24a-b5e610e7f7c1 not found on disk
     delete:
       tags: 
         -  Documents
@@ -788,35 +446,12 @@ paths:
           content:
             application/json:
               schema: {}
-              example:
-                status: success
-                message: Document 604b889f-6b3a-4af7-a24a-b5e610e7f7c1 deleted
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema: {}
-              example: 
-                status: error
-                message: Document xxx not found on disk
-                detail: 
-                  error_code: 94c9466d1b25b514
-                  error_message: Document xxx not found on disk
-        '405':
-          description: Method Not Allowed
-          content:
-            application/json:
-              schema: {}
-              example:
-                detail: Method Not Allowed 
-
-        
   /api/v1/documents/{request_pk}:
     get:
       tags: 
@@ -838,33 +473,12 @@ paths:
           content:
             application/json:
               schema: {}
-              example: 
-                status: success
-                detail:
-                  b40aa3a6-6e2b-421e-8759-5f7717b35b1a:
-                    uploaded_at: "20250416133306"
-                    digest: "0842f41ec0968541d1fe5c3b5268509c32979a2d91251990d5212969d099d12d"
-                    ext: ".pdf"
-                    filename: "sample.pdf"
-                    name_in_form: "file"
-                    cleaned: false
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema: {}
-              example: 
-                status: error
-                message: Request xxx not found on disk
-                detail: 
-                  error_code: 7d07460e3ca5843c
-                  error_message: Request xxx not found on disk
   /api/v1/contract/{request_pk}:
     get:
       tags: 
@@ -886,7 +500,6 @@ paths:
           content:
             application/json:
               schema: {}
-              example: The retrieved contract in pdf format
         '422':
           description: Validation Error
           content:
@@ -911,28 +524,12 @@ paths:
           schema:
             type: integer
             title: The ID of the Request to which generate the otp
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties: 
-                delivery_method:
-                  type: string
-                  description: Method selector to send the code. Default "sms" if field is not included or not set in settings file.
-                  enum:
-                    - sms
-                    - whatsapp
-        required: false
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
               schema: {}
-              example: 
-                status: success
-                detail: "OTP successfully sent to xxx"
         '422':
           description: Validation Error
           content:
@@ -966,23 +563,12 @@ paths:
           content:
             application/json:
               schema: {}
-              example:
-                status: success
-                message: "Signature process for Request 825527 completed"
-                detail:
-                  request: 825527
-                  documents: 
-                    signed: "[ 
-                          9464aa4a-c386-4721-9167-9ea2335686d2
-                          ]"
-                    inerror: []
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ValidationError'
           description: Unprocessable Entity
-                
   /api/v1/videoid:
     post:
       tags: 
@@ -1034,27 +620,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ValidationError'
           description: Unprocessable Entity
-  /api/v1/videoid/{videoid_pk}/approve:
-    post:
-      tags: 
-        -  Video ID
-      summary: Call Approve Videoid
-      description: Approve a VideoID
-      operationId: call_approve_videoid_api_v1_videoid__videoid_pk__approve_post
-      parameters:
-        - name: videoid_pk
-          in: path
-          description: ID of the VideoID to approve
-          required: true
-          schema:
-            type: integer
-            title: ID of the VideoID to approve
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema: {}
   /api/v1/videoid/{videoid_pk}/refuse:
     post:
       tags: 
@@ -1469,7 +1034,7 @@ components:
               type: string
               description: Terms and conditions document URL
           description: 'A set of acceptance parameters. </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Customizable object
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Customizable object
             for external authentication.</b></blockquote>'
         videoid_data:
           type: object
@@ -1533,7 +1098,7 @@ components:
                   description: The user's id document country two-letters code (ISO
                     3166-1 alpha-2)
               description: 'Optical Character Recognition result <blockquote style=''background-color:
-                #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Customizable
+                #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Customizable
                 object for external authentication.</b></blockquote>'
             security_checks:
               type: object
@@ -1560,14 +1125,14 @@ components:
                   type: boolean
                   description: The user is real check
               description: 'Security checks related to document integrity <blockquote
-                style=''background-color: #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš 
+                style=''background-color: #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠
                 Customizable object for external authentication.</b></blockquote>'
             similarity_level:
               type: integer
               description: Level of similarity between document picture and face selfie.
                 Ranges in [0,100].
           description: 'Data to upload for Video ID <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Customizable object
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Customizable object
             for external authentication.</b></blockquote>'
 
     HTTPValidationError:
@@ -1613,29 +1178,12 @@ components:
           type: string
           title: Image
           description: The previously uploaded image id
-        b64_image: 
-          tpye: string 
-          title: Image base 64
-          description: The image in base64 
-        qrcode: 
-          type: string
-          title: Image URL
-          description: URL is sent to view the qr in the graphic signature 
         text_size:
           type: integer
           title: Text Size
         text_align:
           type: string
           title: Text Align
-        reason:
-          type: string 
-          title: reason 
-          description: Reason about the signature
-        location:
-          type: string
-          title: location
-          description: Geographic location about the signature
-
       type: object
       title: SignatureAppearance
     SignatureParams:
@@ -1741,37 +1289,37 @@ components:
         registration_authority:
           type: string
           description: 'The Registration Authority ID number </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Required only if
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Required only if
             not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
             Settings</a> call.</b></blockquote>'
         profile:
           type: string
           description: 'The certificate profile </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Required only if
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Required only if
             not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
             Settings</a> call.</b></blockquote>'
         billing_username:
           type: string
           description: 'The client billing username. </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Required only if
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Required only if
             not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
             Settings</a> call.</b></blockquote>'
         billing_password:
           type: string
           description: 'The client billing password in Base64 format. </br> <blockquote
-            style=''background-color: #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš 
+            style=''background-color: #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠
             Required only if not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
             Settings</a> call.</b></blockquote>'
         webhook_url:
           type: string
           description: 'The webhook URL. </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Not required for
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Not required for
             external authentication. See <a href=''#section/Webhook-Configuration''>Webhook
             Configuration</a> section</b></blockquote>'
         env:
           type: string
           description: 'The API work environment. </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Required only if
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Required only if
             not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
             Settings</a> call.</b></blockquote>'
           enum:
@@ -1790,7 +1338,7 @@ components:
         scratchcard:
           type: string
           description: 'The request scratchcard id. </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  The scratchcard
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ The scratchcard
             id can be found as a field of the object <b>details</b> when executing
             <a href=''#tag/Requests/paths/~1api~1v1~1request~1{request_pk}/get''>Get
             Request</a> call.</b></blockquote>'
@@ -1838,28 +1386,28 @@ components:
         token:
           type: string
           description: 'The token containing RAO''s credentials. </br> <blockquote
-            style=''background-color: #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš 
+            style=''background-color: #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠
             Not required when RAO''s credentials (username, password, pin) are included
             as fields in this call.</b></blockquote>'
         username:
           type: string
           description: 'The RAO''s username </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Not required when
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Not required when
             included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
         password:
           type: string
           description: 'The RAO''s password </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Not required when
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Not required when
             included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
         pin:
           type: string
           description: 'The RAO''s PIN </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Not required when
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Not required when
             included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
         rao:
           type: string
           description: 'The RAO''s id </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Not required when
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Not required when
             included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
         reason:
           type: string
