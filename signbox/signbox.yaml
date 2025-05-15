@@ -706,7 +706,7 @@ components:
               "image": "be1cd133-8be5-4346-87de-d40afd90a3b9",
               "horizontal": true,
               "page": 0
-            }
+            } 
         signature_subfilter:
           type: string
           enum:
@@ -715,6 +715,9 @@ components:
           title: Signature Subfilter
           description: Change the signature subfilter
           default: ETSI.CAdES.detached
+        certificate_check:
+          tpye: boolean
+          description: verification of certificate validity status 
         useasync:
           type: boolean
           title: Useasync
@@ -794,4 +797,3 @@ components:
         - error_code
         - detail
       title: HTTPError
-
