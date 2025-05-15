@@ -1,4 +1,4 @@
-iiiopenapi: 3.0.1
+openapi: 3.0.1
 security: []
 info:
   title: SignBox API
@@ -7,14 +7,9 @@ info:
     For testing purposes, Uanataca provides integrators of a pre-configured test-mode SignBox Optimizer accessible at the following URL: `https://signbox.developers.uanataca.com`
 
     For more information about the sandbox environment click here. [UANATACA SIGNBOX API Sandbox](https://namirial.atlassian.net/wiki/spaces/BES/pages/276856895/UANATACA+SIGNBOX+API#Sandbox-Environment)
-    
 
   x-logo:
     url: https://web.uanataca.com/common/project/svg/logo.svg
-
-servers:
-  - url: /signbox 
-
 paths:
   /api/v1/echo:
     get:
@@ -38,48 +33,16 @@ paths:
             text/plain:
               schema:
                 type: string
-      x-codeSamples:
-        - lang: curl
-          source: curl -X GET 'https://signbox.sandbox.uanataca.com/api/v1/echo?message=HelloWorld'
-          label: curl
-  /api/v1/image:
-    post:
-      summary: Upload Image
-      description: Uploads an image for using in a visual graphic signature.
-      operationId: call_upload_image_api_v1_image_post
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/Body_call_upload_image_api_v1_image_post'
-        required: true
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: "success" 
-                message: "Image uploaded with uid '463156ce-d566-44d2-94e9-184d89632b98'"
-                details:
-                  image_uid: "463156ce-d566-44d2-94e9-184d89632b98"
-        
         '422':
-          description: Validation Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPError'
-              example:
-                status: "error"
-                message: "Data validation error"
-                detail: 
-                  error_code: "41117e5a6fe99a22"
-                  error_message: "Invalid input fields"
-                  fields:
-                    image: "Field required"
-
+          description: Unprocessable Entity
+      x-codeSamples:
+        - lang: curl
+          source: curl -X GET 'https://signbox.sandbox.uanataca.com/api/v1/echo?message=HelloWorld'
+          label: curl
   /api/v1/sign:
     post:
       summary: Sign
@@ -123,59 +86,18 @@ paths:
                 type: string
                 format: binary
                 description: Signed file
+        '401':
+          content:
             application/json:
-              schema: {}
-              example: 
-                value:
-                  status: success
-                  message: "New job process created"
-                  detail: 
-                    status: created
-                    format: xxx
-                    env: xxx 
-                    jobid: 9bf9513f-3f9b-4020-b3a6-7275e3cd76e1
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+          description: Unauthorized
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPError'
-              examples:
-                Required parameter:
-                  summary: Field required
-                  value:
-                    status: "error"
-                    message: "Data validation error"
-                    detail:
-                      error_code: decd5282139a23a7
-                      error_message: "Invalid input fields"
-                      fields:
-                        xxx: "Field required"
-                Missing parameter:
-                  summary: Empty field
-                  value:
-                    status: "error"
-                    message: Data validation error
-                    detail:
-                      error_code: aecd5182139a23a9
-                      error_message: Invalid input fields
-                      fields:
-                        xxx: Empty field
           description: Unprocessable Entity
-        '403':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPError'
-              examples:
-                Invalid billing:
-                  summary: Invalid or missing billing parameters
-                  value:
-                    status: "error"
-                    message: "Invalid billing credentials"
-                    details:
-                      error_code: "xxx"
-                      error_message: "Invalid billing credentials"
-          description: Forbidden
       x-codeSamples:
         - lang: curl
           source: 'curl -X POST ''https://signbox.sandbox.uanataca.com/api/v1/sign''   -H ''Content-Type: multipart/form-data''   -F file=@file.pdf   --form-string ''username=username''   --form-string ''pin=pin''   --form-string ''password=password''   --form-string ''format=PADES''   --form-string ''level=BASIC'''
@@ -198,6 +120,12 @@ paths:
           content:
             application/json:
               schema: {}
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+          description: Unprocessable Entity
   /api/v1/result/{jobid}:
     get:
       summary: Result
@@ -215,7 +143,13 @@ paths:
           description: Successful Response
           content:
             application/json:
-              schema: {}        
+              schema: {}
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+          description: Unprocessable Entity
   /api/v1/otp:
     post:
       summary: Otp
@@ -233,36 +167,12 @@ paths:
           content:
             application/json:
               schema: {}
-              example: 
-                status: success
-                message: OTP generated
         '422':
           description: Unprocessable Entity
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPError'
-              examples:
-                Field required:
-                  summary: Field required 
-                  value: 
-                    status: error
-                    message: Data validation error 
-                    detail:
-                      error_code: 06aaf9e1ca002fe9
-                      error_message: Invalid input fields 
-                      fields:
-                        xxx: Field required
-                Missing parameter:
-                  summary: Empty field
-                  value:
-                    status: "error"
-                    message: Data validation error
-                    detail:
-                      error_code: aecd5182139a23a9
-                      error_message: Invalid input fields
-                      fields:
-                        xxx: Empty field
       x-codeSamples:
         - lang: curl
           source: 'curl -X POST ''https://signbox.sandbox.uanataca.com/api/v1/otp''   -H ''Content-Type: multipart/form-data''   --form-string ''username=username''   --form-string ''password=password'''
@@ -286,38 +196,12 @@ paths:
               schema:
                 type: string
                 description: Session id
-                example:
-                  status: success
-                  message: Session opened
-                  detail: 
-                    sessionid: a07e9c99-c83e-424f-a396-20b4683fa2a0
         '422':
           description: Unprocessable Entity
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPError'
-              examples:
-                Required parameter:
-                  summary: Field required
-                  value:
-                    status: "error"
-                    message: "Data validation error"
-                    detail:
-                      error_code: decd5282139a23a7
-                      error_message: "Invalid input fields"
-                      fields:
-                        xxx: "Field required"
-                Missing parameter:
-                  summary: Empty field
-                  value:
-                    status: "error"
-                    message: Data validation error
-                    detail:
-                      error_code: aecd5182139a23a9
-                      error_message: Invalid input fields
-                      fields:
-                        xxx: Empty field
       x-codeSamples:
         - lang: curl
           source: 'curl -X POST ''https://signbox.sandbox.uanataca.com/api/v1/open_session''   -H ''Content-Type: multipart/form-data''   --form-string ''username=username''   --form-string ''password=password''   --form-string ''otp=otp'''
@@ -345,27 +229,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPError'
-              examples:
-                Required parameter:
-                  summary: Field required
-                  value:
-                    status: "error"
-                    message: "Data validation error"
-                    detail:
-                      error_code: decd5282139a23a7
-                      error_message: "Invalid input fields"
-                      fields:
-                        xxx: "Field required"
-                Missing parameter:
-                  summary: Empty field
-                  value:
-                    status: "error"
-                    message: Data validation error
-                    detail:
-                      error_code: aecd5182139a23a9
-                      error_message: Invalid input fields
-                      fields:
-                        xxx: Empty field
       x-codeSamples:
         - lang: curl
           source: 'curl -X POST ''https://signbox.sandbox.uanataca.com/api/v1/close_session''   -H ''Content-Type: multipart/form-data''   --form-string ''username=username''   --form-string ''password=password''   --form-string ''sessionid=sessionid'''
@@ -422,27 +285,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPError'
-              examples:
-                Field required:
-                  summary: Field required 
-                  value: 
-                    status: error
-                    message: Data validation error 
-                    detail:
-                      error_code: 06aaf9e1ca002fe9
-                      error_message: Invalid input fields 
-                      fields:
-                        xxx: Field required
-                Missing parameter:
-                  summary: Empty field
-                  value:
-                    status: "error"
-                    message: Data validation error
-                    detail:
-                      error_code: aecd5182139a23a9
-                      error_message: Invalid input fields
-                      fields:
-                        xxx: Empty field
       x-codeSamples:
         - lang: curl
           source: 'curl -X POST ''https://signbox.sandbox.uanataca.com/api/v1/timestamp''   -H ''Content-Type: multipart/form-data''   -F file=@file.pdf   --form-string ''url=url''   --form-string ''username=username''   --form-string ''password=password''   --form-string ''format=TSD'''
@@ -534,17 +376,6 @@ components:
         - username
         - password
       title: Body_otp_api_v1_otp_post
-    Body_call_upload_image_api_v1_image_post:
-      properties:
-        image:
-          type: array
-          description: The image to add in the visual graphic signature in PNG format
-          format: string
-          title: Image
-      type: object
-      required:
-        - image
-      title: Body_call_upload_image_api_v1_image_post
     Body_sign_api_v1_sign_post:
       properties:
         file:
@@ -598,10 +429,6 @@ components:
           title: Identifier
           description: Digital identity identifier
           default: DS0
-        certificate_check: 
-          tpye: string 
-          title: certificate_check
-          description: Parameter of the validation of the certificate to be signed
         format:
           type: string
           title: Format
@@ -683,36 +510,22 @@ components:
           title: Signature Appearance
           description: |
             Describes the signature appearance like an HTML object.
-            The parameters are
-              - **text** This property controls the text that is going to be introduced. Through variables you retrieve information from the signer certificate. '%(CN)', '%(SUBJECT)s', '%(DATE)s', '%(E)s' can be used.
-              - **date** Date formatting in dd/mm/YY-HH/MM/SS regex. An input example would be %d/%m/%Y %H:%M:%S
-              - **timezone** Selected timezone for the graphic signature. Europe/Barcelona
-              - **position** The coordinates in points (pt) for signature image position and size, starting from bottom left corner (x1,y1,x2,y2). 1px = 0.75pt.
-              - **image** The previously uploaded image id
-              - **b64_image** the image in base64 
-              - **qrcode** a URL is sent to view the qr in the graphic signature       
-              - **horizontal** 
-              - **page** The document page where the signature will be placed. The first page starts at 0
-              - **timezone** Selected timezone for the graphic signature. `Europe/Barcelona`
-              - **text_size** 
-              - **text_align** 
-              - **reason** Reason about the signature
-              - **location** Geographic location about the signature
-              
-            ```json
-            {
-              "text": [
-                "Firmado por: %(CN)s",
-                "%(EMAIL)s %(L)s %(SUBJECT)s",
-                "Fecha: %(DATE)s"
-              ],
-              "date": "%d/%m/%Y %H:%M:%S %z",
-              "timezone": "America/Guatemala",
-              "position": "30,100,165,150",
-              "image": "be1cd133-8be5-4346-87de-d40afd90a3b9",
-              "horizontal": true,
-              "page": 0
-            }
+
+            The acceptable tags are Grid, Stack and Paragraph.
+
+            Grid defines a horizontal layout, Stack defines a vertical layout and
+             Paragraph defines a text element.
+
+            The "background" attribute is the base64 encoded image to be used as a background.
+
+            Paragraph accepts some placeholder as text.
+
+            Example:
+
+                <Stack background="iVBORw0KG...">
+                  <Paragraph>Common name: {CN}</Paragraph>
+                  <Paragraph>time: {time}</Paragraph>
+                </Stack>
         signature_subfilter:
           type: string
           enum:
@@ -800,4 +613,3 @@ components:
         - error_code
         - detail
       title: HTTPError
-
