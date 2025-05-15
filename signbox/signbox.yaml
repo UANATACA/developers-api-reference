@@ -541,6 +541,7 @@ components:
           description: The image to add in the visual graphic signature in PNG format
           format: string
           title: Image
+      type: object
       required:
         - image
       title: Body_call_upload_image_api_v1_image_post
