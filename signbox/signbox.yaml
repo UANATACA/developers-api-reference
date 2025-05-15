@@ -292,7 +292,7 @@ paths:
                   detail: 
                     sessionid: a07e9c99-c83e-424f-a396-20b4683fa2a0
         '422':
-          description: Unprocessable Entity
+          description: Unprocessable Entity 
           content:
             application/json:
               schema:
