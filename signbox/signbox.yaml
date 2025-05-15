@@ -799,5 +799,5 @@ components:
       required:
         - error_code
         - detail
-      title: HTTPError
+      title: HTTPError 
 
