@@ -292,7 +292,7 @@ paths:
                   detail: 
                     sessionid: a07e9c99-c83e-424f-a396-20b4683fa2a0
         '422':
-          description: Unprocessable Entity 
+          description: Unprocessable Entity
           content:
             application/json:
               schema:
@@ -597,6 +597,10 @@ components:
           title: Identifier
           description: Digital identity identifier
           default: DS0
+        certificate_check:
+          type: boolean
+          title: certificate_check
+          description: Verification of certificate validity status 
         format:
           type: string
           title: Format
