@@ -141,7 +141,7 @@ paths:
                 $ref: '#/components/schemas/HTTPError'
               examples:
                 Required parameter:
-                  summary: Field required
+                  summary: Field required 
                   value:
                     status: "error"
                     message: "Data validation error"
