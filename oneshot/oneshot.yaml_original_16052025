@@ -1,8 +1,8 @@
 openapi: 3.0.1
 security: []
 info:
-  title: Oneshot API
-  version: 1.0.0
+  title: FastAPI
+  version: 0.1.0
   description: |
     For testing purposes, Uanataca provides integrators of a pre-configured test-mode One-Shot Optimizer accessible at the following URL: `https://one-shot.developers.uanataca.com`
 
@@ -13,6 +13,8 @@ servers:
 tags:
 - name: Settings
   description: 'Endpoints to manage the service settings'
+- name: Metadata
+  description: 'Endpoints to manage metadata objects'
 - name: Tokens
   description: 'Endpoints to manage the tokens'
 - name: Requests
@@ -242,7 +244,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/UploadImage'
+              $ref: '#/components/schemas/Body_call_upload_image_api_v1_image_post'
         required: true
       responses:
         '200':
@@ -395,8 +397,6 @@ paths:
                 details: "Method Not Alllowed"
     delete:
       summary: Call Delete Images
-      tags:
-        - Images
       description: Deletes all uploaded images.
       operationId: call_delete_images_api_v1_images_delete
       responses:
@@ -427,7 +427,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/CreateRequest'
+              $ref: '#/components/schemas/Body_call_create_api_v1_create_post'
       responses:
         '200':
           description: Successful Response
@@ -1185,7 +1185,7 @@ paths:
           description: Unprocessable Entity
 components:
   schemas:
-    CreateRequest:
+    Body_call_create_api_v1_create_post:
       required: 
         - billing_password
         - billing_username
@@ -1227,7 +1227,7 @@ components:
         id_document_country:
           type: string
           description: The user's id document country two-letters code (ISO
-            3166-1 alpha-2). 
+            3166-1 alpha-2). **Default "ES" if field is not included.**
         serial_number:
           type: string
           description: User's id document serial number
@@ -1240,10 +1240,18 @@ components:
             prefix
         registration_authority:
           type: string
-          description: 'The Registration Authority id number.'
+          description: 'The Registration Authority id number.</br> <blockquote
+            style=''background-color: #faf3ac; border-color: #5a5a5a; color:
+            #3b3b3b;''><b>Required only if not set at settings.ini file.</b></blockquote>'
         profile:
           type: string
-          description: 'Digital certificate profiles'
+          description: ' Digital certificate profiles allowed:</br> * **PFnubeQAFCiudadano**
+            - Uanataca''s eIDAS qualified digital certificate used for qualified
+            signature in the European Union </br> * **PFnubeNC** - Uanataca''s
+            normalized digital certificate used for advanced signature </br>
+            <blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;
+            color: #3b3b3b;''><b>Required only if not set at settings.ini
+            file.</b></blockquote>'
         token:
           type: string
           description: 'The Registration Authority Officer (RAO)''s token
@@ -1286,21 +1294,21 @@ components:
           type: string
           description: 'The API work environment. </br> <blockquote style=''background-color:
             #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>Required
-            only if not set at settings.toml file.</b></blockquote>'
+            only if not set at settings.ini file.</b></blockquote>'
           enum:
           - sandbox
           - prod
         billing_username:
           type: string
-          description: 'Billing account password in base64 or plain text </br> <blockquote style=''background-color:
+          description: 'The client billing username. </br> <blockquote style=''background-color:
             #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>Required
-            only if not set at settings.toml file.</b></blockquote>'
+            only if not set at settings.ini file.</b></blockquote>'
         billing_password:
           type: string
           format: base64
           description: 'The client billing password in Base64 format. </br>
             <blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;
-            color: #3b3b3b;''><b>Required only if not set at settings.toml
+            color: #3b3b3b;''><b>Required only if not set at settings.ini
             file.</b></blockquote>'
         useasync:
           type: boolean
@@ -1310,7 +1318,7 @@ components:
           description: Webhook URL where the information of the asynchronous flow is going to be sent. 
         communication_language:
           type: string
-          description: Two letter code language for communications(ISO3166-1 alpha-2). Default ES
+          description: Two letter code language for communications(ISO3166-1 alpha-2).
           enum: 
             - ES
             - PL
@@ -1330,7 +1338,7 @@ components:
         special_conditions:
           type: string
           description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>Required only in certain profiles</b></blockquote>'
-    UploadImage:
+    Body_call_upload_image_api_v1_image_post:
       properties:
         image:
           type: array
@@ -1340,7 +1348,7 @@ components:
       type: object
       required:
         - image
-      title: Upload Image
+      title: Body_call_upload_image_api_v1_image_post
     CounterSignatureParams:
       properties:
         appearance:
@@ -1600,7 +1608,7 @@ components:
         page:
           type: integer
           title: Page
-          description: The document page where the signature will be placed. The first page starts at `0` and it's the default
+          description: The document page where the signature will be placed. The first page starts at `0`
         image:
           type: string
           title: Image
@@ -1612,15 +1620,13 @@ components:
         qrcode: 
           type: string
           title: Image URL
-          description: url used to build a qr
+          description: URL is sent to view the qr in the graphic signature 
         text_size:
           type: integer
           title: Text Size
-          description: Controls the text size.
         text_align:
           type: string
           title: Text Align
-          description: Controls the horizontal alignment of text 
         reason:
           type: string 
           title: reason 
@@ -1629,6 +1635,7 @@ components:
           type: string
           title: location
           description: Geographic location about the signature
+
       type: object
       title: SignatureAppearance
     SignatureParams:
@@ -1733,23 +1740,34 @@ components:
           description: The signer's email
         registration_authority:
           type: string
-          description: 'The Registration Authority ID number'
+          description: 'The Registration Authority ID number </br> <blockquote style=''background-color:
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Required only if
+            not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
+            Settings</a> call.</b></blockquote>'
         profile:
           type: string
-          description: 'The certificate profile'
+          description: 'The certificate profile </br> <blockquote style=''background-color:
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Required only if
+            not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
+            Settings</a> call.</b></blockquote>'
         billing_username:
           type: string
           description: 'The client billing username. </br> <blockquote style=''background-color:
             #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Required only if
-            not set at settings.toml file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
+            not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
             Settings</a> call.</b></blockquote>'
         billing_password:
           type: string
           description: 'The client billing password in Base64 format. </br> <blockquote
             style=''background-color: #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš 
-            Required only if not set at settings.toml file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
+            Required only if not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
             Settings</a> call.</b></blockquote>'
-
+        webhook_url:
+          type: string
+          description: 'The webhook URL. </br> <blockquote style=''background-color:
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Not required for
+            external authentication. See <a href=''#section/Webhook-Configuration''>Webhook
+            Configuration</a> section</b></blockquote>'
         env:
           type: string
           description: 'The API work environment. </br> <blockquote style=''background-color:
