@@ -806,7 +806,7 @@ components:
           default: BASIC  
         tsa_url:
           type: string
-          maxLength: 2083
+          maxLength: 2083 
           minLength: 1
           format: uri
           title: Tsa Url
