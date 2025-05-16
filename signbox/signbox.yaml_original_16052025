@@ -19,8 +19,6 @@ paths:
   /api/v1/echo:
     get:
       summary: Echo
-      tags: 
-        - Signature
       description: Replies back what it receives to check the service availability.
       operationId: echo_api_v1_echo_get
       parameters:
@@ -47,15 +45,13 @@ paths:
   /api/v1/image:
     post:
       summary: Upload Image
-      tags: 
-        - Images
       description: Uploads an image for using in a visual graphic signature.
       operationId: call_upload_image_api_v1_image_post
       requestBody:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Upload_image'
+              $ref: '#/components/schemas/Body_call_upload_image_api_v1_image_post'
         required: true
       responses:
         '200':
@@ -84,159 +80,9 @@ paths:
                   fields:
                     image: "Field required"
 
-
-  /api/v1/image/{image_uid}:
-    get:
-      tags: 
-        -  Images
-      summary: Call Get Image
-      description: Retrieves a previously uploaded image.
-      operationId: call_get_image_api_v1_image__image_uid__get
-      parameters:
-        - name: image_uid
-          in: path
-          description: The image unique identifier
-          required: true
-          schema:
-            title: Image Uid
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            image/png:
-              schema: {}
-              example: The retrieved image in png format
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-        '405':
-          description: Method Not allowed
-          content:
-            application/json: 
-              schema: {} 
-              example: 
-                details: "Method Not Alllowed"
-        '404':
-          description: "Not Found"
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: "error"
-                message: "Image xxx not found on disk"
-                detail:
-                  error_code: "f95a1897e69e95d3"
-                  error_message: "Image xxx not found on disk"
-    delete:
-      summary: Call Delete Image
-      tags: 
-        -  Images
-      description: Deletes a previously uploaded image.
-      operationId: call_delete_image_api_v1_image__image_uid__delete
-      parameters:
-        - name: image_uid
-          in: path
-          description: The image unique identifier
-          required: true
-          schema:
-            title: Image Uid
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: success
-                message: "Image c4cb5944-463156ce-d566-44d2-94e9-184d89632b98 deleted"
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-        '405':
-          description: Method Not allowed
-          content:
-            application/json: 
-              schema: {} 
-              example: 
-                details: "Method Not Alllowed"
-        '404':
-          description: "Not Found"
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: "error"
-                message: "Image xxx not found on disk"
-                detail:
-                  error_code: "992f6c95e257d711"
-                  error_message: "Image xxx not found on disk"
-  /api/v1/images:
-    get:
-      tags: 
-        -  Images
-      summary: Call List Images
-      description: Lists all uploaded images.
-      operationId: call_list_images_api_v1_images_get
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: success 
-                detials: 
-                  aef3f74c-0f39-408f-8f54-657bd71d6d3a:
-                    content_type: "image/png"
-                    filename: "xxx.png"
-                    digest: "ea9c05a7228cd8106a0bcedd8ce7952dee24455e6ebd1354a9a9d99023cbc5ed"
-                  93868edb-561d-4439-a56d-79f2a8c32087:
-                    content_type: "image/jpeg"
-                    filename: "xxx.jpg"
-                    digest: "eff1343e1353940a23a199bb0ecda8f4bfbccc01f940c782326622851cb42c62"
-        '405':
-          description: Method Not allowed
-          content:
-            application/json: 
-              schema: {} 
-              example: 
-                details: "Method Not Alllowed"
-    delete:
-      summary: Call Delete Images
-      tags:
-        - Images
-      description: Deletes all uploaded images.
-      operationId: call_delete_images_api_v1_images_delete
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema: {}
-              example:  
-                status: "success"
-                message: "All Images deleted"
-        '405':
-          description: Method Not allowed
-          content:
-            application/json: 
-              schema: {} 
-              example: 
-                details: "Method Not Alllowed"
-
-
-
   /api/v1/sign:
     post:
       summary: Sign
-      tags: 
-        - Signature
       description: Signs the submitted file.
       operationId: sign_api_v1_sign_post
       parameters:
@@ -257,7 +103,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Sign'
+              $ref: '#/components/schemas/Body_sign_api_v1_sign_post'
       responses:
         '200':
           description: Successful Response
@@ -295,7 +141,7 @@ paths:
                 $ref: '#/components/schemas/HTTPError'
               examples:
                 Required parameter:
-                  summary: Field required
+                  summary: Field required 
                   value:
                     status: "error"
                     message: "Data validation error"
@@ -337,8 +183,6 @@ paths:
   /api/v1/job/{jobid}:
     get:
       summary: Job
-      tags: 
-        - Troubleshooting
       description: Get job status
       operationId: job_api_v1_job__jobid__get
       parameters:
@@ -357,8 +201,6 @@ paths:
   /api/v1/result/{jobid}:
     get:
       summary: Result
-      tags: 
-        - Troubleshooting
       description: Get job result
       operationId: result_api_v1_result__jobid__get
       parameters:
@@ -377,15 +219,13 @@ paths:
   /api/v1/otp:
     post:
       summary: Otp
-      tags:
-        - Signature
       description: Generates an otp for the specified digital identity.
       operationId: otp_api_v1_otp_post
       requestBody:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Otp'
+              $ref: '#/components/schemas/Body_otp_api_v1_otp_post'
         required: true
       responses:
         '200':
@@ -430,15 +270,13 @@ paths:
   /api/v1/open_session:
     post:
       summary: Open Session
-      tags: 
-        - Signature
       description: Open a signature session for the specified digital identity.
       operationId: open_session_api_v1_open_session_post
       requestBody:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Open_session'
+              $ref: '#/components/schemas/Body_open_session_api_v1_open_session_post'
         required: true
       responses:
         '200':
@@ -487,15 +325,13 @@ paths:
   /api/v1/close_session:
     post:
       summary: Close Session
-      tags: 
-        - Signature
       description: Close the specified signature session.
       operationId: close_session_api_v1_close_session_post
       requestBody:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Close_session'
+              $ref: '#/components/schemas/Body_close_session_api_v1_close_session_post'
         required: true
       responses:
         '200':
@@ -537,15 +373,13 @@ paths:
   /api/v1/timestamp:
     post:
       summary: Timestamp
-      tags: 
-        - Timestamp
       description: Timestamps the submitted file
       operationId: timestamp_api_v1_timestamp_post
       requestBody:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Timestamp'
+              $ref: '#/components/schemas/Body_timestamp_api_v1_timestamp_post'
         required: true
       responses:
         '200':
@@ -615,7 +449,7 @@ paths:
           label: curl
 components:
   schemas:
-    Close_session:
+    Body_close_session_api_v1_close_session_post:
       properties:
         username:
           type: string
@@ -644,8 +478,8 @@ components:
         - username
         - password
         - sessionid
-      title: Close session
-    Open_session:
+      title: Body_close_session_api_v1_close_session_post
+    Body_open_session_api_v1_open_session_post:
       properties:
         username:
           type: string
@@ -674,8 +508,8 @@ components:
         - username
         - password
         - otp
-      title: Open_session
-    Otp:
+      title: Body_open_session_api_v1_open_session_post
+    Body_otp_api_v1_otp_post:
       properties:
         username:
           type: string
@@ -699,8 +533,8 @@ components:
       required:
         - username
         - password
-      title: Otp
-    Upload_image:
+      title: Body_otp_api_v1_otp_post
+    Body_call_upload_image_api_v1_image_post:
       properties:
         image:
           type: array
@@ -710,35 +544,35 @@ components:
       type: object
       required:
         - image
-      title: Upload_image
-    Sign:
+      title: Body_call_upload_image_api_v1_image_post
+    Body_sign_api_v1_sign_post:
       properties:
         file:
           type: string
           format: binary
           title: File
-          description: File to be signed. If this parameter is specified, **leave `url_in` blank**
+          description: File to be signed. If this parameter is specified, **leave `url_in` blank**"
         url_in:
           type: string
           maxLength: 2083
           minLength: 1
           format: uri
           title: Url In
-          description: Url to download the file to sign. If this parameter is specified, **leave `file_in` blank**  
+          description: Url where to get the file to sign. If this parameter is specified, **leave `file_in` blank**"  
         url_out:
           type: string
           maxLength: 2083
           minLength: 1
           format: uri
           title: Url Out
-          description: Url where to send the signed file
+          description: Url where to upload the signed file
         urlback:
           type: string
           maxLength: 2083
           minLength: 1
           format: uri
           title: Urlback
-          description: Url where to send log process informations
+          description: Url where to log process informations
         env:
           type: string
           description: "Reference environment for sandbox or production \n
@@ -797,7 +631,7 @@ components:
             - LTV
             - LTVLITE
           title: Level
-          description: "Specify the level of the signature \n
+          description: "Specify the level of the signature... \n
             - BASIC, T, LTV, LTVLITE for pades\n
 
             - BASIC, T, EPES, XL for xades\n
@@ -810,24 +644,17 @@ components:
           minLength: 1
           format: uri
           title: Tsa Url
-          description: 'Timestamp service URL. This field is required for signatures with levels T or LTV
-           </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Required only if
-            not set at settings.toml file.'
+          description: Timestamp service URL. This field is required for signatures with levels T or LTV
           default: https://tsa.uanataca.com/tsa/tss03
         tsa_user:
           type: string
           title: Tsa User
-          description: 'Timestamp service billing username. </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Required only if
-            not set at settings.toml file.'
+          description: Timestamp service username.
           default: ''
         tsa_pass:
           type: string
           title: Tsa Pass
-          description: 'Timestamp service billing password. </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Required only if
-            not set at settings.toml file.'
+          description: Timestamp service password.
           default: ''
         billing_username:
           type: string
@@ -836,7 +663,7 @@ components:
         billing_password:
           type: string
           title: Billing Password
-          description: Billing account password in base64 or plain text
+          description: Billing account password
         page:
           type: integer
           title: Page
@@ -846,24 +673,28 @@ components:
           type: string
           title: Signature Ids
           description: 'PDF signature field ids to sign (Example: signature1,signature2)'
+        position:
+          type: string
+          title: Position
+          description: 'The image rectangle bottom-left & top-right corner coordinates in pixels corresponding to 72DPI resolution. For an A4 document page, X-Y values ranges from 0-595 and 0-842 pixels respectively. (Example: 300,100,500,150)'
         signature_appearance:
           type: string
           title: Signature Appearance
           description: |
-            Describes the signature appearance like an JSON object.
-            The parameters are:
+            Describes the signature appearance like an HTML object.
+            The parameters are
               - **text** This property controls the text that is going to be introduced. Through variables you retrieve information from the signer certificate. '%(CN)', '%(SUBJECT)s', '%(DATE)s', '%(E)s' can be used.
-              - **date** Date formatting. An input example would be %d/%m/%Y %H:%M:%S
-              - **timezone** Selected timezone for the graphic signature, default is UTC.
-                              You can list the time zones with the following linux command: timedatectl list-timezones
+              - **date** Date formatting in dd/mm/YY-HH/MM/SS regex. An input example would be %d/%m/%Y %H:%M:%S
+              - **timezone** Selected timezone for the graphic signature. Europe/Barcelona
               - **position** The coordinates in points (pt) for signature image position and size, starting from bottom left corner (x1,y1,x2,y2). 1px = 0.75pt.
               - **image** The previously uploaded image id
               - **b64_image** the image in base64 
-              - **qrcode** url used to build a qr
+              - **qrcode** a URL is sent to view the qr in the graphic signature       
               - **horizontal** 
               - **page** The document page where the signature will be placed. The first page starts at 0
-              - **text_size** Controls the text size.
-              - **text_align** Controls the horizontal alignment of text 
+              - **timezone** Selected timezone for the graphic signature. `Europe/Barcelona`
+              - **text_size** 
+              - **text_align** 
               - **reason** Reason about the signature
               - **location** Geographic location about the signature
               
@@ -883,14 +714,16 @@ components:
             } 
         signature_subfilter:
           type: string
-          enum: [ETSI.CAdES.detached, adbe.pkcs7.detached]
+          enum:
+            - ETSI.CAdES.detached
+            - adbe.pkcs7.detached
           title: Signature Subfilter
-          description: Change the signature subfilter. Default ETSI.CAdES.detached
+          description: Change the signature subfilter
           default: ETSI.CAdES.detached
         useasync:
           type: boolean
           title: Useasync
-          description: Enable the asyncronous flow. Default asynchronous
+          description: Enable the asyncronous flow
           default: true
       type: object
       required:
@@ -899,8 +732,8 @@ components:
         - pin
         - billing_username
         - billing_password
-      title: Sign
-    Timestamp:
+      title: Body_sign_api_v1_sign_post
+    Body_timestamp_api_v1_timestamp_post:
       properties:
         file:
           type: string
@@ -917,11 +750,11 @@ components:
         username:
           type: string
           title: Username
-          description: Timestamp service billing username
+          description: Timestamp service username
         password:
           type: string
           title: Password
-          description: Timestamp service billing password
+          description: Timestamp service password
         format:
           type: string
           enum:
@@ -932,7 +765,7 @@ components:
             - M7M
             - P7M
           title: Format
-          description: "Supported timestamp formats. Default PDF \n
+          description: "Supported timestamp formats \n
             - TSR \n
             
             - TSD \n
@@ -953,7 +786,7 @@ components:
       required:
         - file
         - url
-      title: Timestamp
+      title: Body_timestamp_api_v1_timestamp_post
     HTTPError:
       properties:
         error_code:
@@ -966,4 +799,3 @@ components:
         - error_code
         - detail
       title: HTTPError
-
