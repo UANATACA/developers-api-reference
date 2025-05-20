@@ -806,27 +806,27 @@ components:
           default: BASIC  
         tsa_url:
           type: string
-          maxLength: 2083
+          maxLength: 2083 
           minLength: 1
           format: uri
           title: Tsa Url
           description: 'Timestamp service URL. This field is required for signatures with levels T or LTV
            </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>Required only if
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Required only if
             not set at settings.toml file.'
           default: https://tsa.uanataca.com/tsa/tss03
         tsa_user:
           type: string
           title: Tsa User
           description: 'Timestamp service billing username. </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>Required only if
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Required only if
             not set at settings.toml file.'
           default: ''
         tsa_pass:
           type: string
           title: Tsa Pass
           description: 'Timestamp service billing password. </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>Required only if
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>âš  Required only if
             not set at settings.toml file.'
           default: ''
         billing_username:
@@ -907,18 +907,18 @@ components:
           format: binary
           title: File
           description: File to be timestamped
-        tsa_url:
+        url:
           type: string
           maxLength: 2083
           minLength: 1
           format: uri
           title: Url
           description: Timestamp service URL
-        billing_username:
+        username:
           type: string
           title: Username
           description: Timestamp service billing username
-        billing_password:
+        password:
           type: string
           title: Password
           description: Timestamp service billing password
