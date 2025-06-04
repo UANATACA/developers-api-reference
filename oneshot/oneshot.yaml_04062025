@@ -81,17 +81,6 @@ paths:
                 message: "Token created"
                 details:
                   token_uid: "14185cd9-c6ec-30f4-9f59-a844a77bc234"
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: error 
-                message: "Environment xxx doesn't exist"
-                detail:
-                  error_code: "d47bc1acf7151230"
-                  error_message: "Environment xxx doesn't exist"
         '422':
           description: Unprocessable Entity
           content:
@@ -99,8 +88,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
               examples:
-                Field Required:
-                  summary: Field required
+                Missing parameters:
+                  summary: Missing parameters
                   value:  
                     status: "error" 
                     message: "Data validation error"
@@ -109,14 +98,6 @@ paths:
                       error_message: "Invalid input fields"
                       fields:
                         xxx: "Field required"
-                Missing parameters:
-                  summary: Missing parameters
-                  value:  
-                    status: "error" 
-                    message: "Cannot retrieve certificate for remote identity"
-                    details: 
-                      error_code: "09e736eb3db9f1ac"
-                      error_message: "Cannot retrieve certificate for remote identity"
                 Invalid JSON:
                   summary: Invalid JSON
                   value:
@@ -128,27 +109,17 @@ paths:
                       fields:
                         xxx: "JSON decode error"
         '412':
-          description: Precondition Failed
-          content:
-            application/json:
-              schema: {}
-              examples:
-                Token already created:
-                  summary: Token already created
-                  value:  
-                    status: "error" 
-                    message: "Token for username xxx already exists"
-                    details: 
-                      error_code: "d0c1e1262b1c73b4"
-                      error_message: "Token for username xxx already exists"
-                Certificate expired:
-                  summary: Certificate expired
-                  value:  
-                    status: "error" 
-                    message: "Cannot create token: Certificate expired"
-                    details: 
-                      error_code: "1ec7ba6ace391c26"
-                      error_message: "Cannot create token: Certificate expired"
+            description: Precondition Failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/HTTPValidationError'
+                example: 
+                  status: "error"
+                  message: "Token for username xxx already exists"
+                  details: 
+                    error_code: "d0c1e1262b1c73b4"
+                    error_message: "Token for username xxx already exists"
         '403':
             description: Forbidden
             content:
@@ -161,17 +132,6 @@ paths:
                   details:
                     error_code: "1dbf554b582f5caf"
                     error_message: "Invalid RAO credentials"
-        '500':
-            description: Internal Server Error
-            content:
-              application/json:
-                schema: {}
-                example:
-                  status: "error"
-                  message: "Error occured while verifying SignCloud credentials"
-                  details:
-                    error_code: "95d85b9ac22592dd"
-                    error_message: "Error occured while verifying SignCloud credentials"
 
   /api/v1/token/{token_uid}:
     get:
@@ -201,17 +161,6 @@ paths:
                   pin: "true"
                   rao_id: "1182"
                   env: "xxx"
-        '404':
-          description: Not found
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: "error"
-                message: "Token False not found"
-                details:
-                  error_code: 1bf11df92bcefb91
-                  error_message: Token False not found
         '405':
           description: Method Not allowed
           content:
@@ -248,17 +197,17 @@ paths:
               schema: {}
               example:
                 details: "Method Not Alllowed"
-        '500':
-          description: "Internal Server Error"
+        '404':
+          description: "Not Found"
           content:
             application/json:
               schema: {}
               example:
                 status: "error"
-                message: "Cannot delete token xxx"
+                message: "Token False not found"
                 detail:
                   error_code: "68116cf0cdc38f1c"
-                  error_message: "Cannot delete token xxx"
+                  error_message: "Token False not found"
 
   /api/v1/tokens:
     get:
@@ -282,13 +231,6 @@ paths:
                     pin: true
                     rao_id: "1182"
                     env: "xxx"
-        '405':
-          description: Method Not allowed
-          content:
-            application/json:
-              schema: {}
-              example:
-                details: "Method Not Alllowed"
   /api/v1/image:
     post:
       tags: 
@@ -313,44 +255,22 @@ paths:
                 message: "Image uploaded with uid '463156ce-d566-44d2-94e9-184d89632b98'"
                 details:
                   image_uid: "463156ce-d566-44d2-94e9-184d89632b98"
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: "error"
-                message: "Images of type xxx are not supported"
-                detail: 
-                  error_code: "0cc65ceeb3bc392d"
-                  error_message: "Images of type xxx are not supported"
+        
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-              examples:
-                "Field required":
-                  summary: Field Required
-                  value:
-                    status: "error"
-                    message: "Data validation error"
-                    detail: 
-                      error_code: "41117e5a6fe99a22"
-                      error_message: "Invalid input fields"
-                      fields:
-                        image: "Field required"
-                "Invalid input field":
-                  summary: Invalid input field
-                  value:
-                    status: "error"
-                    message: "Data validation error"
-                    detail: 
-                      error_code: "e40f1e86ff908e96"
-                      error_message: "Invalid input fields"
-                      fields: 
-                        image: "Value error, Expected UploadFile, received: <class 'str'>"
+              example:
+                status: "error"
+                message: "Data validation error"
+                detail: 
+                  error_code: "41117e5a6fe99a22"
+                  error_message: "Invalid input fields"
+                  fields:
+                    image: "Field required"
+
   /api/v1/image/{image_uid}:
     get:
       tags: 
@@ -372,6 +292,12 @@ paths:
             image/png:
               schema: {}
               example: The retrieved image in png format
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
         '405':
           description: Method Not allowed
           content:
@@ -412,6 +338,12 @@ paths:
               example:
                 status: success
                 message: "Image c4cb5944-463156ce-d566-44d2-94e9-184d89632b98 deleted"
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
         '405':
           description: Method Not allowed
           content:
@@ -434,7 +366,7 @@ paths:
     get:
       tags: 
         -  Images
-      summary: Call Get Images
+      summary: Call List Images
       description: Lists all uploaded images.
       operationId: call_list_images_api_v1_images_get
       responses:
@@ -454,6 +386,13 @@ paths:
                     content_type: "image/jpeg"
                     filename: "xxx.jpg"
                     digest: "eff1343e1353940a23a199bb0ecda8f4bfbccc01f940c782326622851cb42c62"
+        '405':
+          description: Method Not allowed
+          content:
+            application/json: 
+              schema: {} 
+              example: 
+                details: "Method Not Alllowed"
     delete:
       summary: Call Delete Images
       tags:
@@ -469,6 +408,14 @@ paths:
               example:  
                 status: "success"
                 message: "All Images deleted"
+        '405':
+          description: Method Not allowed
+          content:
+            application/json: 
+              schema: {} 
+              example: 
+                details: "Method Not Alllowed"
+
   /api/v1/create:
     post:
       tags: 
@@ -494,39 +441,6 @@ paths:
                   status: "CREATED"
                   asyncmode: xxx
                   pk: "123456"  
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema: {}
-              example: 
-                status: "error"
-                message: "xxx is not a valid environment. Available environments are: devel, sandbox, prod"
-                detail:
-                  error_code: "b2eecdca1d4fdc4a"
-                  error_message: "xxx is not a valid environment. Available environments are: devel, sandbox, prod"
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema: {}
-              example: 
-                status: "error"
-                message: "Invalid billing credentials"
-                detail:
-                  error_code: "1cb421b11f48637b"
-                  error_message: "Invalid billing credentials"
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema: {}
-              example: 
-                status: "error"
-                message: "Invalid Request profile"
-                detail:
-                  error_code: "14f1462944d1210e"
-                  error_message: "Profile not found"
         '422':
           content:
             application/json:
@@ -553,46 +467,30 @@ paths:
                       error_message: Invalid input fields
                       fields:
                         xxx: Empty field
-                
         '412':
           content: 
             application/json:
               schema: {}
-              examples:
-                Invalid email:
-                  summary: Invalid email
-                  value:
-                    status: "error"
-                    message: "Error occured while creation request"
-                    detail: 
-                      error_code: "247f7d86c7383d49"
-                      error_message: 
-                        email: [
-                          "Enter a valid email address."
-                          ]
-                Invalid RAO credentials:
-                  summary: Invalid RAO credentials 
-                  value: 
-                    status: "error"
-                    message: "Invalid RAO credentials"
-                    detail: 
-                      error_code: fb2dd7324a02b8d3
-                      error_message: Invalid input fields
-                      fields:
-                        username: Input should be a valid string
-                        password: Input should be a valid string
-                        pin: Input should be a valid string           
-        '500':
-          description: Internal Server Error
+              example:
+                status: "error"
+                message: "Error occured while creation request"
+                detail: 
+                  error_code: "247f7d86c7383d49"
+                  error_message: 
+                    email: [
+                      "Enter a valid email address."
+                      ]
+        '403':
+          description: Forbidden
           content:
             application/json:
               schema: {}
               example: 
                 status: "error"
-                message: "Cannot retrieve Registration Authority settings"
+                message: "Invalid billing credentials"
                 detail:
-                  error_code: "e850520e93c5e96b"
-                  error_message: "You do not have permission to perform this action."                        
+                  error_code: "1cb421b11f48637b"
+                  error_message: "Invalid billing credentials"
 
   /api/v1/request/{request_pk}:
     get:
@@ -681,6 +579,12 @@ paths:
                   smartcard_sn: null
                   citizen_tax_number: null
                   birth_date: null
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
         '404':
           description: Not Found
           content:
@@ -745,188 +649,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UpdateReqObject_VID'
+
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
               schema: {}
-              example:
-                pk: 926427,
-                given_name: null
-                second_name: null
-                surname_1: null
-                surname_2: null
-                sex: null
-                id_document_type: "IDC"
-                id_document_country: "ES"
-                serial_number: null
-                country_name: "ES"
-                citizenship: null
-                residence: "ES"
-                organization_email: null
-                email: "s.cordon@external.namirial.com"
-                title: null
-                organization_name: null
-                organizational_unit_1: null
-                organizational_unit_2: null
-                organization_identifier: null
-                responsible_name: null
-                responsible_second_name: null
-                responsible_first_surname: null
-                responsible_second_surname: null
-                responsible_email": null
-                esponsible_serial: null
-                responsible_position: null
-                subscriber_responsible_serial: null
-                administrative_unit: null
-                empowerment: null
-                representation: null
-                circumstances: null
-                limit: null
-                registration: null
-                process_application: null
-                entity_owner: null
-                entity_owner_serial_number: null
-                description: null
-                certificate_set: []
-                profile: "PFnubeQBCRCiudadano"
-                scratchcard: "2677829"
-                status: "VIDEOPENDING"
-                registering_user: 
-                    pk: 1168
-                    permission_profile: 1
-                    registration_authority: 3
-                    request: 233342
-                approving_user: null
-                producing_user: null
-                registration_authority: 892
-                secure_element: 2
-                validity_time: "1"
-                smartcard_sn: null
-                citizen_tax_number: null
-                birth_date: null
-                birth_country: null
-                birth_city: null
-                birth_province: null
-                birth_state: null
-                birth_district: null
-                birth_canton: null
-                id_document_description: null
-                id_document_issuer: null
-                id_document_release: null
-                id_document_expiry: null
-                organization_rol: null
-                professional_id_number: null
-                mobile_phone_number: "+34640234526"
-                fix_phone_number: null
-                residence_address: "test"
-                residence_city: "test"
-                residence_province: null
-                residence_postal_code: "test"
-                residence_state: null
-                residence_district: null
-                residence_canton: null
-                organization_tax_number: null
-                organization_address: null
-                organization_city: null
-                organization_province: null
-                organization_country: null
-                organization_postal_code: null
-                organization_state: null
-                organization_url: null
-                responsible_legal_level: null
-                subscriber: null
-                responsible_legal_documents: null
-                special_conditions: null
-                responsible_registry_data: null
-                approving_rao: null
-                producing_rao: null
-                id_document_number: null
-                id_responsible_document_type: null
-                id_responsible_document_country: null
-                id_responsible_document_number: null
-                organizational_unit_3: null
-                paperless_mode: false
-                videoid_mode: true
-                ext_recognition_data: null
-                complement_number: null
-                id_responsible_document_issuer: null
-                provider_registration_number: null
-                communication_language: ""
-                identification_rao: null
-                videoid_data: 
-                    pk: 16738
-                    status: "PENDING"
-                    provider: 1
-                    videoid_link: ""
-                    requests: 
-                        926427
-                    refusal_reason: ""
-                    refusal_details: null
-                    data: {}
-                    video_identifier: "688e1758cc0b4a7bbd7d5549353cd0ec"
-                    validation_services: {}
-                    acceptance: {}
-                    validation_operator: null
-                    operation_urls: 
-                        videoid_error: null
-                        videoid_success: null
-                    esaw_requests_involved: false
-                    external_onboarding_link: null
-                    manual_external_validation: false
-                enrollment_success_url: null
-                configuration_data: {}
-                external_profile: null
-                responsible_citizenship: null
-                responsible_city: null
-        '400': 
-          description: Bad Request 
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: error
-                message: Invalid body format. Expected a json
-                detail:
-                  error_code: c8953da9b058f7d7
-                  error_message: Invalid body format. Expected a json
-        '403': 
-          description: Forbidden
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: error
-                message: Error occured while updating Request xxx
-                detail:
-                  error_code: 0f246ba28ca2409e
-                  error_message: Error occured while updating Request xxx
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: "error"
-                message: "Request xxx not found"
-                detail:
-                  error_code: "621b1ca26033983d"
-                  error_message: "Request xxx not found"
-        '412':
-          description: Precondition Failed
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: error
-                message: Error occured while updating Request xxx
-                detail:
-                  error_code: 8a3a8976df2a58e3
-                  error_message:
-                      xxx: [
-                        "This field is required"
-                      ]
   /api/v1/document/{request_pk}:
     post:
       tags: 
@@ -953,36 +682,12 @@ paths:
                 detail: 
                   name: file
                   uid: "604b889f-6b3a-4af7-a24a-b5e610e7f7c1"
-        '400':
-          description: Bad Request
+        '422':
+          description: Validation Error
           content:
             application/json:
-              schema: {}
-              examples:
-                "Missing parameters":
-                  summary: Missing parameters
-                  value:
-                    status: "error"
-                    message: "No documents uploaded, please check sent data"
-                    detail:
-                      error_code: "23110f381c0e4382"
-                      error_message: "No documents uploaded, please check sent data"
-                "Document empty":
-                  summary: Document empty
-                  value:
-                    status: error
-                    message: Invalid document xxx. Document empty
-                    detail:
-                      error_code: 5ffa63fcf5d78095
-                      error_message: Invalid document xxx. Document empty
-                Unsupported document:
-                  summary: Unsupported document 
-                  value:
-                    status: error
-                    message: Unsupported documents of type xxx
-                    detail: 
-                      error_code: f594657c6bec4ad6
-                      error_message: Unsupported documents of type xxx
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
         '404':
           description: Not Found
           content:
@@ -994,17 +699,6 @@ paths:
                 detail:
                   error_code: "cd8f9ff25091a35e"
                   error_message: "Request xxx not found on disk"
-        '412':
-          description: Precondition Failed
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: "error"
-                message: "Max number of documents reached for Request xxx"
-                detail:
-                  error_code: "07ae4e0b5d95074d"
-                  error_message: "Max number of documents reached for Request xxx"
 
   /api/v1/document/{request_pk}/{document_uid}:
     get:
@@ -1043,6 +737,12 @@ paths:
             application/json:
               schema: {}
               example: The retrieved image
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
         '405':
           description: Method Not Allowed  
           content:
@@ -1091,6 +791,12 @@ paths:
               example:
                 status: success
                 message: Document 604b889f-6b3a-4af7-a24a-b5e610e7f7c1 deleted
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
         '404':
           description: Not Found
           content:
@@ -1109,6 +815,7 @@ paths:
               schema: {}
               example:
                 detail: Method Not Allowed 
+
         
   /api/v1/documents/{request_pk}:
     get:
@@ -1141,6 +848,12 @@ paths:
                     filename: "sample.pdf"
                     name_in_form: "file"
                     cleaned: false
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
         '404':
           description: Not Found
           content:
@@ -1157,7 +870,7 @@ paths:
       tags: 
         -  Requests
       summary: Call Get Request Contract
-      description: Get Request contract.
+      description: Get Request contract
       operationId: call_get_request_contract_api_v1_contract__request_pk__get
       parameters:
         - name: request_pk
@@ -1174,16 +887,12 @@ paths:
             application/json:
               schema: {}
               example: The retrieved contract in pdf format
-        '412':
-          description: Precondition Failed
+        '422':
+          description: Validation Error
           content:
             application/json:
-              schema: {}
-              example:
-                detail:
-                  code: 412
-                  id: ef8de3ccaf619021
-                  error: Invalid request status
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
   /api/v1/otp/{request_pk}:
     post:
       tags: 
@@ -1224,29 +933,12 @@ paths:
               example: 
                 status: success
                 detail: "OTP successfully sent to xxx"
-        '412': 
-          description: Precondition Failed
+        '422':
+          description: Validation Error
           content:
             application/json:
-              schema: {}
-              examples:
-                Invalid request:
-                  summary: Invalid request 
-                  value:
-                    status: error
-                    message: Error occured while generating OTP
-                    detail: 
-                      error_code: d2ce38695913e178
-                      error_message: Invalid request status
-                Error generating OTP: 
-                  summary: Error generating OTP
-                  value: 
-                    status: error
-                    message: Error occured while generating OTP
-                    detail:
-                      error_code: 0e25de2d42f4263c
-                      error_message: Last OTP sent less than one minute ago! Please, try again later.
-
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
   /api/v1/sign/{request_pk}:
     post:
       tags: 
@@ -1284,54 +976,13 @@ paths:
                           9464aa4a-c386-4721-9167-9ea2335686d2
                           ]"
                     inerror: []
-        '403': 
-          content:
-            application/json:
-              schema: {}
-              example: 
-                status: error
-                message: null
-                detail:
-                  error_code: d321c99c8dc57212
-                  error_message: Confirmation Code invalid
-        '404':
-          content:
-            application/json:
-              schema: {}
-              example: 
-                status: error 
-                message: Image 0ecfc8b0-ff1f-4084-a2fe-13a7ebfba635 is not found or invalid
-                detail:
-                  error_code: 7fe9894db607d429
-                  error_message: Image 0ecfc8b0-ff1f-4084-a2fe-13a7ebfba635 is not found or invalid
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ValidationError'
-              examples:
-                Invalid input field:
-                  summary: Invalid input field
-                  value:
-                    status: error
-                    message: Data validation error
-                    detail:
-                      error_code: 4675f0370d0f327a
-                      error_message: Invalid input fields 
-                      fields: 
-                        secret: Field required
-                Invalid JSON:
-                  summary: Invalid JSON
-                  value:
-                    status: error
-                    message: Data validation error
-                    detail:
-                      error_code: dc768831f3412a27
-                      error_message: Invalid input fields
-                      fields:
-                        xxx: JSON decode error
           description: Unprocessable Entity
-
+                
   /api/v1/videoid:
     post:
       tags: 
@@ -1350,73 +1001,12 @@ paths:
           content:
             application/json:
               schema: {}
-              example:
-                status: success 
-                messsage: VideoID created with pk 16673
-                detail: 
-                  videoid_link: 16673 
-                  request_pk: 923056
-        '400':
-          description: Bad Request 
-          content: 
-            application/json:
-              schema: {}
-              examples:
-                Invalid environment:
-                  summary: Invalid environment
-                  value:
-                    status: error 
-                    message: "xxx is not a valid environment. Available environments are: devel, sandbox, prod"
-                    detail: 
-                      error_code: dd869928d28b1df1
-                      error_message: "xxx is not a valid environment. Available environments are: devel, sandbox, prod"
-                Missing profile: 
-                  summary: Missing profile 
-                  value: 
-                    status: error
-                    message: Missing required parameter profile
-                    detail: 
-                      error_code: d820475f7d2e3fa9
-                      error_message: Missing required parameter profile
         '422':
           description: Unprocessable Entity
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ValidationError'
-              examples: 
-                Field Required:
-                  summary: Field required 
-                  value:
-                    status: error
-                    message: Data validation error
-                    detail: 
-                      error_code: 1e14d1bf3d8132f5
-                      error_message: Invalid input fields 
-                      fields: 
-                        xxx: Field required
-                Empty field:
-                  summary: Empty field
-                  value: 
-                    status: error 
-                    message: Data validation error 
-                    detail: 
-                      error_code: 058d58c11f882c39
-                      error_message: Invalid input fields 
-                      fields: 
-                        xxx: Empty field
-        '500':
-          description: Internal Server Error
-          content: 
-            application/json:
-              schema: {}
-              example:
-                status: error
-                message: null
-                detail: 
-                  error_code: f78cadb8dd4f5db5
-                  error_message: You do not have permission to perform this action.
-
   /api/v1/videoid/{videoid_pk}/validate:
     post:
       tags: 
@@ -1438,10 +1028,12 @@ paths:
           content:
             application/json:
               schema: {}
-              example: 
-                status: success
-                message: "VideoID validated"
-
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+          description: Unprocessable Entity
   /api/v1/videoid/{videoid_pk}/approve:
     post:
       tags: 
@@ -1463,10 +1055,6 @@ paths:
           content:
             application/json:
               schema: {}
-              example:
-                status: success
-                message: "VideoID approved"
-
   /api/v1/videoid/{videoid_pk}/refuse:
     post:
       tags: 
@@ -1494,7 +1082,12 @@ paths:
           content:
             application/json:
               schema: {}
-
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+          description: Unprocessable Entity
   /api/v1/videoid/{videoid_pk}/evidences:
     post:
       tags: 
@@ -1521,32 +1114,12 @@ paths:
           content:
             application/json:
               schema: {}
-              example:  
-                status: success
-                message: VideoID evidences uploaded
-        '400':
-          description: Bad Request
+        '422':
           content:
             application/json:
-              schema: {}
-              example:
-                status: error 
-                message: Invalid body format. Expected a json 
-                detail: 
-                  error_code: 36edf424af570057
-                  error_message: Invalid body format. Expected a json
-        '412':
-          description: Precondition Failed
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: error 
-                message: null 
-                detail: 
-                  error_code: 8f244db4c41581c9
-                  error_message: Invalid VideoID status "VALIDATED"
-
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+          description: Unprocessable Entity
   /api/v1/videoid/{videoid_pk}/video:
     post:
       tags: 
@@ -1578,17 +1151,12 @@ paths:
           content:
             application/json:
               schema: {}
-              example: 
-                status: success 
-                message: VideoID video uploaded
-        '400':
-          description: Bad Request
+        '422':
           content:
             application/json:
-              schema: {}
-              example:
-                detail: Missing boundary in multipart.
-
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+          description: Unprocessable Entity
     get:
       tags: 
         -  Video ID
@@ -1609,6 +1177,12 @@ paths:
           content:
             application/json:
               schema: {}
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+          description: Unprocessable Entity
 components:
   schemas:
     CreateRequest:
@@ -2272,4 +1846,3 @@ components:
         reason:
           type: string
           description: Reason that caused Video ID refusal
-
