@@ -4,7 +4,7 @@ info:
   title: SignBox API
   version: 1.0.0
   description: |
-    For testing purposes, Uanataca provides integrators of a pre-configured test-mode SignBox Optimizer accessible at the following URL: `https://signbox.developers.uanataca.com`
+    For testing purposes, Uanataca provides integrators of a pre-configured test-mode SignBox Optimizer accessible at the following URL: `https://optimizer-developers.uanataca.com`
 
     For more information about the sandbox environment click here. [UANATACA SIGNBOX API Sandbox](https://namirial.atlassian.net/wiki/spaces/BES/pages/276856895/UANATACA+SIGNBOX+API#Sandbox-Environment)
     
