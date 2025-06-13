@@ -4,7 +4,7 @@ info:
   title: Oneshot API
   version: 1.0.0
   description: |
-    For testing purposes, Uanataca provides integrators of a pre-configured test-mode One-Shot Optimizer accessible at the following URL: `https://one-shot.developers.uanataca.com`
+    For testing purposes, Uanataca provides integrators of a pre-configured test-mode One-Shot Optimizer accessible at the following URL: `https://optimizer-developers.uanataca.com`
 
     For more information about the sandbox environment click here. [UANATACA ONE-SHOT API sandbox](https://namirial.atlassian.net/wiki/spaces/BES/pages/277053853/UANATACA+ONE-SHOT+API)
 
