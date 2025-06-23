@@ -106,6 +106,240 @@ paths:
                       error_message: "Invalid input fields"
                       fields: 
                         image: "Value error, Expected UploadFile, received: <class 'str'>"
+  /api/v1/token:
+    post:
+      tags: 
+        -  Tokens
+      summary: Call Create Token
+      description: "Creates a new token that contains the Registration Authority Officer (RAO) credentials. <br>
+                    A token generated in One-shot may be valid in Signbox; however, a token generated in Signbox does not necessarily work in One-shot, 
+                    as the identities used in Signbox are not required to be RAO."
+      operationId: call_create_token_api_v1_token_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateToken'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+              example:
+                status: success 
+                message: "Token created"
+                details:
+                  token_uid: "14185cd9-c6ec-30f4-9f59-a844a77bc234"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema: {}
+              example:
+                status: error 
+                message: "Environment xxx doesn't exist"
+                detail:
+                  error_code: "d47bc1acf7151230"
+                  error_message: "Environment xxx doesn't exist"
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+              examples:
+                Field Required:
+                  summary: Field required
+                  value:  
+                    status: "error" 
+                    message: "Data validation error"
+                    details: 
+                      error_code: "09e736eb3db9f1ac"
+                      error_message: "Invalid input fields"
+                      fields:
+                        xxx: "Field required"
+                Missing parameters:
+                  summary: Missing parameters
+                  value:  
+                    status: "error" 
+                    message: "Cannot retrieve certificate for remote identity"
+                    details: 
+                      error_code: "09e736eb3db9f1ac"
+                      error_message: "Cannot retrieve certificate for remote identity"
+                Invalid JSON:
+                  summary: Invalid JSON
+                  value:
+                    status: "error"
+                    message: "Data validation error"
+                    details:
+                      error_code: "82efa64d5c532e15"
+                      error_message: "Invalid input fields"
+                      fields:
+                        xxx: "JSON decode error"
+        '412':
+          description: Precondition Failed
+          content:
+            application/json:
+              schema: {}
+              examples:
+                Token already created:
+                  summary: Token already created
+                  value:  
+                    status: "error" 
+                    message: "Token for username xxx already exists"
+                    details: 
+                      error_code: "d0c1e1262b1c73b4"
+                      error_message: "Token for username xxx already exists"
+                Certificate expired:
+                  summary: Certificate expired
+                  value:  
+                    status: "error" 
+                    message: "Cannot create token: Certificate expired"
+                    details: 
+                      error_code: "1ec7ba6ace391c26"
+                      error_message: "Cannot create token: Certificate expired"
+        '403':
+            description: Forbidden
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/HTTPValidationError'
+                example:
+                  status: "error"
+                  message: "Invalid RAO credentials"
+                  details:
+                    error_code: "1dbf554b582f5caf"
+                    error_message: "Invalid RAO credentials"
+        '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema: {}
+                example:
+                  status: "error"
+                  message: "Error occured while verifying SignCloud credentials"
+                  details:
+                    error_code: "95d85b9ac22592dd"
+                    error_message: "Error occured while verifying SignCloud credentials"
+
+  /api/v1/token/{token_uid}:
+    get:
+      tags: 
+        -  Tokens
+      summary: Call Get Token
+      description: Retrieves the token associated credentials with the given unique identifier.<br> The response gets a `true` or `false` value regarding if password and PIN parameters are associated to the token.
+      operationId: call_get_token_api_v1_token__token_uid__get
+      parameters:
+        - name: token_uid
+          in: path
+          description: The token unique identifier
+          required: true
+          schema:
+            title: Token Uid
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+              example:
+                status: "success"
+                details:
+                  username: "2626807"
+                  password: "true"
+                  pin: "true"
+                  rao_id: "1182"
+                  env: "xxx"
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema: {}
+              example:
+                status: "error"
+                message: "Token False not found"
+                details:
+                  error_code: 1bf11df92bcefb91
+                  error_message: Token False not found
+        '405':
+          description: Method Not allowed
+          content:
+            application/json:
+              schema: {}
+              example:
+                details: "Method Not Alllowed"
+    delete:
+      tags: 
+        -  Tokens
+      summary: Call Delete Token
+      description: Deletes the token with the specified unique identifier.
+      operationId: call_delete_token_api_v1_token__token_uid__delete
+      parameters:
+        - name: token_uid
+          in: path
+          description: The token unique identifier
+          required: true
+          schema:
+            title: Token Uid
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+              example:
+                status: "success"
+                message: "Token 0112c943-87a3-4fdf-b12g-d95233e973b5 deleted successfully"
+        '405':
+          description: Method Not allowed
+          content:
+            application/json:
+              schema: {}
+              example:
+                details: "Method Not Alllowed"
+        '500':
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema: {}
+              example:
+                status: "error"
+                message: "Cannot delete token xxx"
+                detail:
+                  error_code: "68116cf0cdc38f1c"
+                  error_message: "Cannot delete token xxx"
+
+  /api/v1/tokens:
+    get:
+      tags: 
+        -  Tokens
+      summary: Call List Tokens
+      description: Returns a list of all tokens available and their associated data.
+      operationId: call_list_tokens_api_v1_tokens_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+              example:
+                status: "success"
+                detail: 
+                  6d1cae4d55be4cdf9cac50ee36f73406:
+                    username: "9001800"
+                    password: true
+                    pin: true
+                    rao_id: "1182"
+                    env: "xxx"
+        '405':
+          description: Method Not allowed
+          content:
+            application/json:
+              schema: {}
+              example:
+                details: "Method Not Alllowed"
 
   /api/v1/image/{image_uid}:
     get:
@@ -798,6 +1032,61 @@ paths:
           label: curl
 components:
   schemas:
+    CreateToken:
+      properties:
+        username:
+          type: string
+          title: Username
+          description: The RAO's digital identity username
+        password:
+          type: string
+          description: The RAO's digital identity password. If not included in this call, must be included in calls that require RAO's credentials
+          title: Password
+        pin:
+          type: string
+          description: The RAO's digital identity PIN. If not included in this call, must be included in calls that require RAO's credentials
+          title: Pin
+        env:
+          type: string
+          description: The API work environment. (sandbox / prod) 
+          title: Env
+      type: object
+      required:
+        - username
+      title: CreateToken
+
+    HTTPValidationError:
+          properties:
+            detail:
+              items:
+                $ref: '#/components/schemas/ValidationError'
+              type: array
+              title: Detail
+          type: object
+          title: HTTPValidationError
+
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+        - loc
+        - msg
+        - type
+      title: ValidationError
+
     Close_session:
       properties:
         username:
@@ -979,9 +1268,10 @@ components:
             - T
             - LTV
             - LTVLITE
+            - LTVA
           title: Level
           description: "Specify the level of the signature \n
-            - BASIC, T, LTV, LTVLITE for pades\n
+            - BASIC, T, LTV, LTVLITE, LTVA for pades\n
 
             - BASIC, T, EPES, XL for xades\n
 
@@ -1001,16 +1291,12 @@ components:
         tsa_user:
           type: string
           title: Tsa User
-          description: 'Timestamp service billing username. </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>Required only if
-            not set at settings.toml file.'
+          description: 'Timestamp service billing username.'
           default: ''
         tsa_pass:
           type: string
           title: Tsa Pass
-          description: 'Timestamp service billing password. </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>Required only if
-            not set at settings.toml file.'
+          description: 'Timestamp service billing password.'
           default: ''
         billing_username:
           type: string

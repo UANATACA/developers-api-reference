@@ -4,7 +4,7 @@ info:
   title: SignBox API
   version: 1.0.0
   description: |
-    For testing purposes, Uanataca provides integrators of a pre-configured test-mode SignBox Optimizer accessible at the following URL: `https://signbox.developers.uanataca.com`
+    For testing purposes, Uanataca provides integrators of a pre-configured test-mode SignBox Optimizer accessible at the following URL: `https://optimizer-developers.uanataca.com`
 
     For more information about the sandbox environment click here. [UANATACA SIGNBOX API Sandbox](https://namirial.atlassian.net/wiki/spaces/BES/pages/276856895/UANATACA+SIGNBOX+API#Sandbox-Environment)
     
@@ -68,22 +68,44 @@ paths:
                 message: "Image uploaded with uid '463156ce-d566-44d2-94e9-184d89632b98'"
                 details:
                   image_uid: "463156ce-d566-44d2-94e9-184d89632b98"
-        
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema: {}
+              example:
+                status: "error"
+                message: "Images of type xxx are not supported"
+                detail: 
+                  error_code: "0cc65ceeb3bc392d"
+                  error_message: "Images of type xxx are not supported"
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPError'
-              example:
-                status: "error"
-                message: "Data validation error"
-                detail: 
-                  error_code: "41117e5a6fe99a22"
-                  error_message: "Invalid input fields"
-                  fields:
-                    image: "Field required"
-
+                $ref: '#/components/schemas/HTTPValidationError'
+              examples:
+                "Field required":
+                  summary: Field Required
+                  value:
+                    status: "error"
+                    message: "Data validation error"
+                    detail: 
+                      error_code: "41117e5a6fe99a22"
+                      error_message: "Invalid input fields"
+                      fields:
+                        image: "Field required"
+                "Invalid input field":
+                  summary: Invalid input field
+                  value:
+                    status: "error"
+                    message: "Data validation error"
+                    detail: 
+                      error_code: "e40f1e86ff908e96"
+                      error_message: "Invalid input fields"
+                      fields: 
+                        image: "Value error, Expected UploadFile, received: <class 'str'>"
 
   /api/v1/image/{image_uid}:
     get:
@@ -106,12 +128,6 @@ paths:
             image/png:
               schema: {}
               example: The retrieved image in png format
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
         '405':
           description: Method Not allowed
           content:
@@ -130,6 +146,7 @@ paths:
                 detail:
                   error_code: "f95a1897e69e95d3"
                   error_message: "Image xxx not found on disk"
+
     delete:
       summary: Call Delete Image
       tags: 
@@ -152,12 +169,6 @@ paths:
               example:
                 status: success
                 message: "Image c4cb5944-463156ce-d566-44d2-94e9-184d89632b98 deleted"
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
         '405':
           description: Method Not allowed
           content:
@@ -176,11 +187,12 @@ paths:
                 detail:
                   error_code: "992f6c95e257d711"
                   error_message: "Image xxx not found on disk"
+
   /api/v1/images:
     get:
       tags: 
         -  Images
-      summary: Call List Images
+      summary: Call Get Images
       description: Lists all uploaded images.
       operationId: call_list_images_api_v1_images_get
       responses:
@@ -200,13 +212,6 @@ paths:
                     content_type: "image/jpeg"
                     filename: "xxx.jpg"
                     digest: "eff1343e1353940a23a199bb0ecda8f4bfbccc01f940c782326622851cb42c62"
-        '405':
-          description: Method Not allowed
-          content:
-            application/json: 
-              schema: {} 
-              example: 
-                details: "Method Not Alllowed"
     delete:
       summary: Call Delete Images
       tags:
@@ -222,15 +227,6 @@ paths:
               example:  
                 status: "success"
                 message: "All Images deleted"
-        '405':
-          description: Method Not allowed
-          content:
-            application/json: 
-              schema: {} 
-              example: 
-                details: "Method Not Alllowed"
-
-
 
   /api/v1/sign:
     post:
@@ -267,6 +263,7 @@ paths:
                 type: string
                 format: binary
                 description: Signed file
+                example: The document in PDF
             application/pkcs7-mime:
               schema:
                 type: string
@@ -288,6 +285,17 @@ paths:
                     format: xxx
                     env: xxx 
                     jobid: 9bf9513f-3f9b-4020-b3a6-7275e3cd76e1
+        '400':
+          content:
+            application/json:
+              schema: {}
+              example: 
+                value: 
+                  status: error 
+                  message: "'xxx' is not a valid environment. Available environments are: devel, sandbox, prod"
+                  detail:
+                    error_code: 5344848148e9b99d
+                    error_message: "'xxx' is not a valid environment. Available environments are: devel, sandbox, prod"
         '422':
           content:
             application/json:
@@ -314,6 +322,44 @@ paths:
                       error_message: Invalid input fields
                       fields:
                         xxx: Empty field
+                Invalid credentials:
+                  summary: Invalid credentials
+                  value:
+                    status: error
+                    message: "Error occurred while signing document: Cannot retrieve certificate for remote identity xxx"
+                    detail:
+                      error_code: bb6d73c28aa05ccb
+                      error_message: "Error occurred while signing document: Cannot retrieve certificate for remote identity xxx"
+                File or url missing in the request:
+                  summary: File or url missing in the request
+                  value: 
+                    status: error
+                    message: Data validation error
+                    detail: 
+                      error_code: af5c33b337e019dd
+                      error_message: Invalid input fields
+                      fields:
+                        "": Value error, One of file or url_in must be provided
+                Signature appearance invalid json:
+                  summary: Signature appearance invalid json
+                  value: 
+                    status: error
+                    message: Data validation error
+                    detail:
+                      error_code: a6c8c349cbe5f724
+                      error_message: Invalid input fields
+                      fields:
+                        signature_appearance: Value error, Invalid JSON
+                Invalid format:
+                  summary: Invalid format
+                  value: 
+                    status: error 
+                    message: Data validation error
+                    detail:
+                      error_code: a7f4b1128e15f25c
+                      error_message: Invalid input fields
+                      fields:
+                        format: "Input should be 'PADES', 'CADES' or 'XADES'"
           description: Unprocessable Entity
         '403':
           content:
@@ -354,6 +400,20 @@ paths:
           content:
             application/json:
               schema: {}
+              example:
+                status: completed
+        '404': 
+          description: Not Found
+          content:
+            application/json:
+              schema: {}
+              example: 
+                status: error
+                message: Job xxx cannot be found
+                detail:
+                  error_code: f7d54f44e9c3d55d
+                  error_message: Job xxx cannot be found
+
   /api/v1/result/{jobid}:
     get:
       summary: Result
@@ -372,8 +432,35 @@ paths:
         '200':
           description: Successful Response
           content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+                description: Signed file
+                example: The document in PDF
+            application/pkcs7-mime:
+              schema:
+                type: string
+                format: binary
+                description: Signed file
+            application/xml:
+              schema:
+                type: string
+                format: binary
+                description: Signed file
+
+        '400':
+          description: Successful Response
+          content:
             application/json:
-              schema: {}        
+              schema: {}
+              example: 
+                status: error
+                message: Job xxx cannot be found
+                detail:
+                  error_code: f7d54f44e9c3d55d
+                  error_message: Job xxx cannot be found   
+
   /api/v1/otp:
     post:
       summary: Otp
@@ -396,6 +483,39 @@ paths:
               example: 
                 status: success
                 message: OTP generated
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema: {}
+              examples:
+                Credentials not qualified:
+                  summary: Credentials not qualified
+                  value:
+                    status: error
+                    message: Invalid Remote Token 
+                    detail: 
+                      error_code: 516d15cf01be9586
+                      error_message: The token specified is not a qualified one
+                Invalid environment:
+                  summary: Invalid environment
+                  value: 
+                    status: error
+                    message: "'xxx' is not a valid environment. Available environments are: devel, sandbox, prod"
+                    detail: 
+                      error_code: 966543b86aac37e3
+                      error_message: "'xxx' is not a valid environment. Available environments are: devel, sandbox, prod"
+        '404':
+          description: Not Found 
+          content: 
+            application/json: 
+              schema: {}
+              example: 
+                status: error
+                message: Remote token not found
+                detail:
+                  error_code: 00361a8e783a625b
+                  error_message: Remote token xxx not found
         '422':
           description: Unprocessable Entity
           content:
@@ -423,10 +543,12 @@ paths:
                       error_message: Invalid input fields
                       fields:
                         xxx: Empty field
+
       x-codeSamples:
         - lang: curl
           source: 'curl -X POST ''https://signbox.sandbox.uanataca.com/api/v1/otp''   -H ''Content-Type: multipart/form-data''   --form-string ''username=username''   --form-string ''password=password'''
           label: curl
+
   /api/v1/open_session:
     post:
       summary: Open Session
@@ -453,6 +575,17 @@ paths:
                   message: Session opened
                   detail: 
                     sessionid: a07e9c99-c83e-424f-a396-20b4683fa2a0
+        '400':
+          description: Bad Request
+          content: 
+            application/json:
+              schema: {}
+              example:
+                status: error
+                message: "'xxx' is not a valid environment. Available environments are: devel, sandbox, prod"
+                detail: 
+                  error_code: 966543b86aac37e3
+                  error_message: "'xxx' is not a valid environment. Available environments are: devel, sandbox, prod"
         '422':
           description: Unprocessable Entity
           content:
@@ -480,10 +613,22 @@ paths:
                       error_message: Invalid input fields
                       fields:
                         xxx: Empty field
+        '500': 
+          description: Interal Server Error
+          content:
+            application/json:
+              schema: {}
+              example:
+                status: error 
+                message: Session opening error 
+                detail: 
+                  error_code: 80f2e0b99e1fa7a0
+                  error_message: Session opening error
       x-codeSamples:
         - lang: curl
           source: 'curl -X POST ''https://signbox.sandbox.uanataca.com/api/v1/open_session''   -H ''Content-Type: multipart/form-data''   --form-string ''username=username''   --form-string ''password=password''   --form-string ''otp=otp'''
           label: curl
+
   /api/v1/close_session:
     post:
       summary: Close Session
@@ -503,6 +648,17 @@ paths:
           content:
             application/json:
               schema: {}
+        '400':
+          description: Bad Request
+          content: 
+            application/json:
+              schema: {}
+              example:
+                status: error
+                message: "'xxx' is not a valid environment. Available environments are: devel, sandbox, prod"
+                detail: 
+                  error_code: 966543b86aac37e3
+                  error_message: "'xxx' is not a valid environment. Available environments are: devel, sandbox, prod"
         '422':
           description: Unprocessable Entity
           content:
@@ -530,10 +686,22 @@ paths:
                       error_message: Invalid input fields
                       fields:
                         xxx: Empty field
+        '500': 
+          description: Interal Server Error
+          content:
+            application/json:
+              schema: {}
+              example:
+                status: error 
+                message: Session opening error 
+                detail: 
+                  error_code: 80f2e0b99e1fa7a0
+                  error_message: Session opening error
       x-codeSamples:
         - lang: curl
           source: 'curl -X POST ''https://signbox.sandbox.uanataca.com/api/v1/close_session''   -H ''Content-Type: multipart/form-data''   --form-string ''username=username''   --form-string ''password=password''   --form-string ''sessionid=sessionid'''
           label: curl
+
   /api/v1/timestamp:
     post:
       summary: Timestamp
@@ -556,6 +724,7 @@ paths:
                 type: string
                 format: binary
                 description: Timestamped file
+                example: The document in PDF
             application/timestamped-data:
               schema:
                 type: string
@@ -576,12 +745,6 @@ paths:
                 type: string
                 format: binary
                 description: Timestamped file
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPError'
         '422':
           description: Unprocessable Entity
           content:
@@ -609,6 +772,26 @@ paths:
                       error_message: Invalid input fields
                       fields:
                         xxx: Empty field
+                File is empty:
+                  summary: File is empty
+                  value: 
+                    status: error
+                    message: Data validation error 
+                    detail: 
+                      error_code: 299997b341901b99
+                      error_message: Invalid input fields
+                      fields:
+                        file: Value error, File is empty
+                Invalid format: 
+                  summary: Invalid format
+                  value: 
+                    status: error 
+                    message: Data validation error 
+                    detail:
+                      error_code: bc3e0e54ffee6739
+                      error_message: Invalid input fields
+                      fields: 
+                        format: "Input should be 'TSR', 'TSD', 'PDF', 'TST', 'M7M' or 'P7M'"
       x-codeSamples:
         - lang: curl
           source: 'curl -X POST ''https://signbox.sandbox.uanataca.com/api/v1/timestamp''   -H ''Content-Type: multipart/form-data''   -F file=@file.pdf   --form-string ''url=url''   --form-string ''username=username''   --form-string ''password=password''   --form-string ''format=TSD'''
