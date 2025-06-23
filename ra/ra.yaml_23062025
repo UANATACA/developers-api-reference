@@ -126,7 +126,7 @@ paths:
           $ref: './llamadas/request/update-request_responses.yaml#/500'
 
 
-  /api/v1/requests/{id}/cancel/:
+  /api/v1/requests/{id}/cancel:
     delete:
       security: []
       tags:
@@ -175,7 +175,7 @@ paths:
             $ref: './llamadas/request/validate-request_responses.yaml#/412'    
 
       
-  /api/v1/requests/{id}/generates_tbs_receipt/:
+  /api/v1/requests/{id}/generates_tbs_receipt:
     post:
       security: []
       tags:
@@ -239,7 +239,7 @@ paths:
             $ref: './llamadas/request/generate_rao.yaml#/404'   
     
 
-  /api/v1/requests/{id}/pl_upload_document/:
+  /api/v1/requests/{id}/pl_upload_document:
     post:
       security: []
       tags:
@@ -260,7 +260,7 @@ paths:
           $ref: './llamadas/request/upload_document.yaml#/responses/500'
      
 
-  /api/v1/requests/{id}/pl_delete_document/:
+  /api/v1/requests/{id}/pl_delete_document:
     post:
       security: []
       tags:
@@ -281,7 +281,7 @@ paths:
           $ref: './llamadas/request/delete_document.yaml#/responses/500'
 
      
-  /api/v1/requests/{id}/pl_get_document/:
+  /api/v1/requests/{id}/pl_get_document:
     post:
       security: []
       tags:
@@ -317,7 +317,7 @@ paths:
           $ref: './llamadas/request/get_documents.yaml#/responses/404'
 
 
-  /api/v1/requests/{id}/pl_approve/:
+  /api/v1/requests/{id}/pl_approve:
     post:
       security: []
       tags:
@@ -363,7 +363,7 @@ paths:
           $ref: './llamadas/request/pre_authentication.yaml#/responses/404'
 
      
-  /api/v1/requests/is_renewable/:
+  /api/v1/requests/is_renewable:
     post:
       security: []
       tags:
@@ -386,7 +386,7 @@ paths:
           $ref: './llamadas/request/is_renewal.yaml#/responses/412'
 
 
-  /api/v1/requests/{id}/enable_renewal/:
+  /api/v1/requests/{id}/enable_renewal:
     post:
       security: []
       tags:
@@ -405,7 +405,7 @@ paths:
           $ref: './llamadas/request/enable_renewal.yaml#/responses/412'
      
 
-  /api/v1/requests/{id}/disable_renewal/:
+  /api/v1/requests/{id}/disable_renewal:
     post:
       security: []
       tags:
@@ -452,7 +452,7 @@ paths:
           $ref: './llamadas/request/check_contract.yaml#/responses/200'
 
 
-  /api/v1/requests/{id}/generate_otp_for_unlock/:
+  /api/v1/requests/{id}/generate_otp_for_unlock:
     post:
       security: []
       tags:
@@ -469,7 +469,7 @@ paths:
           $ref: './llamadas/request/generate_otp.yaml#/responses/500'
      
 
-  /api/v1/requests/{id}/unlock_pin/:
+  /api/v1/requests/{id}/unlock_pin:
     post:
       security: []
       tags:
@@ -570,7 +570,7 @@ paths:
           $ref: './llamadas/scratchcards/get_first_unused.yaml#/400'
 
 
-  /api/v1/scratchcards/isused/:
+  /api/v1/scratchcards/isused:
     post:
       security: []
       tags:
@@ -593,7 +593,7 @@ paths:
           $ref: './llamadas/scratchcards/isued.yaml#/500'
 
      
-  /api/v1/scratchcards/revoke/:
+  /api/v1/scratchcards/revoke:
     post:
       security: []
       tags:
@@ -619,7 +619,7 @@ paths:
           $ref: './llamadas/scratchcards/revoke.yaml#/500'
 
 
-  /api/v1/scratchcards/whoami/:
+  /api/v1/scratchcards/whoami:
     post:
       security: []
       tags:
@@ -642,7 +642,7 @@ paths:
           $ref: './llamadas/scratchcards/whoami.yaml#/412'
 
       
-  /api/v1/scratchcards/move/:
+  /api/v1/scratchcards/move:
     post:
       security: []
       tags:
@@ -961,7 +961,7 @@ paths:
 
 
 
-  /api/v1/requests/{id_request}/validate_videoid/:
+  /api/v1/requests/{id_request}/validate_videoid:
     post:
       security: []
       tags:
@@ -993,7 +993,7 @@ paths:
           $ref: './llamadas/ExternalVideo/validate-responses.yaml#/500'
 
           
-  /api/v1/requests/{id_request}/refuse_videoid/:
+  /api/v1/requests/{id_request}/refuse_videoid:
     post:
       security: []
       tags:
@@ -1025,7 +1025,7 @@ paths:
           $ref: './llamadas/ExternalVideo/refuse-responses.yaml#/500'
 
      
-  /api/v1/videoid/{video_pk}/:
+  /api/v1/videoid/{video_pk}:
     put:
       security: []
       tags:
