@@ -111,9 +111,7 @@ paths:
       tags: 
         -  Tokens
       summary: Call Create Token
-      description: "Creates a new token that contains the Registration Authority Officer (RAO) credentials. <br>
-                    A token generated in One-shot may be valid in Signbox; however, a token generated in Signbox does not necessarily work in One-shot, 
-                    as the identities used in Signbox are not required to be RAO."
+      description: "Creates a new token that contains the Registration Authority Officer (RAO) credentials"
       operationId: call_create_token_api_v1_token_post
       requestBody:
         content:
