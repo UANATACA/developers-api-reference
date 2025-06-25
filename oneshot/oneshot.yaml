@@ -1880,12 +1880,12 @@ components:
         usecountersignature:
           type: boolean
           title: Usecountersignature
-        disable_ltv:
-          type: boolean
-          title: Disable Ltv
-        use_tsa:
-          type: boolean
-          title: Use Tsa
+        #disable_ltv:
+          #type: boolean
+          #title: Disable Ltv
+        #use_tsa:
+          #type: boolean
+          #title: Use Tsa
         metadata:
           type: string
           title: Metadata
