@@ -1,52 +1,62 @@
-openapi: 3.0.1
+openapi: 3.0.0
 security: []
 info:
-  title: Oneshot API
+  title: SignBox API
   version: 1.0.0
   description: |
-    For testing purposes, Uanataca provides integrators of a pre-configured test-mode One-Shot Optimizer accessible at the following URL: `https://optimizer-developers.uanataca.com`
+    For testing purposes, Uanataca provides integrators of a pre-configured test-mode SignBox Optimizer accessible at the following URL: `https://optimizer-developers.uanataca.com`
 
-    For more information about the sandbox environment click here. [UANATACA ONE-SHOT API sandbox](https://namirial.atlassian.net/wiki/spaces/BES/pages/277053853/UANATACA+ONE-SHOT+API)
+    For more information about the sandbox environment click here. [UANATACA SIGNBOX API Sandbox](https://namirial.atlassian.net/wiki/spaces/BES/pages/276856895/UANATACA+SIGNBOX+API#Sandbox-Environment)
+    
+
+  x-logo:
+    url: https://web.uanataca.com/common/project/svg/logo.svg
 
 servers:
-  - url: /oneshot
-tags:
-- name: Settings
-  description: 'Endpoints to manage the service settings'
-- name: Tokens
-  description: 'Endpoints to manage the tokens'
-- name: Requests
-  description: 'Endpoints to manage the signature requests'
-- name: Documents
-  description: 'Endpoints to manage the documents'
-- name: Images
-  description: 'Endpoints to manage the images'
-- name: Video ID
-  description: 'Endpoints to manage the Video ID'
-paths:
-  /api/v1/hello:
-    get:
-      tags: 
-        - Settings
-      summary: Call Hello
-      description: Checks if server is UP.
-      operationId: call_hello_api_v1_hello_get
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema: {}
-              example:
-                details: "Hello from One-Shot"
+  - url: /signbox 
 
-  /api/v1/version:
+paths:
+  /api/v1/echo:
     get:
+      summary: Echo
       tags: 
-        - Settings
-      summary: Call Get Version
-      description: Retrieves the current Optimizer version.
-      operationId: call_get_version_api_v1_version_get
+        - Signature
+      description: Replies back what it receives to check the service availability.
+      operationId: echo_api_v1_echo_get
+      parameters:
+        - name: message
+          in: query
+          required: false
+          schema:
+            type: string
+            default: echo
+            title: Message
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+            text/plain:
+              schema:
+                type: string
+      x-codeSamples:
+        - lang: curl
+          source: curl -X GET 'https://signbox.sandbox.uanataca.com/api/v1/echo?message=HelloWorld'
+          label: curl
+  /api/v1/image:
+    post:
+      summary: Upload Image
+      tags: 
+        - Images
+      description: Uploads an image for using in a visual graphic signature.
+      operationId: call_upload_image_api_v1_image_post
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Upload_image'
+        required: true
       responses:
         '200':
           description: Successful Response
@@ -54,15 +64,56 @@ paths:
             application/json:
               schema: {}
               example:
-                status: "success"
+                status: "success" 
+                message: "Image uploaded with uid '463156ce-d566-44d2-94e9-184d89632b98'"
                 details:
-                  version: "xxx"
+                  image_uid: "463156ce-d566-44d2-94e9-184d89632b98"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema: {}
+              example:
+                status: "error"
+                message: "Images of type xxx are not supported"
+                detail: 
+                  error_code: "0cc65ceeb3bc392d"
+                  error_message: "Images of type xxx are not supported"
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+              examples:
+                "Field required":
+                  summary: Field Required
+                  value:
+                    status: "error"
+                    message: "Data validation error"
+                    detail: 
+                      error_code: "41117e5a6fe99a22"
+                      error_message: "Invalid input fields"
+                      fields:
+                        image: "Field required"
+                "Invalid input field":
+                  summary: Invalid input field
+                  value:
+                    status: "error"
+                    message: "Data validation error"
+                    detail: 
+                      error_code: "e40f1e86ff908e96"
+                      error_message: "Invalid input fields"
+                      fields: 
+                        image: "Value error, Expected UploadFile, received: <class 'str'>"
   /api/v1/token:
     post:
       tags: 
         -  Tokens
       summary: Call Create Token
-      description: Creates a new token that contains the Registration Authority Officer (RAO) credentials.
+      description: "Creates a new token that contains the Registration Authority Officer (RAO) credentials. <br>
+                    A token generated in One-shot may be valid in Signbox; however, a token generated in Signbox does not necessarily work in One-shot, 
+                    as the identities used in Signbox are not required to be RAO."
       operationId: call_create_token_api_v1_token_post
       requestBody:
         content:
@@ -289,68 +340,7 @@ paths:
               schema: {}
               example:
                 details: "Method Not Alllowed"
-  /api/v1/image:
-    post:
-      tags: 
-        -  Images
-      summary: Call Upload Image
-      description: Uploads an image for using in a visual graphic signature.
-      operationId: call_upload_image_api_v1_image_post
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/UploadImage'
-        required: true
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: "success" 
-                message: "Image uploaded with uid '463156ce-d566-44d2-94e9-184d89632b98'"
-                details:
-                  image_uid: "463156ce-d566-44d2-94e9-184d89632b98"
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: "error"
-                message: "Images of type xxx are not supported"
-                detail: 
-                  error_code: "0cc65ceeb3bc392d"
-                  error_message: "Images of type xxx are not supported"
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-              examples:
-                "Field required":
-                  summary: Field Required
-                  value:
-                    status: "error"
-                    message: "Data validation error"
-                    detail: 
-                      error_code: "41117e5a6fe99a22"
-                      error_message: "Invalid input fields"
-                      fields:
-                        image: "Field required"
-                "Invalid input field":
-                  summary: Invalid input field
-                  value:
-                    status: "error"
-                    message: "Data validation error"
-                    detail: 
-                      error_code: "e40f1e86ff908e96"
-                      error_message: "Invalid input fields"
-                      fields: 
-                        image: "Value error, Expected UploadFile, received: <class 'str'>"
+
   /api/v1/image/{image_uid}:
     get:
       tags: 
@@ -390,10 +380,11 @@ paths:
                 detail:
                   error_code: "f95a1897e69e95d3"
                   error_message: "Image xxx not found on disk"
+
     delete:
+      summary: Call Delete Image
       tags: 
         -  Images
-      summary: Call Delete Image
       description: Deletes a previously uploaded image.
       operationId: call_delete_image_api_v1_image__image_uid__delete
       parameters:
@@ -430,6 +421,7 @@ paths:
                 detail:
                   error_code: "992f6c95e257d711"
                   error_message: "Image xxx not found on disk"
+
   /api/v1/images:
     get:
       tags: 
@@ -469,69 +461,80 @@ paths:
               example:  
                 status: "success"
                 message: "All Images deleted"
-  /api/v1/create:
+
+  /api/v1/sign:
     post:
+      summary: Sign
       tags: 
-        -  Requests
-      summary: Call Create
-      description: Creates a new digital signature request for the user identified.
-      operationId: call_create_api_v1_create_post
+        - Signature
+      description: Signs the submitted file.
+      operationId: sign_api_v1_sign_post
+      parameters:
+        - name: append
+          in: query
+          required: false
+          schema:
+            type: string
+            title: Append
+        - name: countersign
+          in: query
+          required: false
+          schema:
+            type: string
+            title: Countersign
       requestBody:
+        required: true
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/CreateRequest'
+              $ref: '#/components/schemas/Sign'
       responses:
         '200':
           description: Successful Response
           content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+                description: Signed file
+                example: The document in PDF
+            application/pkcs7-mime:
+              schema:
+                type: string
+                format: binary
+                description: Signed file
+            application/xml:
+              schema:
+                type: string
+                format: binary
+                description: Signed file
             application/json:
               schema: {}
-              example:
-                status: "success"
-                message: "Request created with pk 123456"
-                details:
-                  status: "CREATED"
-                  asyncmode: xxx
-                  pk: "123456"  
+              example: 
+                value:
+                  status: success
+                  message: "New job process created"
+                  detail: 
+                    status: created
+                    format: xxx
+                    env: xxx 
+                    jobid: 9bf9513f-3f9b-4020-b3a6-7275e3cd76e1
         '400':
-          description: Bad Request
           content:
             application/json:
               schema: {}
               example: 
-                status: "error"
-                message: "xxx is not a valid environment. Available environments are: devel, sandbox, prod"
-                detail:
-                  error_code: "b2eecdca1d4fdc4a"
-                  error_message: "xxx is not a valid environment. Available environments are: devel, sandbox, prod"
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema: {}
-              example: 
-                status: "error"
-                message: "Invalid billing credentials"
-                detail:
-                  error_code: "1cb421b11f48637b"
-                  error_message: "Invalid billing credentials"
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema: {}
-              example: 
-                status: "error"
-                message: "Invalid Request profile"
-                detail:
-                  error_code: "14f1462944d1210e"
-                  error_message: "Profile not found"
+                value: 
+                  status: error 
+                  message: "'xxx' is not a valid environment. Available environments are: devel, sandbox, prod"
+                  detail:
+                    error_code: 5344848148e9b99d
+                    error_message: "'xxx' is not a valid environment. Available environments are: devel, sandbox, prod"
         '422':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/HTTPError'
               examples:
                 Required parameter:
                   summary: Field required
@@ -553,853 +556,78 @@ paths:
                       error_message: Invalid input fields
                       fields:
                         xxx: Empty field
-                
-        '412':
-          content: 
-            application/json:
-              schema: {}
-              examples:
-                Invalid email:
-                  summary: Invalid email
+                Invalid credentials:
+                  summary: Invalid credentials
                   value:
-                    status: "error"
-                    message: "Error occured while creation request"
-                    detail: 
-                      error_code: "247f7d86c7383d49"
-                      error_message: 
-                        email: [
-                          "Enter a valid email address."
-                          ]
-                Invalid RAO credentials:
-                  summary: Invalid RAO credentials 
+                    status: error
+                    message: "Error occurred while signing document: Cannot retrieve certificate for remote identity xxx"
+                    detail:
+                      error_code: bb6d73c28aa05ccb
+                      error_message: "Error occurred while signing document: Cannot retrieve certificate for remote identity xxx"
+                File or url missing in the request:
+                  summary: File or url missing in the request
                   value: 
-                    status: "error"
-                    message: "Invalid RAO credentials"
+                    status: error
+                    message: Data validation error
                     detail: 
-                      error_code: fb2dd7324a02b8d3
+                      error_code: af5c33b337e019dd
                       error_message: Invalid input fields
                       fields:
-                        username: Input should be a valid string
-                        password: Input should be a valid string
-                        pin: Input should be a valid string           
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema: {}
-              example: 
-                status: "error"
-                message: "Cannot retrieve Registration Authority settings"
-                detail:
-                  error_code: "e850520e93c5e96b"
-                  error_message: "You do not have permission to perform this action."                        
-
-  /api/v1/request/{request_pk}:
-    get:
-      tags: 
-        -  Requests
-      summary: Call Get Request
-      description: Retrieve request information with the id obtained in the **CREATE
-        REQUEST** response.
-      operationId: call_get_request_api_v1_request__request_pk__get
-      parameters:
-        - name: request_pk
-          in: path
-          description: The ID of the Request to get
-          required: true
-          schema:
-            type: integer
-            title: The ID of the Request to get
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema: {}
-              example: 
-                secrets: 
-                  puk: "70040984"
-                  enrollment_code: "bGxB86WR"
-                  pin: "58148177"
-                  erc: "8239245862"
-                request:
-                  pk: 822543
-                  given_name: "Nombre"
-                  second_name: null 
-                  surname_1: "Apellido1"
-                  surname_2: null
-                  sex: null
-                  id_document_type: IDC
-                  id_document_country: ES 
-                  serial_number: "0000000T"
-                  country_name: ES 
-                  citizenship: null 
-                  residence: null
-                  organization_email: null
-                  email: name@domain.com
-                  titile: null
-                  organization_name: null
-                  organizational_unit_1: null
-                  organizational_unit_2: null
-                  organization_identifier: null
-                  responsible_name: null 
-                  responsible_second_name: null 
-                  responsible_first_surname: null
-                  responsible_second_surname: null
-                  responsible_email: null
-                  responsible_serial: null
-                  responsible_position: null
-                  subscriber_responsible_serial: null
-                  administrative_unit: null
-                  empowerment: null
-                  representation: null
-                  circumstances: null
-                  limit: null
-                  registration: null
-                  process_application: null
-                  entity_owner: null
-                  entity_owner_serial_number: null 
-                  description: null 
-                  certificate_set: []
-                  profile: "PFnubeAFCiudadano"
-                  scratchcard: "3389580"
-                  status: ENROLLREADY
-                  registering_user: 
-                    pk: 1168
-                    permission_profile: 1
-                    registration_authority: 3
-                    request: 233342
-                  approving_user:
-                    pk: 1168
-                    permission_profile: 1
-                    registration_authority: 3
-                    request: 233342
-                  producing_user: null
-                  registration_authority: 3
-                  secure_element: 2
-                  validity_time: "24h"
-                  smartcard_sn: null
-                  citizen_tax_number: null
-                  birth_date: null
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: "error"
-                message: "Request xxx not found"
-                detail:
-                  error_code: "d1475ee205936d1f"
-                  error_message: "Request xxx not found"
-    delete:
-      tags: 
-        -  Requests
-      summary: Call Delete Request
-      description: Cancels the Video ID One-Shot Signature request
-      operationId: call_delete_request_api_v1_request__request_pk__delete
-      parameters:
-        - name: request_pk
-          in: path
-          required: true
-          description: The ID of the Request to delete
-          schema:
-            type: integer
-            title: The ID of the Request to delete
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema: {}
-              example: 
-                status: "success"
-                message: "Request 822880 deleted"
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: "error"
-                message: "Request xxx not found"
-                detail:
-                  error_code: "621b1ca26033983d"
-                  error_message: "Request xxx not found"
-    put:
-      tags: 
-        -  Requests
-      summary: Call Update Request
-      description: Updates a Video ID signature request.
-      operationId: call_update_request_api_v1_request__request_pk__put
-      parameters:
-        - name: request_pk
-          in: path
-          description: The ID of the Request to update
-          required: true
-          schema:
-            type: integer
-            title: The ID of the Request to update
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateReqObject_VID'
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema: {}
-              example:
-                pk: 926427,
-                given_name: null
-                second_name: null
-                surname_1: null
-                surname_2: null
-                sex: null
-                id_document_type: "IDC"
-                id_document_country: "ES"
-                serial_number: null
-                country_name: "ES"
-                citizenship: null
-                residence: "ES"
-                organization_email: null
-                email: "s.cordon@external.namirial.com"
-                title: null
-                organization_name: null
-                organizational_unit_1: null
-                organizational_unit_2: null
-                organization_identifier: null
-                responsible_name: null
-                responsible_second_name: null
-                responsible_first_surname: null
-                responsible_second_surname: null
-                responsible_email": null
-                esponsible_serial: null
-                responsible_position: null
-                subscriber_responsible_serial: null
-                administrative_unit: null
-                empowerment: null
-                representation: null
-                circumstances: null
-                limit: null
-                registration: null
-                process_application: null
-                entity_owner: null
-                entity_owner_serial_number: null
-                description: null
-                certificate_set: []
-                profile: "PFnubeQBCRCiudadano"
-                scratchcard: "2677829"
-                status: "VIDEOPENDING"
-                registering_user: 
-                    pk: 1168
-                    permission_profile: 1
-                    registration_authority: 3
-                    request: 233342
-                approving_user: null
-                producing_user: null
-                registration_authority: 892
-                secure_element: 2
-                validity_time: "1"
-                smartcard_sn: null
-                citizen_tax_number: null
-                birth_date: null
-                birth_country: null
-                birth_city: null
-                birth_province: null
-                birth_state: null
-                birth_district: null
-                birth_canton: null
-                id_document_description: null
-                id_document_issuer: null
-                id_document_release: null
-                id_document_expiry: null
-                organization_rol: null
-                professional_id_number: null
-                mobile_phone_number: "+34640234526"
-                fix_phone_number: null
-                residence_address: "test"
-                residence_city: "test"
-                residence_province: null
-                residence_postal_code: "test"
-                residence_state: null
-                residence_district: null
-                residence_canton: null
-                organization_tax_number: null
-                organization_address: null
-                organization_city: null
-                organization_province: null
-                organization_country: null
-                organization_postal_code: null
-                organization_state: null
-                organization_url: null
-                responsible_legal_level: null
-                subscriber: null
-                responsible_legal_documents: null
-                special_conditions: null
-                responsible_registry_data: null
-                approving_rao: null
-                producing_rao: null
-                id_document_number: null
-                id_responsible_document_type: null
-                id_responsible_document_country: null
-                id_responsible_document_number: null
-                organizational_unit_3: null
-                paperless_mode: false
-                videoid_mode: true
-                ext_recognition_data: null
-                complement_number: null
-                id_responsible_document_issuer: null
-                provider_registration_number: null
-                communication_language: ""
-                identification_rao: null
-                videoid_data: 
-                    pk: 16738
-                    status: "PENDING"
-                    provider: 1
-                    videoid_link: ""
-                    requests: 
-                        926427
-                    refusal_reason: ""
-                    refusal_details: null
-                    data: {}
-                    video_identifier: "688e1758cc0b4a7bbd7d5549353cd0ec"
-                    validation_services: {}
-                    acceptance: {}
-                    validation_operator: null
-                    operation_urls: 
-                        videoid_error: null
-                        videoid_success: null
-                    esaw_requests_involved: false
-                    external_onboarding_link: null
-                    manual_external_validation: false
-                enrollment_success_url: null
-                configuration_data: {}
-                external_profile: null
-                responsible_citizenship: null
-                responsible_city: null
-        '400': 
-          description: Bad Request 
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: error
-                message: Invalid body format. Expected a json
-                detail:
-                  error_code: c8953da9b058f7d7
-                  error_message: Invalid body format. Expected a json
-        '403': 
-          description: Forbidden
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: error
-                message: Error occured while updating Request xxx
-                detail:
-                  error_code: 0f246ba28ca2409e
-                  error_message: Error occured while updating Request xxx
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: "error"
-                message: "Request xxx not found"
-                detail:
-                  error_code: "621b1ca26033983d"
-                  error_message: "Request xxx not found"
-        '412':
-          description: Precondition Failed
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: error
-                message: Error occured while updating Request xxx
-                detail:
-                  error_code: 8a3a8976df2a58e3
-                  error_message:
-                      xxx: [
-                        "This field is required"
-                      ]
-  /api/v1/document/{request_pk}:
-    post:
-      tags: 
-        -  Documents
-      summary: Call Upload Document
-      description: Upload a document and associate it to a Request
-      operationId: call_upload_document_api_v1_document__request_pk__post
-      parameters:
-        - name: request_pk
-          in: path
-          description: The ID of the Request to which associated the document
-          required: true
-          schema:
-            type: integer
-            title: The ID of the Request to which associated the document
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema: {}
-              example: 
-                status: "success"
-                detail: 
-                  name: file
-                  uid: "604b889f-6b3a-4af7-a24a-b5e610e7f7c1"
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema: {}
-              examples:
-                "Missing parameters":
-                  summary: Missing parameters
-                  value:
-                    status: "error"
-                    message: "No documents uploaded, please check sent data"
-                    detail:
-                      error_code: "23110f381c0e4382"
-                      error_message: "No documents uploaded, please check sent data"
-                "Document empty":
-                  summary: Document empty
-                  value:
-                    status: error
-                    message: Invalid document xxx. Document empty
-                    detail:
-                      error_code: 5ffa63fcf5d78095
-                      error_message: Invalid document xxx. Document empty
-                Unsupported document:
-                  summary: Unsupported document 
-                  value:
-                    status: error
-                    message: Unsupported documents of type xxx
-                    detail: 
-                      error_code: f594657c6bec4ad6
-                      error_message: Unsupported documents of type xxx
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: "error"
-                message: "Request xxx not found on disk"
-                detail:
-                  error_code: "cd8f9ff25091a35e"
-                  error_message: "Request xxx not found on disk"
-        '412':
-          description: Precondition Failed
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: "error"
-                message: "Max number of documents reached for Request xxx"
-                detail:
-                  error_code: "07ae4e0b5d95074d"
-                  error_message: "Max number of documents reached for Request xxx"
-
-  /api/v1/document/{request_pk}/{document_uid}:
-    get:
-      tags: 
-        -  Documents
-      summary: Call Get Document
-      description: Retrieve a document associated to specific Request
-      operationId: call_get_document_api_v1_document__request_pk___document_uid__get
-      parameters:
-        - name: request_pk
-          in: path
-          required: true
-          description: The ID of the Request to which the document is associated
-          schema:
-            type: integer
-            title: The ID of the Request to which the document is associated
-        - name: document_uid
-          in: path
-          required: true
-          schema:
-            type: string
-            title: Document Uid
-        - name: document_type
-          in: query
-          required: false
-          schema:
-            anyOf:
-              - type: string
-              - type: 'null'
-            default: original
-            title: Document Type
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema: {}
-              example: The retrieved image
-        '405':
-          description: Method Not Allowed  
-          content:
-            application/json:
-              schema: {}
-              example:
-                detail: "Method Not Allowed"
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: error
-                message: Document xxx not found on disk
-                detail:
-                  error_code: bc056a47e2d5f44f
-                  error_message: Document 604b889f-6b3a-4af7-a24a-b5e610e7f7c1 not found on disk
-    delete:
-      tags: 
-        -  Documents
-      summary: Call Delete Document
-      description: Delete a document associated to a specific Request
-      operationId: call_delete_document_api_v1_document__request_pk___document_uid__delete
-      parameters:
-        - name: request_pk
-          in: path
-          description: The ID of the Request to which the document is associated
-          required: true
-          schema:
-            type: integer
-            title: The ID of the Request to which the document is associated
-        - name: document_uid
-          in: path
-          required: true
-          description: The document unique identifier
-          schema:
-            type: string
-            title: Document Uid
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: success
-                message: Document 604b889f-6b3a-4af7-a24a-b5e610e7f7c1 deleted
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema: {}
-              example: 
-                status: error
-                message: Document xxx not found on disk
-                detail: 
-                  error_code: 94c9466d1b25b514
-                  error_message: Document xxx not found on disk
-        '405':
-          description: Method Not Allowed
-          content:
-            application/json:
-              schema: {}
-              example:
-                detail: Method Not Allowed 
-
-  /api/v1/documents/{request_pk}:
-    get:
-      tags: 
-        -  Documents
-      summary: Call List Documents
-      description: List of documents associated to a specific Request
-      operationId: call_list_documents_api_v1_documents__request_pk__get
-      parameters:
-        - name: request_pk
-          in: path
-          description: The ID of the Request
-          required: true
-          schema:
-            type: integer
-            title: The ID of the Request
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema: {}
-              example: 
-                status: success
-                detail:
-                  b40aa3a6-6e2b-421e-8759-5f7717b35b1a:
-                    uploaded_at: "20250416133306"
-                    digest: "0842f41ec0968541d1fe5c3b5268509c32979a2d91251990d5212969d099d12d"
-                    ext: ".pdf"
-                    filename: "sample.pdf"
-                    name_in_form: "file"
-                    cleaned: false
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema: {}
-              example: 
-                status: error
-                message: Request xxx not found on disk
-                detail: 
-                  error_code: 7d07460e3ca5843c
-                  error_message: Request xxx not found on disk
-    delete:
-      tags: 
-        -  Documents
-      summary: Call Delete Documents
-      description: Delete all documents
-      operationId: call_delete_documents_api_v1_document__request_pk___delete
-      parameters:
-        - name: request_pk
-          in: path
-          description: The ID of the Request to which the document is associated
-          required: true
-          schema:
-            type: integer
-            title: The ID of the Request to which the document is associated
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: success
-                detail: 
-                  62fef7d9-0b36-4612-ae63-278d8cc902bd: 
-                    uploaded_at: 20250623084148
-                    digest: 0842f41ec0968541d1fe5c3b5268509c32979a2d91251990d5212969d099d12d
-                    ext: ".pdf"
-                    filename: "sample.pdf"
-                    name_in_form: "file0"
-                    cleaned: false
-                  df82b511-b5df-4a6d-a8b3-e42bb144191d: 
-                    uploaded_at: 20250623084148
-                    digest: 0842f41ec0968541d1fe5c3b5268509c32979a2d91251990d5212969d099d12d
-                    ext: ".pdf"
-                    filename: "sample.pdf"
-                    name_in_form: "file1"
-                    cleaned: false
-
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema: {}
-              example: 
-                status: error
-                message: No documents found for Request xxx
-                detail: 
-                  error_code: aae003828973e3c1
-                  error_message: No documents found for Request xxx
-        '405':
-          description: Method Not Allowed
-          content:
-            application/json:
-              schema: {}
-              example:
-                detail: Method Not Allowed 
-  /api/v1/contract/{request_pk}:
-    get:
-      tags: 
-        -  Requests
-      summary: Call Get Request Contract
-      description: Get Request contract.
-      operationId: call_get_request_contract_api_v1_contract__request_pk__get
-      parameters:
-        - name: request_pk
-          in: path
-          description: The ID of the Request
-          required: true
-          schema:
-            type: integer
-            title: The ID of the Request
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema: {}
-              example: The retrieved contract in pdf format
-        '412':
-          description: Precondition Failed
-          content:
-            application/json:
-              schema: {}
-              example:
-                detail:
-                  code: 412
-                  id: ef8de3ccaf619021
-                  error: Invalid request status
-  /api/v1/otp/{request_pk}:
-    post:
-      tags: 
-        -  Requests
-      summary: Call Generate Otp
-      description: Generates a One-Time Password (OTP) code for the user. The OTP
-        is sent directly to the user's mobile phone as an SMS message.</br> <html><blockquote
-        style='background-color:#faf3ac; border-color:#DFDFDF; color:#3b3b3b;'><b>This
-        method is only required and available for requests using Uanataca SMS method</b></blockquote></html>
-      operationId: call_generate_otp_api_v1_otp__request_pk__post
-      parameters:
-        - name: request_pk
-          in: path
-          description: The ID of the Request to which generate the otp
-          required: true
-          schema:
-            type: integer
-            title: The ID of the Request to which generate the otp
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties: 
-                delivery_method:
-                  type: string
-                  description: Method selector to send the code. Default "sms" if field is not included or not set in settings file.
-                  enum:
-                    - sms
-                    - whatsapp
-        required: false
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema: {}
-              example: 
-                status: success
-                detail: "OTP successfully sent to xxx"
-        '412': 
-          description: Precondition Failed
-          content:
-            application/json:
-              schema: {}
-              examples:
-                Invalid request:
-                  summary: Invalid request 
-                  value:
-                    status: error
-                    message: Error occured while generating OTP
-                    detail: 
-                      error_code: d2ce38695913e178
-                      error_message: Invalid request status
-                Error generating OTP: 
-                  summary: Error generating OTP
+                        "": Value error, One of file or url_in must be provided
+                Signature appearance invalid json:
+                  summary: Signature appearance invalid json
                   value: 
                     status: error
-                    message: Error occured while generating OTP
+                    message: Data validation error
                     detail:
-                      error_code: 0e25de2d42f4263c
-                      error_message: Last OTP sent less than one minute ago! Please, try again later.
-
-  /api/v1/sign/{request_pk}:
-    post:
-      tags: 
-        -  Requests
-      summary: Call Sign
-      description: Sign documents assigned to specific Request
-      operationId: call_sign_api_v1_sign__request_pk__post
-      parameters:
-        - name: request_pk
-          in: path
-          description: The ID of the Request to which sign documents
-          required: true
-          schema:
-            type: integer
-            title: The ID of the Request to which sign documents
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SignatureRequest'
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: success
-                message: "Signature process for Request 825527 completed"
-                detail:
-                  request: 825527
-                  documents: 
-                    signed: "[ 
-                          9464aa4a-c386-4721-9167-9ea2335686d2
-                          ]"
-                    inerror: []
-        '403': 
-          content:
-            application/json:
-              schema: {}
-              example: 
-                status: error
-                message: null
-                detail:
-                  error_code: d321c99c8dc57212
-                  error_message: Confirmation Code invalid
-        '404':
-          content:
-            application/json:
-              schema: {}
-              example: 
-                status: error 
-                message: Image 0ecfc8b0-ff1f-4084-a2fe-13a7ebfba635 is not found or invalid
-                detail:
-                  error_code: 7fe9894db607d429
-                  error_message: Image 0ecfc8b0-ff1f-4084-a2fe-13a7ebfba635 is not found or invalid
-        '422':
+                      error_code: a6c8c349cbe5f724
+                      error_message: Invalid input fields
+                      fields:
+                        signature_appearance: Value error, Invalid JSON
+                Invalid format:
+                  summary: Invalid format
+                  value: 
+                    status: error 
+                    message: Data validation error
+                    detail:
+                      error_code: a7f4b1128e15f25c
+                      error_message: Invalid input fields
+                      fields:
+                        format: "Input should be 'PADES', 'CADES' or 'XADES'"
+          description: Unprocessable Entity
+        '403':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ValidationError'
+                $ref: '#/components/schemas/HTTPError'
               examples:
-                Invalid input field:
-                  summary: Invalid input field
+                Invalid billing:
+                  summary: Invalid or missing billing parameters
                   value:
-                    status: error
-                    message: Data validation error
-                    detail:
-                      error_code: 4675f0370d0f327a
-                      error_message: Invalid input fields 
-                      fields: 
-                        secret: Field required
-                Invalid JSON:
-                  summary: Invalid JSON
-                  value:
-                    status: error
-                    message: Data validation error
-                    detail:
-                      error_code: dc768831f3412a27
-                      error_message: Invalid input fields
-                      fields:
-                        xxx: JSON decode error
-          description: Unprocessable Entity
-
-  /api/v1/videoid:
-    post:
+                    status: "error"
+                    message: "Invalid billing credentials"
+                    details:
+                      error_code: "xxx"
+                      error_message: "Invalid billing credentials"
+          description: Forbidden
+      x-codeSamples:
+        - lang: curl
+          source: 'curl -X POST ''https://signbox.sandbox.uanataca.com/api/v1/sign''   -H ''Content-Type: multipart/form-data''   -F file=@file.pdf   --form-string ''username=username''   --form-string ''pin=pin''   --form-string ''password=password''   --form-string ''format=PADES''   --form-string ''level=BASIC'''
+          label: curl
+  /api/v1/job/{jobid}:
+    get:
+      summary: Job
       tags: 
-        -  Video ID
-      summary: Call Create Videoid
-      description: Create a VideoID
-      operationId: call_create_videoid_api_v1_videoid_post
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateReqObject_VID'
+        - Troubleshooting
+      description: Get job status
+      operationId: job_api_v1_job__jobid__get
+      parameters:
+        - name: jobid
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Jobid
       responses:
         '200':
           description: Successful Response
@@ -1407,450 +635,403 @@ paths:
             application/json:
               schema: {}
               example:
-                status: success 
-                messsage: VideoID created with pk 16673
-                detail: 
-                  videoid_link: 16673 
-                  request_pk: 923056
+                status: completed
+        '404': 
+          description: Not Found
+          content:
+            application/json:
+              schema: {}
+              example: 
+                status: error
+                message: Job xxx cannot be found
+                detail:
+                  error_code: f7d54f44e9c3d55d
+                  error_message: Job xxx cannot be found
+
+  /api/v1/result/{jobid}:
+    get:
+      summary: Result
+      tags: 
+        - Troubleshooting
+      description: Get job result
+      operationId: result_api_v1_result__jobid__get
+      parameters:
+        - name: jobid
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Jobid
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+                description: Signed file
+                example: The document in PDF
+            application/pkcs7-mime:
+              schema:
+                type: string
+                format: binary
+                description: Signed file
+            application/xml:
+              schema:
+                type: string
+                format: binary
+                description: Signed file
+
         '400':
-          description: Bad Request 
-          content: 
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+              example: 
+                status: error
+                message: Job xxx cannot be found
+                detail:
+                  error_code: f7d54f44e9c3d55d
+                  error_message: Job xxx cannot be found   
+
+  /api/v1/otp:
+    post:
+      summary: Otp
+      tags:
+        - Signature
+      description: Generates an otp for the specified digital identity.
+      operationId: otp_api_v1_otp_post
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Otp'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+              example: 
+                status: success
+                message: OTP generated
+        '400':
+          description: Bad Request
+          content:
             application/json:
               schema: {}
               examples:
+                Credentials not qualified:
+                  summary: Credentials not qualified
+                  value:
+                    status: error
+                    message: Invalid Remote Token 
+                    detail: 
+                      error_code: 516d15cf01be9586
+                      error_message: The token specified is not a qualified one
                 Invalid environment:
                   summary: Invalid environment
-                  value:
-                    status: error 
-                    message: "xxx is not a valid environment. Available environments are: devel, sandbox, prod"
-                    detail: 
-                      error_code: dd869928d28b1df1
-                      error_message: "xxx is not a valid environment. Available environments are: devel, sandbox, prod"
-                Missing profile: 
-                  summary: Missing profile 
                   value: 
                     status: error
-                    message: Missing required parameter profile
+                    message: "'xxx' is not a valid environment. Available environments are: devel, sandbox, prod"
                     detail: 
-                      error_code: d820475f7d2e3fa9
-                      error_message: Missing required parameter profile
+                      error_code: 966543b86aac37e3
+                      error_message: "'xxx' is not a valid environment. Available environments are: devel, sandbox, prod"
+        '404':
+          description: Not Found 
+          content: 
+            application/json: 
+              schema: {}
+              example: 
+                status: error
+                message: Remote token not found
+                detail:
+                  error_code: 00361a8e783a625b
+                  error_message: Remote token xxx not found
         '422':
           description: Unprocessable Entity
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ValidationError'
-              examples: 
-                Field Required:
+                $ref: '#/components/schemas/HTTPError'
+              examples:
+                Field required:
                   summary: Field required 
-                  value:
-                    status: error
-                    message: Data validation error
-                    detail: 
-                      error_code: 1e14d1bf3d8132f5
-                      error_message: Invalid input fields 
-                      fields: 
-                        xxx: Field required
-                Empty field:
-                  summary: Empty field
                   value: 
-                    status: error 
+                    status: error
                     message: Data validation error 
-                    detail: 
-                      error_code: 058d58c11f882c39
+                    detail:
+                      error_code: 06aaf9e1ca002fe9
                       error_message: Invalid input fields 
-                      fields: 
+                      fields:
+                        xxx: Field required
+                Missing parameter:
+                  summary: Empty field
+                  value:
+                    status: "error"
+                    message: Data validation error
+                    detail:
+                      error_code: aecd5182139a23a9
+                      error_message: Invalid input fields
+                      fields:
                         xxx: Empty field
-        '500':
-          description: Internal Server Error
+
+      x-codeSamples:
+        - lang: curl
+          source: 'curl -X POST ''https://signbox.sandbox.uanataca.com/api/v1/otp''   -H ''Content-Type: multipart/form-data''   --form-string ''username=username''   --form-string ''password=password'''
+          label: curl
+
+  /api/v1/open_session:
+    post:
+      summary: Open Session
+      tags: 
+        - Signature
+      description: Open a signature session for the specified digital identity.
+      operationId: open_session_api_v1_open_session_post
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Open_session'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: string
+                description: Session id
+                example:
+                  status: success
+                  message: Session opened
+                  detail: 
+                    sessionid: a07e9c99-c83e-424f-a396-20b4683fa2a0
+        '400':
+          description: Bad Request
           content: 
             application/json:
               schema: {}
               example:
                 status: error
-                message: null
+                message: "'xxx' is not a valid environment. Available environments are: devel, sandbox, prod"
                 detail: 
-                  error_code: f78cadb8dd4f5db5
-                  error_message: You do not have permission to perform this action.
-
-  /api/v1/videoid/{videoid_pk}/validate:
-    post:
-      tags: 
-        -  Video ID
-      summary: Call Validate Videoid
-      description: Validate a VideoID
-      operationId: call_validate_videoid_api_v1_videoid__videoid_pk__validate_post
-      parameters:
-        - name: videoid_pk
-          in: path
-          description: ID of the VideoID to validate
-          required: true
-          schema:
-            type: integer
-            title: ID of the VideoID to validate
-      responses:
-        '200':
-          description: Successful Response
+                  error_code: 966543b86aac37e3
+                  error_message: "'xxx' is not a valid environment. Available environments are: devel, sandbox, prod"
+        '422':
+          description: Unprocessable Entity
           content:
             application/json:
-              schema: {}
-              example: 
-                status: success
-                message: "VideoID validated"
-
-  /api/v1/videoid/{videoid_pk}/approve:
-    post:
-      tags: 
-        -  Video ID
-      summary: Call Approve Videoid
-      description: Approve a VideoID
-      operationId: call_approve_videoid_api_v1_videoid__videoid_pk__approve_post
-      parameters:
-        - name: videoid_pk
-          in: path
-          description: ID of the VideoID to approve
-          required: true
-          schema:
-            type: integer
-            title: ID of the VideoID to approve
-      responses:
-        '200':
-          description: Successful Response
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+              examples:
+                Required parameter:
+                  summary: Field required
+                  value:
+                    status: "error"
+                    message: "Data validation error"
+                    detail:
+                      error_code: decd5282139a23a7
+                      error_message: "Invalid input fields"
+                      fields:
+                        xxx: "Field required"
+                Missing parameter:
+                  summary: Empty field
+                  value:
+                    status: "error"
+                    message: Data validation error
+                    detail:
+                      error_code: aecd5182139a23a9
+                      error_message: Invalid input fields
+                      fields:
+                        xxx: Empty field
+        '500': 
+          description: Interal Server Error
           content:
             application/json:
               schema: {}
               example:
-                status: success
-                message: "VideoID approved"
+                status: error 
+                message: Session opening error 
+                detail: 
+                  error_code: 80f2e0b99e1fa7a0
+                  error_message: Session opening error
+      x-codeSamples:
+        - lang: curl
+          source: 'curl -X POST ''https://signbox.sandbox.uanataca.com/api/v1/open_session''   -H ''Content-Type: multipart/form-data''   --form-string ''username=username''   --form-string ''password=password''   --form-string ''otp=otp'''
+          label: curl
 
-  /api/v1/videoid/{videoid_pk}/refuse:
+  /api/v1/close_session:
     post:
+      summary: Close Session
       tags: 
-        -  Video ID
-      summary: Call Refuse Videoid
-      description: Refuse a VideoID
-      operationId: call_refuse_videoid_api_v1_videoid__videoid_pk__refuse_post
-      parameters:
-        - name: videoid_pk
-          in: path
-          description: ID of the VideoID to refuse
-          required: true
-          schema:
-            type: integer
-            title: ID of the VideoID to refuse
+        - Signature
+      description: Close the specified signature session.
+      operationId: close_session_api_v1_close_session_post
       requestBody:
         content:
-          application/json:
+          application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/RefuseReqObject_VID'
-        required: false
+              $ref: '#/components/schemas/Close_session'
+        required: true
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
               schema: {}
-
-  /api/v1/videoid/{videoid_pk}/evidences:
-    post:
-      tags: 
-        -  Video ID
-      summary: Call Upload Videoid Evidences
-      description: Upload evidences for a VideoID
-      operationId: call_upload_videoid_evidences_api_v1_videoid__videoid_pk__evidences_post
-      parameters:
-        - name: videoid_pk
-          in: path
-          description: ID of the VideoID to which upload evidences
-          required: true
-          schema:
-            type: integer
-            title: ID of the VideoID to which upload evidences
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UploadData_VID'
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema: {}
-              example:  
-                status: success
-                message: VideoID evidences uploaded
         '400':
           description: Bad Request
+          content: 
+            application/json:
+              schema: {}
+              example:
+                status: error
+                message: "'xxx' is not a valid environment. Available environments are: devel, sandbox, prod"
+                detail: 
+                  error_code: 966543b86aac37e3
+                  error_message: "'xxx' is not a valid environment. Available environments are: devel, sandbox, prod"
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+              examples:
+                Required parameter:
+                  summary: Field required
+                  value:
+                    status: "error"
+                    message: "Data validation error"
+                    detail:
+                      error_code: decd5282139a23a7
+                      error_message: "Invalid input fields"
+                      fields:
+                        xxx: "Field required"
+                Missing parameter:
+                  summary: Empty field
+                  value:
+                    status: "error"
+                    message: Data validation error
+                    detail:
+                      error_code: aecd5182139a23a9
+                      error_message: Invalid input fields
+                      fields:
+                        xxx: Empty field
+        '500': 
+          description: Interal Server Error
           content:
             application/json:
               schema: {}
               example:
                 status: error 
-                message: Invalid body format. Expected a json 
+                message: Session opening error 
                 detail: 
-                  error_code: 36edf424af570057
-                  error_message: Invalid body format. Expected a json
-        '412':
-          description: Precondition Failed
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: error 
-                message: null 
-                detail: 
-                  error_code: 8f244db4c41581c9
-                  error_message: Invalid VideoID status "VALIDATED"
+                  error_code: 80f2e0b99e1fa7a0
+                  error_message: Session opening error
+      x-codeSamples:
+        - lang: curl
+          source: 'curl -X POST ''https://signbox.sandbox.uanataca.com/api/v1/close_session''   -H ''Content-Type: multipart/form-data''   --form-string ''username=username''   --form-string ''password=password''   --form-string ''sessionid=sessionid'''
+          label: curl
 
-  /api/v1/videoid/{videoid_pk}/video:
+  /api/v1/timestamp:
     post:
+      summary: Timestamp
       tags: 
-        -  Video ID
-      summary: Call Upload Videoid Video
-      description: Upload video for a VideoID
-      operationId: call_upload_videoid_video_api_v1_videoid__videoid_pk__video_post
-      parameters:
-        - name: videoid_pk
-          in: path
-          description: ID of the VideoID to which upload a video
-          required: true
-          schema:
-            type: integer
-            title: ID of the VideoID to which upload a video
+        - Timestamp
+      description: Timestamps the submitted file
+      operationId: timestamp_api_v1_timestamp_post
       requestBody:
         content:
           multipart/form-data:
             schema:
-              required:
-              - video
-              properties:
-                video:
-                  type: string
-                  description: The video to be uploaded
+              $ref: '#/components/schemas/Timestamp'
+        required: true
       responses:
         '200':
           description: Successful Response
           content:
-            application/json:
-              schema: {}
-              example: 
-                status: success 
-                message: VideoID video uploaded
-        '400':
-          description: Bad Request
+            application/timestamp-reply:
+              schema:
+                type: string
+                format: binary
+                description: Timestamped file
+                example: The document in PDF
+            application/timestamped-data:
+              schema:
+                type: string
+                format: binary
+                description: Timestamped file
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+                description: Timestamped file
+            application/timestamp-token:
+              schema:
+                type: string
+                format: binary
+                description: Timestamped file
+            multipart/mixed:
+              schema:
+                type: string
+                format: binary
+                description: Timestamped file
+        '422':
+          description: Unprocessable Entity
           content:
             application/json:
-              schema: {}
-              example:
-                detail: Missing boundary in multipart.
-
-    get:
-      tags: 
-        -  Video ID
-      summary: Call Download Videoid Video
-      description: Download VideoID video
-      operationId: call_download_videoid_video_api_v1_videoid__videoid_pk__video_get
-      parameters:
-        - name: videoid_pk
-          in: path
-          description: ID of the VideoID of the video to download
-          required: true
-          schema:
-            type: integer
-            title: ID of the VideoID of the video to download
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema: {}
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+              examples:
+                Field required:
+                  summary: Field required 
+                  value: 
+                    status: error
+                    message: Data validation error 
+                    detail:
+                      error_code: 06aaf9e1ca002fe9
+                      error_message: Invalid input fields 
+                      fields:
+                        xxx: Field required
+                Missing parameter:
+                  summary: Empty field
+                  value:
+                    status: "error"
+                    message: Data validation error
+                    detail:
+                      error_code: aecd5182139a23a9
+                      error_message: Invalid input fields
+                      fields:
+                        xxx: Empty field
+                File is empty:
+                  summary: File is empty
+                  value: 
+                    status: error
+                    message: Data validation error 
+                    detail: 
+                      error_code: 299997b341901b99
+                      error_message: Invalid input fields
+                      fields:
+                        file: Value error, File is empty
+                Invalid format: 
+                  summary: Invalid format
+                  value: 
+                    status: error 
+                    message: Data validation error 
+                    detail:
+                      error_code: bc3e0e54ffee6739
+                      error_message: Invalid input fields
+                      fields: 
+                        format: "Input should be 'TSR', 'TSD', 'PDF', 'TST', 'M7M' or 'P7M'"
+      x-codeSamples:
+        - lang: curl
+          source: 'curl -X POST ''https://signbox.sandbox.uanataca.com/api/v1/timestamp''   -H ''Content-Type: multipart/form-data''   -F file=@file.pdf   --form-string ''url=url''   --form-string ''username=username''   --form-string ''password=password''   --form-string ''format=TSD'''
+          label: curl
 components:
   schemas:
-    CreateRequest:
-      required: 
-        - billing_password
-        - billing_username
-        - email
-        - env
-        - given_name
-        - mobile_phone_number
-        - password
-        - pin
-        - profile
-        - registration_authority
-        - serial_number
-        - surname_1
-        - token
-        - username
-        - id_document_type
-        - id_document_country
-      type: object
-      properties:
-        given_name:
-          type: string
-          description: The user's given name
-        surname_1:
-          type: string
-          description: The user's first surname
-        surname_2:
-          type: string
-          description: The user's second surname
-        id_document_type:
-          type: string
-          description: |
-            Document types allowed for the user identification:
-              * **IDC** - Identification based on national identity card number. **Default when this field is not specified.**
-              * **PAS** - Identification based on passport number
-              * **PNO** - Identification based on national personal number (national civic registration number)
-              * **TIN** - Tax Identification Number according to the European Commission
-              * **CI** - Tax Identification Number according to the European Commission
-              * **CE** - Tax Identification Number according to the European Commission
-        id_document_country:
-          type: string
-          description: The user's id document country two-letters code (ISO
-            3166-1 alpha-2). 
-        serial_number:
-          type: string
-          description: User's id document serial number
-        email:
-          type: string
-          description: The user's email
-        mobile_phone_number:
-          type: string
-          description: The user's mobile phone number including the international
-            prefix
-        registration_authority:
-          type: string
-          description: 'The Registration Authority id number.'
-        profile:
-          type: string
-          description: 'Digital certificate profiles'
-        token:
-          type: string
-          description: 'The Registration Authority Officer (RAO)''s token
-            unique id containing RAO''s digital identity credentials. </br>
-            <blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;
-            color: #3b3b3b;''><b>Not required when RAO''s credentials (username,
-            password, pin) are included as fields in this call.</b></blockquote>'
-        username:
-          type: string
-          description: 'The RAO''s digital identity username. </br> <blockquote
-            style=''background-color: #faf3ac; border-color: #5a5a5a; color:
-            #3b3b3b;''><b>Not required when included in <a href=''#/Tokens/call_create_token_api_v1_token_post''>token</a>.</b></blockquote>'
-        password:
-          type: string
-          description: 'The RAO''s digital identity password. </br> <blockquote
-            style=''background-color: #faf3ac; border-color: #5a5a5a; color:
-            #3b3b3b;''><b>Not required when included in <a href=''#/Tokens/call_create_token_api_v1_token_post''>token</a>.</b></blockquote>'
-        pin:
-          type: string
-          description: 'The RAO''s digital identity PIN.</br> <blockquote
-            style=''background-color: #faf3ac; border-color: #5a5a5a; color:
-            #3b3b3b;''><b>Not required when included in <a href=''#/Tokens/call_create_token_api_v1_token_post''>token</a>.</b></blockquote>'
-        document_front:
-          description: Front side image of the user's identification document (JPEG or PNG).
-          type: file
-          format: binary
-        document_rear:
-          description: Rear side image of the user's identification document (JPEG or PNG)
-          type: file
-          format: binary
-        document_owner:
-          description: A selfie image of the user holding the identifying document below his/her chin (JPEG or PNG)
-          type: file
-          format: binary
-        extra_document:
-          description: An extra document to upload.
-          type: file
-          format: binary
-        env:
-          type: string
-          description: 'The API work environment. </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>Required
-            only if not set at settings.toml file.</b></blockquote>'
-          enum:
-          - sandbox
-          - prod
-        billing_username:
-          type: string
-          description: 'Billing account password in base64 or plain text </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>Required
-            only if not set at settings.toml file.</b></blockquote>'
-        billing_password:
-          type: string
-          format: base64
-          description: 'The client billing password in Base64 format. </br>
-            <blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;
-            color: #3b3b3b;''><b>Required only if not set at settings.toml
-            file.</b></blockquote>'
-        useasync:
-          type: boolean
-          description: This parameter enables One-Shot asynchronous workflow. When set to true, the `callback` parameter can be set by specifying a Webhook URL.
-        callback:
-          type: string
-          description: Webhook URL where the information of the asynchronous flow is going to be sent. 
-        communication_language:
-          type: string
-          description: Two letter code language for communications(ISO3166-1 alpha-2). Default ES
-          enum: 
-            - ES
-            - PL
-            - EN
-        residence:
-          type: string
-          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>Required only in certain profiles</b></blockquote>'
-        residence_city:
-          type: string
-          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>Required only in certain profiles</b></blockquote>'
-        residence_postal_code:
-          type: string
-          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>Required only in certain profiles</b></blockquote>'
-        residence_address:
-          type: string
-          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>Required only in certain profiles</b></blockquote>'
-        special_conditions:
-          type: string
-          description: '</br><blockquote style=''background-color: #faf3ac; border-color: #5a5a5a;color: #3b3b3b;''><b>Required only in certain profiles</b></blockquote>'
-    UploadImage:
-      properties:
-        image:
-          type: array
-          description: The image to add in the visual graphic signature in PNG format
-          format: string
-          title: Image
-      type: object
-      required:
-        - image
-      title: Upload Image
-    CounterSignatureParams:
-      properties:
-        appearance:
-          $ref: '#/components/schemas/SignatureAppearance'
-        username:
-          type: string
-          title: Username
-          description: SignCloud account username
-        password:
-          type: string
-          title: Password
-          description: SignCloud account password
-        pin:
-          type: string
-          title: Pin
-          description: SignCloud account pin
-        subfilter:
-          type: string
-          enum:
-            - adbe.pkcs7.detached
-            - ETSI.CAdES.detached
-          title: Subfilter
-      type: object
-      required:
-        - username
-        - password
-        - pin
-      title: CounterSignatureParams
     CreateToken:
       properties:
         username:
@@ -1873,306 +1054,17 @@ components:
       required:
         - username
       title: CreateToken
-    DocumentSignatureOptions:
-      properties:
-        appearance:
-          $ref: '#/components/schemas/SignatureAppearance'
-        usecountersignature:
-          type: boolean
-          title: Usecountersignature
-        disable_ltv:
-          type: boolean
-          title: Disable Ltv
-        use_tsa:
-          type: boolean
-          title: Use Tsa
-        metadata:
-          type: string
-          title: Metadata
-        level:
-          type: string
-          title: Level
-        subfilter:
-          type: string
-          enum:
-            - adbe.pkcs7.detached
-            - ETSI.CAdES.detached
-          title: Subfilter
-      type: object
-      title: DocumentSignatureOptions
-    FieldError:
-      properties:
-        input:
-          items: {}
-          type: array
-          title: Input
-        msg:
-          type: string
-          title: Msg
-      type: object
-      required:
-        - input
-        - msg
-      title: FieldError
-
-    UploadData_VID:
-      type: object
-      properties:
-        acceptance:
-          type: object
-          properties:
-            description:
-              type: string
-              description: Terms and Conditions descriptive text
-            url-doc-privacypolicy:
-              type: string
-              description: Privacy policy document URL
-            ip:
-              type: string
-              description: The local IP adress
-            url-web-videoid:
-              type: string
-              description: Video ID platform access URL
-            user-agent:
-              type: string
-              description: A user agent (e.g. web browser)
-            date:
-              type: string
-              description: The current date
-            url-doc-termsconditions:
-              type: string
-              description: Terms and conditions document URL
-          description: 'A set of acceptance parameters. </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Customizable object
-            for external authentication.</b></blockquote>'
-        videoid_data:
-          type: object
-          properties:
-            images:
-              type: object
-              properties:
-                document_front:
-                  type: string
-                  description: Base64 document front image
-                document_rear:
-                  type: string
-                  description: Base64 document rear image
-                document_photo:
-                  type: string
-                  description: Base64 document client picture (extracted from document)
-                document_owner:
-                  type: string
-                  description: Base64 client selfie
-              description: Document images
-            ocr_data:
-              required:
-                - given_name
-                - surname_1
-                - serial_number
-              type: object
-              properties:
-                given_name:
-                  type: string
-                  description: The user's given name
-                surname_1:
-                  type: string
-                  description: The user's first surname
-                surname_2:
-                  type: string
-                  description: The user's second surname
-                mobile_phone_number:
-                  type: string
-                  description: The user's mobile phone number
-                email:
-                  type: string
-                  description: The user's email
-                serial_number:
-                  type: string
-                  description: The user's document serial number
-                id_document_type:
-                  type: string
-                  description: "Document types allowed for user identification: \n\
-                    \ - **IDC** - Identification based on national identity card number\
-                    \ \n - **PAS** - Identification based on passport number \n -\
-                    \ **PNO** - Identification based on national personal number (national\
-                    \ civic registration number) \n - **TIN** - Tax Identification\
-                    \ Number according to the European Commission"
-                  enum:
-                  - IDC
-                  - PAS
-                  - PNO
-                  - TIN
-                id_document_country:
-                  type: string
-                  description: The user's id document country two-letters code (ISO
-                    3166-1 alpha-2)
-              description: 'Optical Character Recognition result <blockquote style=''background-color:
-                #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Customizable
-                object for external authentication.</b></blockquote>'
-            security_checks:
-              type: object
-              properties:
-                otp_validation:
-                  type: boolean
-                  description: OTP code validation check
-                documents_match:
-                  type: boolean
-                  description: Documents matching official registers check
-                data_integrity:
-                  type: boolean
-                  description: Document data is not corrupted check
-                document_notcopy:
-                  type: boolean
-                  description: Document is not a copy check
-                document_notexpired:
-                  type: boolean
-                  description: Document is not expired check
-                document_notunderage:
-                  type: boolean
-                  description: The user is not underage check
-                liveliness:
-                  type: boolean
-                  description: The user is real check
-              description: 'Security checks related to document integrity <blockquote
-                style=''background-color: #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠
-                Customizable object for external authentication.</b></blockquote>'
-            similarity_level:
-              type: integer
-              description: Level of similarity between document picture and face selfie.
-                Ranges in [0,100].
-          description: 'Data to upload for Video ID <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Customizable object
-            for external authentication.</b></blockquote>'
 
     HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    SignatureAppearance:
-      properties:
-        horizontal:
-          type: boolean
-          title: Horizontal
-        text:
-          items: {}
-          type: array
-          title: Text
-          description: This property controls the text that is going to be introduced. Through variables you
-                        retrieve information from the signer certificate.
-                        '%(CN)', '%(SUBJECT)s', '%(DATE)s', '%(E)s' can be used. 
-        date:
-          type: string
-          title: Date
-          description: Date formatting in dd/mm/YY-HH/MM/SS regex.
-                      An input example would be `%d/%m/%Y %H:%M:%S`
-        timezone:
-          type: string
-          title: Timezone
-          description: Selected timezone for the graphic signature. `Europe/Barcelona`
-        position:
-          type: string
-          title: Position
-          description: The coordinates in points (pt) for signature image position and size, starting from bottom left corner (x1,y1,x2,y2).
-                      1px = 0.75pt.
-        page:
-          type: integer
-          title: Page
-          description: The document page where the signature will be placed. The first page starts at `0` and it's the default
-        image:
-          type: string
-          title: Image
-          description: The previously uploaded image id
-        b64_image: 
-          tpye: string 
-          title: Image base 64
-          description: The image in base64 
-        qrcode: 
-          type: string
-          title: Image URL
-          description: url used to build a qr
-        text_size:
-          type: integer
-          title: Text Size
-          description: Controls the text size.
-        text_align:
-          type: string
-          title: Text Align
-          description: Controls the horizontal alignment of text 
-        reason:
-          type: string 
-          title: reason 
-          description: Reason about the signature
-        location:
-          type: string
-          title: location
-          description: Geographic location about the signature
-      type: object
-      title: SignatureAppearance
-    SignatureParams:
-      properties:
-        appearance:
-          $ref: '#/components/schemas/SignatureAppearance'
-        disable_ltv:
-          type: boolean
-          title: Disable Ltv
-        use_tsa:
-          type: boolean
-          title: Use Tsa
-        metadata:
-          type: string
-          title: Metadata
-        level:
-          type: string
-          title: Level
-        subfilter:
-          type: string
-          enum:
-            - adbe.pkcs7.detached
-            - ETSI.CAdES.detached
-          title: Subfilter
-      type: object
-      title: SignatureParams
+          properties:
+            detail:
+              items:
+                $ref: '#/components/schemas/ValidationError'
+              type: array
+              title: Detail
+          type: object
+          title: HTTPValidationError
 
-
-    SignatureRequest:
-      properties:
-        secret:
-          type: string
-          description: The OTP code sent to the user.<br> For external authenticacion
-            method, a customer code is provided.
-          title: Secret
-        ext_unlock_value:
-          type: string       
-          description: The id of the external authentication request. This field is
-            required for requests using external authenticacion methods.
-          title: Ext Unlock Value
-        ext_unlock_type:
-          type: string
-          description: The external authentication method type. This field is required
-            for requests using external authenticacion methods.
-          title: Ext Unlock Type
-        signature:
-          type: 'null'
-          $ref: '#/components/schemas/SignatureParams'
-        countersignature:
-          $ref: '#/components/schemas/CounterSignatureParams'
-          type: 'null'
-        signature_by_doc:
-          anyOf:
-            - additionalProperties:
-                $ref: '#/components/schemas/DocumentSignatureOptions'
-              type: object
-            - type: 'null'
-          title: Signature By Doc
-      type: object
-      required:
-        - secret
-      title: SignatureRequest
     ValidationError:
       properties:
         loc:
@@ -2195,136 +1087,351 @@ components:
         - type
       title: ValidationError
 
-
-    CreateReqObject_VID:
-      required:
-      - billing_password
-      - billing_username
-      - email
-      - env
-      - mobile_phone_number
-      - profile
-      - registration_authority
-      type: object
+    Close_session:
       properties:
-        mobile_phone_number:
-          type: string
-          description: The signer's mobile phone number
-        email:
-          type: string
-          description: The signer's email
-        registration_authority:
-          type: string
-          description: 'The Registration Authority ID number'
-        profile:
-          type: string
-          description: 'The certificate profile'
-        billing_username:
-          type: string
-          description: 'The client billing username. </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Required only if
-            not set at settings.toml file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
-            Settings</a> call.</b></blockquote>'
-        billing_password:
-          type: string
-          description: 'The client billing password in Base64 format. </br> <blockquote
-            style=''background-color: #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠
-            Required only if not set at settings.toml file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
-            Settings</a> call.</b></blockquote>'
-
-        env:
-          type: string
-          description: 'The API work environment. </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Required only if
-            not set at settings.ini file. Check <a href=''#tag/Settings/paths/~1api~1v1~1settings/post''>Update
-            Settings</a> call.</b></blockquote>'
-          enum:
-          - sandbox
-          - prod
-
-    UpdateReqObject_VID:
-      required:
-      - country_name
-      - email
-      - profile
-      - registration_authority
-      - scratchcard
-      type: object
-      properties:
-        scratchcard:
-          type: string
-          description: 'The request scratchcard id. </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ The scratchcard
-            id can be found as a field of the object <b>details</b> when executing
-            <a href=''#tag/Requests/paths/~1api~1v1~1request~1{request_pk}/get''>Get
-            Request</a> call.</b></blockquote>'
-        given_name:
-          type: string
-          description: The signer's given name
-        surname_1:
-          type: string
-          description: The signer's first surname
-        surname_2:
-          type: string
-          description: The signer's second surname
-        birth_date:
-          type: string
-          description: The signer's birth date
-        email:
-          type: string
-          description: The signer's email
-        mobile_phone_number:
-          type: string
-          description: The signer's mobile phone number
-        serial_number:
-          type: string
-          description: The signer's document ID number
-        registration_authority:
-          type: string
-          description: The Registration Authority id number
-        profile:
-          type: string
-          description: The certificate profile
-        country_name:
-          type: string
-          description: The user's id document country two-letters code (ISO 3166-1
-            alpha-2)
-
-    RefuseReqObject_VID:
-      required:
-      - password
-      - pin
-      - reason
-      - token
-      - username
-      type: object
-      properties:
-        token:
-          type: string
-          description: 'The token containing RAO''s credentials. </br> <blockquote
-            style=''background-color: #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠
-            Not required when RAO''s credentials (username, password, pin) are included
-            as fields in this call.</b></blockquote>'
         username:
           type: string
-          description: 'The RAO''s username </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Not required when
-            included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
+          title: Username
+          description: Digital identity username
         password:
           type: string
-          description: 'The RAO''s password </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Not required when
-            included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
+          title: Password
+          description: Digital identity password
+        sessionid:
+          type: string
+          title: Sessionid
+          description: The id of the session previously opened
+        env:
+          type: string
+          description: "Reference environment for sandbox or production \n
+            - sandbox\n
+            - prod"
+          enum:
+            - sandbox
+            - prod
+          title: Env
+          default: prod
+      type: object
+      required:
+        - username
+        - password
+        - sessionid
+      title: Close session
+    Open_session:
+      properties:
+        username:
+          type: string
+          title: Username
+          description: Digital identity username
+        password:
+          type: string
+          title: Password
+          description: Digital identity password
+        otp:
+          type: string
+          title: Otp
+          description: The OTP code previously sent to the user
+        env:
+          type: string
+          description: "Reference environment for sandbox or production \n
+            - sandbox\n
+            - prod"
+          enum:
+            - sandbox
+            - prod
+          title: Env
+          default: prod
+      type: object
+      required:
+        - username
+        - password
+        - otp
+      title: Open_session
+    Otp:
+      properties:
+        username:
+          type: string
+          title: Username
+          description: Digital identity username
+        password:
+          type: string
+          title: Password
+          description: Digital identity password
+        env:
+          type: string
+          description: "Reference environment for sandbox or production \n
+            - sandbox\n
+            - prod"
+          enum:
+            - sandbox
+            - prod
+          title: Env
+          default: prod
+      type: object
+      required:
+        - username
+        - password
+      title: Otp
+    Upload_image:
+      properties:
+        image:
+          type: array
+          description: The image to add in the visual graphic signature in PNG format
+          format: string
+          title: Image
+      type: object
+      required:
+        - image
+      title: Upload_image
+    Sign:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+          description: File to be signed. If this parameter is specified, **leave `url_in` blank**
+        url_in:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Url In
+          description: Url to download the file to sign. If this parameter is specified, **leave `file_in` blank**  
+        url_out:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Url Out
+          description: Url where to send the signed file
+        urlback:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Urlback
+          description: Url where to send log process informations
+        env:
+          type: string
+          description: "Reference environment for sandbox or production \n
+              - **sandbox** \n
+              - **prod**"
+          enum: [prod, sandbox]
+          title: Env
+          default: prod
+        username:
+          type: string
+          title: Username
+          description: Digital identity username
+        password:
+          type: string
+          title: Password
+          description: Digital identity password
         pin:
           type: string
-          description: 'The RAO''s PIN </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Not required when
-            included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
-        rao:
+          title: Pin
+          description: Digital identity PIN
+        identifier:
           type: string
-          description: 'The RAO''s id </br> <blockquote style=''background-color:
-            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>⚠ Not required when
-            included in <a href=''#tag/Tokens/paths/~1api~1v1~1token/post''>token</a>.</b></blockquote>'
-        reason:
+          title: Identifier
+          description: Digital identity identifier
+          default: DS0
+        certificate_check:
+          type: boolean
+          title: certificate_check
+          description: Verification of certificate validity status 
+        format:
           type: string
-          description: Reason that caused Video ID refusal
+          title: Format
+          enum: [pades, xades, cades]
+          default: pades
+          description: |-
+            Types of supported signature profiles:
+
+            **pades** for PDF files
+
+            **xades** for XML files
+
+            **cades** for other files
+        otp:
+          type: string
+          title: Otp
+          description: The OTP code previously sent to the user. This parameter is only required and available for specific digital identities
+        sessionid:
+          type: string
+          title: Sessionid
+          description: The id of the session previously opened. This parameter is only required and available for specific digital identities
+        level:
+          type: string
+          enum:
+            - BASIC
+            - T
+            - LTV
+            - LTVLITE
+            - LTVA
+          title: Level
+          description: "Specify the level of the signature \n
+            - BASIC, T, LTV, LTVLITE, LTVA for pades\n
+
+            - BASIC, T, EPES, XL for xades\n
+
+            - BASIC, T, EPES for cades"
+          default: BASIC  
+        tsa_url:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Tsa Url
+          description: 'Timestamp service URL. This field is required for signatures with levels T or LTV
+           </br> <blockquote style=''background-color:
+            #faf3ac; border-color: #5a5a5a; color: #3b3b3b;''><b>Required only if
+            not set at settings.toml file.'
+          default: https://tsa.uanataca.com/tsa/tss03
+        tsa_user:
+          type: string
+          title: Tsa User
+          description: 'Timestamp service billing username.'
+          default: ''
+        tsa_pass:
+          type: string
+          title: Tsa Pass
+          description: 'Timestamp service billing password.'
+          default: ''
+        billing_username:
+          type: string
+          title: Billing Username
+          description: Billing account username
+        billing_password:
+          type: string
+          title: Billing Password
+          description: Billing account password in base64 or plain text
+        page:
+          type: integer
+          title: Page
+          description: Page number where the image signature is placed. The first page starts in 0
+          default: 0
+        signature_ids:
+          type: string
+          title: Signature Ids
+          description: 'PDF signature field ids to sign (Example: signature1,signature2)'
+        signature_appearance:
+          type: string
+          title: Signature Appearance
+          description: |
+            Describes the signature appearance like an JSON object.
+            The parameters are:
+              - **text** This property controls the text that is going to be introduced. Through variables you retrieve information from the signer certificate. '%(CN)', '%(SUBJECT)s', '%(DATE)s', '%(E)s' can be used.
+              - **date** Date formatting. An input example would be %d/%m/%Y %H:%M:%S
+              - **timezone** Selected timezone for the graphic signature, default is UTC.
+                              You can list the time zones with the following linux command: timedatectl list-timezones
+              - **position** The coordinates in points (pt) for signature image position and size, starting from bottom left corner (x1,y1,x2,y2). 1px = 0.75pt.
+              - **image** The previously uploaded image id
+              - **b64_image** the image in base64 
+              - **qrcode** url used to build a qr
+              - **horizontal** 
+              - **page** The document page where the signature will be placed. The first page starts at 0
+              - **text_size** Controls the text size.
+              - **text_align** Controls the horizontal alignment of text 
+              - **reason** Reason about the signature
+              - **location** Geographic location about the signature
+              
+            ```json
+            {
+              "text": [
+                "Firmado por: %(CN)s",
+                "%(EMAIL)s %(L)s %(SUBJECT)s",
+                "Fecha: %(DATE)s"
+              ],
+              "date": "%d/%m/%Y %H:%M:%S %z",
+              "timezone": "America/Guatemala",
+              "position": "30,100,165,150",
+              "image": "be1cd133-8be5-4346-87de-d40afd90a3b9",
+              "horizontal": true,
+              "page": 0
+            } 
+        signature_subfilter:
+          type: string
+          enum: [ETSI.CAdES.detached, adbe.pkcs7.detached]
+          title: Signature Subfilter
+          description: Change the signature subfilter. Default ETSI.CAdES.detached
+          default: ETSI.CAdES.detached
+        useasync:
+          type: boolean
+          title: Useasync
+          description: Enable the asyncronous flow. Default asynchronous
+          default: true
+      type: object
+      required:
+        - username
+        - password
+        - pin
+        - billing_username
+        - billing_password
+      title: Sign
+    Timestamp:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+          description: File to be timestamped
+        tsa_url:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Url
+          description: Timestamp service URL
+        billing_username:
+          type: string
+          title: Username
+          description: Timestamp service billing username
+        billing_password:
+          type: string
+          title: Password
+          description: Timestamp service billing password
+        format:
+          type: string
+          enum:
+            - TSR
+            - TSD
+            - PDF
+            - TST
+            - M7M
+            - P7M
+          title: Format
+          description: "Supported timestamp formats. Default PDF \n
+            - TSR \n
+            
+            - TSD \n
+            
+            - PDF \n
+            
+            - TST \n
+            
+            - M7M \n
+            
+            - P7M"
+          default: TSR
+        policy:
+          type: string
+          title: Policy
+          description: Timestamp policy
+      type: object
+      required:
+        - file
+        - url
+      title: Timestamp
+    HTTPError:
+      properties:
+        error_code:
+          type: integer
+          title: Error Code
+        detail:
+          title: Detail
+      type: object
+      required:
+        - error_code
+        - detail
+      title: HTTPError
