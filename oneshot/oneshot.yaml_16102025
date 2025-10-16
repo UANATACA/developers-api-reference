@@ -1005,47 +1005,7 @@ paths:
                 detail:
                   error_code: "07ae4e0b5d95074d"
                   error_message: "Max number of documents reached for Request xxx"
-    delete: 
-      tags: 
-        -  Documents
-      summary: Call Delete Documents
-      description: Delete all documents
-      operationId: call_delete_documents_api_v1_document__request_pk___delete
-      parameters:
-        - name: request_pk
-          in: path
-          description: The ID of the Request to which the document is associated
-          required: true
-          schema:
-            type: integer
-            title: The ID of the Request to which the document is associated
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema: {}
-              example:
-                status: success
-                message: Documents deleted for Request xxx
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema: {}
-              example: 
-                status: error
-                message: No documents found for Request xxx
-                detail: 
-                  error_code: aae003828973e3c1
-                  error_message: No documents found for Request xxx
-        '405':
-          description: Method Not Allowed
-          content:
-            application/json:
-              schema: {}
-              example:
-                detail: Method Not Allowed 
+
   /api/v1/document/{request_pk}/{document_uid}:
     get:
       tags: 
@@ -1192,8 +1152,62 @@ paths:
                 detail: 
                   error_code: 7d07460e3ca5843c
                   error_message: Request xxx not found on disk
-    
-  
+    delete:
+      tags: 
+        -  Documents
+      summary: Call Delete Documents
+      description: Delete all documents
+      operationId: call_delete_documents_api_v1_document__request_pk___delete
+      parameters:
+        - name: request_pk
+          in: path
+          description: The ID of the Request to which the document is associated
+          required: true
+          schema:
+            type: integer
+            title: The ID of the Request to which the document is associated
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+              example:
+                status: success
+                detail: 
+                  62fef7d9-0b36-4612-ae63-278d8cc902bd: 
+                    uploaded_at: 20250623084148
+                    digest: 0842f41ec0968541d1fe5c3b5268509c32979a2d91251990d5212969d099d12d
+                    ext: ".pdf"
+                    filename: "sample.pdf"
+                    name_in_form: "file0"
+                    cleaned: false
+                  df82b511-b5df-4a6d-a8b3-e42bb144191d: 
+                    uploaded_at: 20250623084148
+                    digest: 0842f41ec0968541d1fe5c3b5268509c32979a2d91251990d5212969d099d12d
+                    ext: ".pdf"
+                    filename: "sample.pdf"
+                    name_in_form: "file1"
+                    cleaned: false
+
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema: {}
+              example: 
+                status: error
+                message: No documents found for Request xxx
+                detail: 
+                  error_code: aae003828973e3c1
+                  error_message: No documents found for Request xxx
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema: {}
+              example:
+                detail: Method Not Allowed 
   /api/v1/contract/{request_pk}:
     get:
       tags: 
@@ -2314,3 +2328,4 @@ components:
         reason:
           type: string
           description: Reason that caused Video ID refusal
+
