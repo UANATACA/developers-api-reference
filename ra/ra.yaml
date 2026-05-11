@@ -342,25 +342,6 @@ paths:
         '500':
           $ref: './llamadas/request/approve.yaml#/responses/500'
 
-     
-  /api/v1/requests/{id}/preauthlink:
-    post:
-      security: []
-      tags:
-      - Requests
-      summary: GET PRE-AUTHENTICATION LINK
-      operationId: preAuthentication
-      description: Get the pre-authenticated link to start the online certificate
-        generation process for a specific request.  
-      parameters:
-        - $ref: './llamadas/request/pre_authentication.yaml#/parameters/0'
-      responses:
-        '200':
-          $ref: './llamadas/request/pre_authentication.yaml#/responses/200'
-        '403':
-          $ref: './llamadas/request/pre_authentication.yaml#/responses/403'
-        '404':
-          $ref: './llamadas/request/pre_authentication.yaml#/responses/404'
 
      
   /api/v1/requests/is_renewable/:
@@ -436,6 +417,21 @@ paths:
         '200':
           $ref: './llamadas/request/renewal_status.yaml#/responses/200'
 
+  /api/v1/requests/{id}/send_email/:
+    post:
+      security: []
+      tags:
+        - Requests
+      summary: SEND EMAIL
+      operationId: sendEmail
+      description: Forward the email
+      parameters:
+        - $ref: './llamadas/request/send_email.yaml#/parameters/0'
+      requestBody:
+        $ref: './llamadas/request/send_email.yaml#/requestBody'
+      responses:
+        '200':
+          $ref: './llamadas/request/send_email.yaml#/responses/200'
 
   /api/v1/requests/check_contact_data_limits:
     post:
@@ -1923,3 +1919,4 @@ components:
           description: "Data to upload for Video ID <blockquote style='background-color:\
             \ #faf3ac; border-color: #5a5a5a; color: #3b3b3b;'><b>? Customizable object\
             \ for external authentication.</b></blockquote>"
+

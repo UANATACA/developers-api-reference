@@ -1,0 +1,40 @@
+parameters:
+  - name: id
+    in: path
+    description: The unique identifier of the Request
+    required: true
+    schema:
+      type: string
+
+requestBody:
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        required:
+          - type
+        properties:
+          type:
+            type: string
+            description: |
+              - secrets
+              - enrolled
+              - renewal
+              - videoid_created
+              - videoid_completed
+              - videoid_refused
+              - videoid_error
+
+responses:
+  "200":
+    description: Successful Response
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              description: The response status message
+        example:
+          status: OK
