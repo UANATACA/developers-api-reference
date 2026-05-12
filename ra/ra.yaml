@@ -417,21 +417,6 @@ paths:
         '200':
           $ref: './llamadas/request/renewal_status.yaml#/responses/200'
 
-  /api/v1/requests/{id}/send_email/:
-    post:
-      security: []
-      tags:
-        - Requests
-      summary: SEND EMAIL
-      operationId: sendEmail
-      description: Forward the email
-      parameters:
-        - $ref: './llamadas/request/send_email.yaml#/parameters/0'
-      requestBody:
-        $ref: './llamadas/request/send_email.yaml#/requestBody'
-      responses:
-        '200':
-          $ref: './llamadas/request/send_email.yaml#/responses/200'
 
   /api/v1/requests/check_contact_data_limits:
     post:
@@ -493,11 +478,26 @@ paths:
           $ref: './llamadas/request/unlock_pin.yaml#/500'
 
 
-          
+  /api/v1/requests/{id}/send_email/:
+    post:
+      security: []
+      tags:
+        - Requests
+      summary: SEND EMAIL
+      operationId: sendEmail
+      description: Forward the email
+      parameters:
+        - $ref: './llamadas/request/send_email.yaml#/parameters/0'
+      requestBody:
+        $ref: './llamadas/request/send_email.yaml#/requestBody'
+      responses:
+        '200':
+          $ref: './llamadas/request/send_email.yaml#/responses/200'
+      
+ 
 
 
 
-     
   /api/v1/scratchcards:
     get:
       security: []
@@ -952,9 +952,21 @@ paths:
         '201':
           $ref: './llamadas/eIDASVideo/upload-request.yaml#/responses/201'
 
+
+  /api/v1/requests/{id}/generate_videoid_link/:
+    post:
+      security: []
+      tags:
+        - eIDAS VideoID
+      summary: GENERATE VIDEOID LINK
+      operationId: generateVideoIDLink
+      description: Generate a new VideoID link
+      parameters:
+        - $ref: './llamadas/eIDASVideo/generate_videoid_link.yaml#/parameters/0'
+      responses:
+        '200':
+          $ref: './llamadas/eIDASVideo/generate_videoid_link.yaml#/responses/200'
       
-
-
 
 
   /api/v1/requests/{id_request}/validate_videoid/:
@@ -1081,6 +1093,7 @@ paths:
         "200":
           description: Successful Response
           content: {}
+
 
       
 components:
@@ -1919,4 +1932,5 @@ components:
           description: "Data to upload for Video ID <blockquote style='background-color:\
             \ #faf3ac; border-color: #5a5a5a; color: #3b3b3b;'><b>? Customizable object\
             \ for external authentication.</b></blockquote>"
+
 
