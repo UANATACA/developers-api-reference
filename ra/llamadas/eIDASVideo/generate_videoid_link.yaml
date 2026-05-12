@@ -17,55 +17,40 @@ responses:
             pk:
               type: integer
               description: Document id
-
             status:
               type: string
               example: PENDING
-
             provider:
               type: integer
-
             videoid_link:
               type: string
-
             requests:
               type: array
               items:
                 type: integer
-
             refusal_reason:
               type: string
-
             refusal_details:
               type: object
               nullable: true
-
             data:
               type: object
-
             video_identifier:
               type: string
-
             validation_services:
               type: object
-
             acceptance:
               type: object
-
             validation_operator:
               type: string
               nullable: true
-
             operation_urls:
               type: object
-
             esaw_requests_involved:
               type: boolean
-
             external_onboarding_link:
               type: string
               nullable: true
-
             manual_external_validation:
               type: boolean
 
