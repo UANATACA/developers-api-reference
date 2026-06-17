@@ -660,6 +660,50 @@ paths:
         '500':
           $ref: './llamadas/scratchcards/move.yaml#/500'
 
+  /api/v1/registrationauthorities/{id}/statistics:
+    get:
+      security: []
+      tags:
+        - Scratchcards
+      summary: GET RA Statistics
+      operationId: getRAStatistics
+      description: Gets statistics for a specific Registration Authority.
+      parameters:
+        - name: id
+          in: path
+          description: The id of the registration authority
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Statistics retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  scratchcard:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                      free:
+                        type: integer
+                      used:
+                        type: integer
+                  fastrequests:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                      free:
+                        type: integer
+                      used:
+                        type: integer
+                  last_update:
+                    type: string
+                    format: date-time
 
 
 
@@ -749,50 +793,6 @@ paths:
         '500':
           $ref: './llamadas/RA/put-responses.yaml#/500'
 
-  /api/v1/registrationauthorities/{id}/statistics:
-    get:
-      security: []
-      tags:
-        - Registration Authority
-      summary: GET RA Statistics
-      operationId: getRAStatistics
-      description: Gets statistics for a specific Registration Authority.
-      parameters:
-        - name: id
-          in: path
-          description: The id of the registration authority
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Statistics retrieved successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  scratchcard:
-                    type: object
-                    properties:
-                      total:
-                        type: integer
-                      free:
-                        type: integer
-                      used:
-                        type: integer
-                  fastrequests:
-                    type: object
-                    properties:
-                      total:
-                        type: integer
-                      free:
-                        type: integer
-                      used:
-                        type: integer
-                  last_update:
-                    type: string
-                    format: date-time
 
   /api/v1/rao:
     get:
