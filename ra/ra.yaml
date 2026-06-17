@@ -667,7 +667,7 @@ paths:
         - Scratchcards
       summary: GET RA Statistics
       operationId: getRAStatistics
-      description: Gets statistics for a specific Registration Authority.
+      description: Gets statistics for a specific Registration Authority. The data is updated every 30 minutes
       parameters:
         - name: id
           in: path
