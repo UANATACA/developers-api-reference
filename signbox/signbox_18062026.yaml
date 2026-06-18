@@ -38,9 +38,12 @@ paths:
             application/json:
               schema: {}
             text/plain:
-              schema: {}
-              example:
-                message: echo
+              schema:
+                type: string
+      x-codeSamples:
+        - lang: curl
+          source: curl -X GET 'https://signbox.sandbox.uanataca.com/api/v1/echo?message=HelloWorld'
+          label: curl
   /api/v1/image:
     post:
       summary: Upload Image
@@ -72,7 +75,7 @@ paths:
               schema: {}
               example:
                 status: "error"
-                message: "Image error"
+                message: "Images of type xxx are not supported"
                 detail: 
                   error_code: "0cc65ceeb3bc392d"
                   error_message: "Images of type xxx are not supported"
@@ -132,38 +135,12 @@ paths:
           content:
             application/json:
               schema: {}
-              examples:
-                Invalid environment:
-                  summary: Invalid environment
-                  value:
-                    status: error 
-                    message: "Invalid request parameters"
-                    detail:
-                      error_code: "xxx"
-                      error_message: "Environment xxx doesn't exist"
-                Empty credentials:
-                  summary: Empty credentials
-                  value:
-                    status: error
-                    message: Token error
-                    detail:
-                      error_code: 6664ecd49ad2511b
-                      error_message: Invalid Remote Token
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema: {}
-              examples:
-                Invalid credentials:
-                  summary: Invalid credentials
-                  value:
-                    status: error
-                    message: Token not found
-                    detail:
-                      error_message: Token not found
-                      error_code: 2
-                
+              example:
+                status: error 
+                message: "Environment xxx doesn't exist"
+                detail:
+                  error_code: "d47bc1acf7151230"
+                  error_message: "Environment xxx doesn't exist"
         '422':
           description: Unprocessable Entity
           content:
@@ -182,13 +159,13 @@ paths:
                       fields:
                         xxx: "Field required"
                 Missing parameters:
-                  summary: Cannot retrieve certificate
+                  summary: Missing parameters
                   value:  
                     status: "error" 
-                    message: "Cannot retrieve certificate for remote identity xxx"
+                    message: "Cannot retrieve certificate for remote identity"
                     details: 
                       error_code: "09e736eb3db9f1ac"
-                      error_message: "Cannot retrieve certificate for remote identity xxx"
+                      error_message: "Cannot retrieve certificate for remote identity"
                 Invalid JSON:
                   summary: Invalid JSON
                   value:
@@ -209,10 +186,41 @@ paths:
                   summary: Token already created
                   value:  
                     status: "error" 
-                    message: "null"
+                    message: "Token for username xxx already exists"
                     details: 
-                      error_code: "xxx"
-                      error_message: "Token already exists"
+                      error_code: "d0c1e1262b1c73b4"
+                      error_message: "Token for username xxx already exists"
+                Certificate expired:
+                  summary: Certificate expired
+                  value:  
+                    status: "error" 
+                    message: "Cannot create token: Certificate expired"
+                    details: 
+                      error_code: "1ec7ba6ace391c26"
+                      error_message: "Cannot create token: Certificate expired"
+        '403':
+            description: Forbidden
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/HTTPValidationError'
+                example:
+                  status: "error"
+                  message: "Invalid RAO credentials"
+                  details:
+                    error_code: "1dbf554b582f5caf"
+                    error_message: "Invalid RAO credentials"
+        '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema: {}
+                example:
+                  status: "error"
+                  message: "Error occured while verifying SignCloud credentials"
+                  details:
+                    error_code: "95d85b9ac22592dd"
+                    error_message: "Error occured while verifying SignCloud credentials"
 
   /api/v1/token/{token_uid}:
     get:
@@ -242,17 +250,17 @@ paths:
                   pin: "true"
                   rao_id: "1182"
                   env: "xxx"
-        '401':
-          description: Unauthorized
+        '404':
+          description: Not found
           content:
             application/json:
               schema: {}
               example:
                 status: "error"
-                message: "Token error"
+                message: "Token False not found"
                 details:
-                  error_code: 6664ecd49ad2511b
-                  error_message: Token not found. Please verify if it exists.
+                  error_code: 1bf11df92bcefb91
+                  error_message: Token False not found
         '405':
           description: Method Not allowed
           content:
@@ -296,7 +304,7 @@ paths:
               schema: {}
               example:
                 status: "error"
-                message: "Token error"
+                message: "Cannot delete token xxx"
                 detail:
                   error_code: "68116cf0cdc38f1c"
                   error_message: "Cannot delete token xxx"
@@ -366,7 +374,7 @@ paths:
               schema: {}
               example:
                 status: "error"
-                message: "Image error"
+                message: "Image xxx not found on disk"
                 detail:
                   error_code: "f95a1897e69e95d3"
                   error_message: "Image xxx not found on disk"
@@ -407,7 +415,7 @@ paths:
               schema: {}
               example:
                 status: "error"
-                message: "Image error"
+                message: "Image xxx not found on disk"
                 detail:
                   error_code: "992f6c95e257d711"
                   error_message: "Image xxx not found on disk"
@@ -512,100 +520,21 @@ paths:
         '400':
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPError'
-              examples: 
-                Billing error: 
-                  summary: Required billing credentials
-                  value: 
-                    status: "error"
-                    message: "Billing error"
-                    detail:
-                      "error_code:": "xxx"
-                      "error_message": "Billing credentials were not provided"
-                Timestamp error:
-                  summary: Timestamp error
-                  value:
-                    status: error
-                    message: Timestamp error
-                    detail:
-                      error_code: 06a2f11745cbc0e0
-                      error_message: Credentials for this TSA are not needed; billing credentials are used instead.             
-                Invalid environment:
-                  summary: Invalid environment
-                  value:
-                    status: error 
-                    message: "Invalid request parameters"
-                    detail:
-                      error_code: "xxx"
-                      error_message: "'xxx' is not a valid environment. Available environments are: sandbox, prod"
-                Document error:
-                  summary: Document error
-                  value:
-                    status: error 
-                    message: "Document error"
-                    detail:
-                      error_code: "285dbb9f03266288"
-                      error_message: "File is empty"
-                Invalid JSON:
-                  summary: Invalid JSON body
-                  value:
-                    status: error 
-                    message: "Invalid JSON body"
-                    detail:
-                      error_code: "xxx"
-                      error_message: "Invalid JSON"
-                
-        '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPError'
-              examples: 
+              schema: {}
+              example: 
                 value: 
-                  summary: Insufficient billing credit
-                  value: 
-                    status: "error"
-                    message: "Billing error"
-                    detail:
-                      "error_code:": "xxx"
-                      "error_message": "Insufficient billing credit"
-        '404':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPError'
-              examples: 
-                value: 
-                  summary: Image error
-                  value: 
-                    status: "error"
-                    message: "Image error"
-                    detail:
-                      "error_code:": "xxx"
-                      "error_message": "Image None is not found or invalid"
-        '412':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPError'
-              examples:
-                Credentials required:
-                  summary: Credencials required
-                  value:
-                    status: "error"
-                    message: "Validation error"
-                    details:
-                      error_code: "xxx"
-                      error_message: "Provide either token, or username/password/pin. At least one authentication method is required."
-          description: Precondition Failed
+                  status: error 
+                  message: "'xxx' is not a valid environment. Available environments are: devel, sandbox, prod"
+                  detail:
+                    error_code: 5344848148e9b99d
+                    error_message: "'xxx' is not a valid environment. Available environments are: devel, sandbox, prod"
         '422':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPError'
               examples:
-                Field required:
+                Required parameter:
                   summary: Field required
                   value:
                     status: "error"
@@ -615,7 +544,7 @@ paths:
                       error_message: "Invalid input fields"
                       fields:
                         xxx: "Field required"
-                Empty filed:
+                Missing parameter:
                   summary: Empty field
                   value:
                     status: "error"
@@ -626,7 +555,7 @@ paths:
                       fields:
                         xxx: Empty field
                 Invalid credentials:
-                  summary: Cannot retrieve certificate
+                  summary: Invalid credentials
                   value:
                     status: error
                     message: "Error occurred while signing document: Cannot retrieve certificate for remote identity xxx"
@@ -639,61 +568,10 @@ paths:
                     status: error
                     message: Data validation error
                     detail: 
-                      error_code: 1009b7624a88560f
+                      error_code: af5c33b337e019dd
                       error_message: Invalid input fields
                       fields:
-                        "file": "Provide either file or url_in"
-                        "ulr_in": "Provide either file or url_in"
-                Invalid file input:
-                  summary: Invalid file input
-                  value: 
-                    status: error
-                    message: Data validation error
-                    detail: 
-                      error_code: d48033693f0479cb
-                      error_message: Invalid input fields
-                      fields:
-                        "file": "Value error, Expected UploadFile, received: <class 'str'>"
-                Invalid url input:
-                  summary: Invalid URL input
-                  value:
-                    status: error
-                    message: Data validation error
-                    detail:
-                      error_code: ffdcdd431547bfa9
-                      error_message: Invalid input fields
-                      fields:
-                        xxx: URL input should be a string or URL
-                Invalid url format:
-                  summary: Invalid URL format
-                  value:
-                    status: error
-                    message: Data validation error
-                    detail:
-                      error_code: 5bbdabb0df2700a3
-                      error_message: Invalid input fields
-                      fields:
-                        xxx: Input should be a valid URL, relative URL without a base
-                Invalid string input:
-                  summary: Invalid string input
-                  value: 
-                    status: error
-                    message: Data validation error
-                    detail: 
-                      error_code: 8702bebfa710e72c
-                      error_message: Invalid input fields
-                      fields:
-                        "xxx": Input should be a valid string
-                Invalid boolean input:
-                  summary: Invalid boolean input
-                  value:
-                    status: error
-                    message: Data validation error
-                    detail:
-                      error_code: 1da35ddb11286f97
-                      error_message: Invalid input fields
-                      fields:
-                        xxx: Input should be a valid boolean, unable to interpet input
+                        "": Value error, One of file or url_in must be provided
                 Signature appearance invalid json:
                   summary: Signature appearance invalid json
                   value: 
@@ -710,41 +588,10 @@ paths:
                     status: error 
                     message: Data validation error
                     detail:
-                      error_code: c62101eb963f85cd
+                      error_code: a7f4b1128e15f25c
                       error_message: Invalid input fields
                       fields:
                         format: "Input should be 'PADES', 'CADES' or 'XADES'"
-                Invalid level:
-                  summary: Invalid level
-                  value: 
-                    status: error 
-                    message: Data validation error
-                    detail:
-                      error_code: e76bd000f7d448d5
-                      error_message: Invalid input fields
-                      fields:
-                        level: Input should be 'BES', 'EPES', 'T', 'LTV', 'LTVA' or 'LTVLITE'
-                url_out required asincrono:
-                  summray: url_out required asíncrono
-                  value:
-                    status: error
-                    message: Data validation error
-                    detail:
-                      error_code: "xxx"
-                      error_message: "Invalid input fileds"
-                      fileds:
-                        url_out: "Required for async requests"
-                urlback required asincrono:
-                  summary: urlback required asincrono
-                  value:
-                    status: error
-                    message: Data validation error
-                    detail:
-                      error_code: 7d22f40c24992ce9
-                      error_message: "Invalid input fileds"
-                      fields:
-                        urlback: Required for async requests
-
           description: Unprocessable Entity
         '403':
           content:
@@ -752,21 +599,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/HTTPError'
               examples:
-                value:
-                  summary: Invalid credentials
+                Invalid billing:
+                  summary: Invalid or missing billing parameters
                   value:
                     status: "error"
-                    message: "SignCloud error"
+                    message: "Invalid billing credentials"
                     details:
-                      error_message: "Invalid credentials"
-                Invalid billing:
-                  summary: Invalid billing
-                  value: 
-                    status: error
-                    message: Billing error
-                    detail:
-                      error_code: 71d2729dd887ccc2
-                      error_message: Invalid billing credentials
+                      error_code: "xxx"
+                      error_message: "Invalid billing credentials"
           description: Forbidden
       x-codeSamples:
         - lang: curl
@@ -801,7 +641,7 @@ paths:
               schema: {}
               example: 
                 status: error
-                message: Job not found
+                message: Job xxx cannot be found
                 detail:
                   error_code: f7d54f44e9c3d55d
                   error_message: Job xxx cannot be found
@@ -848,7 +688,7 @@ paths:
               schema: {}
               example: 
                 status: error
-                message: Job not found
+                message: Job xxx cannot be found
                 detail:
                   error_code: f7d54f44e9c3d55d
                   error_message: Job xxx cannot be found   
@@ -882,34 +722,32 @@ paths:
               schema: {}
               examples:
                 Credentials not qualified:
-                  summary: Credentials required
+                  summary: Credentials not qualified
                   value:
                     status: error
-                    message: Token error
+                    message: Invalid Remote Token 
                     detail: 
-                      error_code: deee97973fd4c46d
-                      error_message: Invalid Remote Token
+                      error_code: 516d15cf01be9586
+                      error_message: The token specified is not a qualified one
                 Invalid environment:
                   summary: Invalid environment
                   value: 
                     status: error
-                    message: "Invalid request parameters"
+                    message: "'xxx' is not a valid environment. Available environments are: devel, sandbox, prod"
                     detail: 
-                      error_code: 2074a2c2c9daf016
-                      error_message: "'xxx' is not a valid environment. Available environments are: sandbox, prod"
-        '403':
-          description: Forbidden
-          content:
-            application/json:
+                      error_code: 966543b86aac37e3
+                      error_message: "'xxx' is not a valid environment. Available environments are: devel, sandbox, prod"
+        '404':
+          description: Not Found 
+          content: 
+            application/json: 
               schema: {}
-              examples:
-                Invalid Credentials:
-                  summary: Invalid Credentials
-                  value:
-                    status: error
-                    message: SignCloud error
-                    detail: 
-                      error_message: Invalid credentials
+              example: 
+                status: error
+                message: Remote token not found
+                detail:
+                  error_code: 00361a8e783a625b
+                  error_message: Remote token xxx not found
         '422':
           description: Unprocessable Entity
           content:
@@ -917,6 +755,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/HTTPError'
               examples:
+                Field required:
+                  summary: Field required 
+                  value: 
+                    status: error
+                    message: Data validation error 
+                    detail:
+                      error_code: 06aaf9e1ca002fe9
+                      error_message: Invalid input fields 
+                      fields:
+                        xxx: Field required
                 Missing parameter:
                   summary: Empty field
                   value:
@@ -966,10 +814,10 @@ paths:
               schema: {}
               example:
                 status: error
-                message: "Invalid request parameters"
+                message: "'xxx' is not a valid environment. Available environments are: devel, sandbox, prod"
                 detail: 
                   error_code: 966543b86aac37e3
-                  error_message: "'xxx' is not a valid environment. Available environments are: sandbox, prod"
+                  error_message: "'xxx' is not a valid environment. Available environments are: devel, sandbox, prod"
         '422':
           description: Unprocessable Entity
           content:
@@ -997,6 +845,17 @@ paths:
                       error_message: Invalid input fields
                       fields:
                         xxx: Empty field
+        '500': 
+          description: Interal Server Error
+          content:
+            application/json:
+              schema: {}
+              example:
+                status: error 
+                message: Session opening error 
+                detail: 
+                  error_code: 80f2e0b99e1fa7a0
+                  error_message: Session opening error
       x-codeSamples:
         - lang: curl
           source: 'curl -X POST ''https://signbox.sandbox.uanataca.com/api/v1/open_session''   -H ''Content-Type: multipart/form-data''   --form-string ''username=username''   --form-string ''password=password''   --form-string ''otp=otp'''
@@ -1021,47 +880,17 @@ paths:
           content:
             application/json:
               schema: {}
-              example:
-                status: success
-                message: Session closed
         '400':
           description: Bad Request
           content: 
             application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPError'
-              examples:
-                Invalid environment:
-                  summary: Invalid environment
-                  value:
-                    status: error
-                    message: "Invalid request parameters"
-                    detail: 
-                      error_code: 2719087371879e50
-                      error_message: "'xxx' is not a valid environment. Available environments are: sandbox, prod"
-                Session closed:
-                  summary: Session closed
-                  value:
-                    status: error
-                    message: "Session already closed"
-                    detail:
-                      error_code: "xxx"
-                      error_message: "Session already closed"
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPError'
-              examples:
-                Invalid credentials:
-                  summary: Invalid credentials
-                  value: 
-                    status: "error"
-                    message: SignCloud error
-                    detail:
-                      error_code: dbbbd6a406a7ef76
-                      error_message: "Invalid credentials"
+              schema: {}
+              example:
+                status: error
+                message: "'xxx' is not a valid environment. Available environments are: devel, sandbox, prod"
+                detail: 
+                  error_code: 966543b86aac37e3
+                  error_message: "'xxx' is not a valid environment. Available environments are: devel, sandbox, prod"
         '422':
           description: Unprocessable Entity
           content:
@@ -1069,26 +898,37 @@ paths:
               schema:
                 $ref: '#/components/schemas/HTTPError'
               examples:
-                Field required:
-                  summary: Field required 
-                  value: 
-                    status: error
-                    message: Data validation error 
+                Required parameter:
+                  summary: Field required
+                  value:
+                    status: "error"
+                    message: "Data validation error"
                     detail:
-                      error_code: 06aaf9e1ca002fe9
-                      error_message: Invalid input fields 
+                      error_code: decd5282139a23a7
+                      error_message: "Invalid input fields"
                       fields:
-                        xxx: Field required
+                        xxx: "Field required"
                 Missing parameter:
                   summary: Empty field
                   value:
                     status: "error"
                     message: Data validation error
                     detail:
-                      error_code: a664c0b24f3185f9
+                      error_code: aecd5182139a23a9
                       error_message: Invalid input fields
                       fields:
                         xxx: Empty field
+        '500': 
+          description: Interal Server Error
+          content:
+            application/json:
+              schema: {}
+              example:
+                status: error 
+                message: Session opening error 
+                detail: 
+                  error_code: 80f2e0b99e1fa7a0
+                  error_message: Session opening error
       x-codeSamples:
         - lang: curl
           source: 'curl -X POST ''https://signbox.sandbox.uanataca.com/api/v1/close_session''   -H ''Content-Type: multipart/form-data''   --form-string ''username=username''   --form-string ''password=password''   --form-string ''sessionid=sessionid'''
@@ -1137,37 +977,6 @@ paths:
                 type: string
                 format: binary
                 description: Timestamped file
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPError'
-              examples:
-                Required Billing Credentials:
-                  summary: Required Billing Credentials
-                  value:
-                    status: error
-                    message: Billing error
-                    detail:
-                      error_code: e651ae1eb0587646
-                      error_message: Billing credentials were not provided
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPError'
-              examples:
-                Invalid billing credentials:
-                  summary: Invalid billing credentials
-                  value:
-                    status: error
-                    message: Billing error
-                    detail:
-                      error_code: e56f6e011f132137
-                      error_message: Invalid billing credentials
-
         '422':
           description: Unprocessable Entity
           content:
@@ -1199,10 +1008,12 @@ paths:
                   summary: File is empty
                   value: 
                     status: error
-                    message: "Error occurred while adding timestamp:"
+                    message: Data validation error 
                     detail: 
-                      error_code: 4a8147540054ffae
-                      error_message: "Error occurred while adding timestamp:"
+                      error_code: 299997b341901b99
+                      error_message: Invalid input fields
+                      fields:
+                        file: Value error, File is empty
                 Invalid format: 
                   summary: Invalid format
                   value: 
@@ -1213,45 +1024,6 @@ paths:
                       error_message: Invalid input fields
                       fields: 
                         format: "Input should be 'TSR', 'TSD', 'PDF', 'TST', 'M7M' or 'P7M'"
-                Document protected:
-                  summary: Document protected
-                  value:
-                    status: error
-                    message: Timestamp error
-                    detail:
-                      error_code: c8f66fea0bba8420
-                      error_message: "Error occurred while adding timestamp: PDF is password protected"
-                Invalid format TSA URL:
-                  summary: Invalid format TSA URL
-                  value:
-                    status: error
-                    message: "Data validation error"
-                    detail:
-                      error_code: 9735d5fe53991f47
-                      error_message: Invalid input fields
-                      fields:
-                        tsa_url: Input should be a valid URL, relative URL without a base
-                Invalid TSA URL:
-                  summary: Invalid TSA URL
-                  value:
-                    status: error
-                    message: Data validation error
-                    detail:
-                      error_code: 1c56a4354e58f023
-                      error_message: Invalid input fields
-                      fields:
-                        tsa_url: URL input should be a string or URL
-                Invalid string input:
-                  summary: Invalid string input
-                  value:
-                    status: error
-                    message: Data validation error
-                    detail:
-                      error_code: 71f25611ecfb0e4f
-                      error_message: Invalid input fields
-                      fields:
-                        xxx: Input should be a valid string
-                
       x-codeSamples:
         - lang: curl
           source: 'curl -X POST ''https://signbox.sandbox.uanataca.com/api/v1/timestamp''   -H ''Content-Type: multipart/form-data''   -F file=@file.pdf   --form-string ''url=url''   --form-string ''username=username''   --form-string ''password=password''   --form-string ''format=TSD'''
@@ -1495,7 +1267,6 @@ components:
             - LTV
             - LTVLITE
             - LTVA
-            - EPES
           title: Level
           description: "Specify the level of the signature \n
             - BASIC, T, LTV, LTVLITE, LTVA for pades\n
@@ -1518,12 +1289,12 @@ components:
         tsa_user:
           type: string
           title: Tsa User
-          description: 'Timestamp service billing username, are optional and should only be included when usign an external TSA that requires configuration'
+          description: 'Timestamp service billing username.'
           default: ''
         tsa_pass:
           type: string
           title: Tsa Pass
-          description: 'Timestamp service billing password, are optional and should only be included when usign an external TSA that requires configuration'
+          description: 'Timestamp service billing password.'
           default: ''
         billing_username:
           type: string
@@ -1567,7 +1338,7 @@ components:
             {
               "text": [
                 "Firmado por: %(CN)s",
-                "%(EMAIL)s %(L)s",
+                "%(EMAIL)s %(L)s %(SUBJECT)s",
                 "Fecha: %(DATE)s"
               ],
               "date": "%d/%m/%Y %H:%M:%S %z",
