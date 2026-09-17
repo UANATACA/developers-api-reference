@@ -2723,6 +2723,12 @@ components:
           enum:
           - sandbox
           - prod
+        videoid_success_url:
+          type: string
+          description: 'URL to redirect the signer to when VideoID verification succeeds'
+        videoid_error_url:
+          type: string
+          description: 'URL to redirect the signer to when VideoID verification fails'
 
     UpdateReqObject_VID:
       required:
